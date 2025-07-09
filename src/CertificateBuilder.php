@@ -188,7 +188,7 @@ EOL;
         try {
             (new Storage())->put($csrPath, $csrContent);
         } catch (ZatcaStorageException $e) {
-            throw new CertificateBuilderException("Failed to save CSR.", $e->getContext());
+            throw new CertificateBuilderException("Failed to save CSR.", $e->context());
         }
 
         $this->savePrivateKey($privateKeyPath);
@@ -284,7 +284,7 @@ EOL;
         try {
             (new Storage)->put($tempFile, $configContent);
         } catch (ZatcaStorageException $e) {
-            throw new CertificateBuilderException('Failed to write temporary config file.', $e->getContext());
+            throw new CertificateBuilderException('Failed to write temporary config file.', $e->context());
         }
 
         return $tempFile;
