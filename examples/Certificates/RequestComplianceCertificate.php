@@ -1,35 +1,32 @@
 <?php
 require __DIR__ . '/../../vendor/autoload.php';
 
-use Saleh7\Zatca\ZatcaAPI;
-use Saleh7\Zatca\Exceptions\ZatcaApiException;
+use GuzzleHttp\Client;
+use Sevaske\ZatcaApi\Api;
+use Sevaske\ZatcaApi\Exceptions\ZatcaException;
 
-$zatcaClient = new ZatcaAPI('sandbox');
+$api = new Api('sandbox', new Client());
+$certificatePath = __DIR__ . '/output/certificate.csr';
+$csr = file_get_contents($certificatePath);
 
 try {
-    $otp = "123123";
-    $certificatePath = __DIR__ . '/output/certificate.csr';
-    $csr = $zatcaClient->loadCSRFromFile($certificatePath);
-    
-    $complianceResult = $zatcaClient->requestComplianceCertificate($csr, $otp);
-    
-    echo "Compliance Certificate:\n" . $complianceResult->getCertificate() . "\n";
-    echo "API Secret: " . $complianceResult->getSecret() . "\n";
-    echo "Request ID: " . $complianceResult->getRequestId() . "\n";
+    $response = $api->complianceCertificate($csr, '123123');
+    $credentials = [
+        'requestId' => $response->requestId(),
+        'certificate' => $response->certificate(),
+        'secret' => $response->secret(),
+    ];
+
+    print_r($credentials);
 
     // sava file output/ZATCA_certificate_data.json
     $outputFile = __DIR__ . '/output/ZATCA_certificate_data.json';
-    $zatcaClient->saveToJson(
-        $complianceResult->getCertificate(),
-        $complianceResult->getSecret(),
-        $complianceResult->getRequestId(),
-        $outputFile
-    );
+    file_put_contents($outputFile, json_encode($credentials, JSON_PRETTY_PRINT));
     
-    echo "Certificate data saved to {$outputFile}\n";
-    
-} catch (ZatcaApiException $e) {
-    echo "API Error: " . $e->getMessage();
+    echo "\nCertificate data saved to {$outputFile}\n";
+} catch (ZatcaException $e) {
+    echo "API Error: ".$e->getMessage()."\n";
+    print_r($e->context());
 } catch (\Exception $e) {
     echo "Error: " . $e->getMessage();
 }
