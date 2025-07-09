@@ -4,6 +4,7 @@ namespace Saleh7\Zatca\Helpers;
 
 use InvalidArgumentException;
 use Saleh7\Zatca\Tag;
+
 class QRCodeGenerator
 {
     /**
@@ -16,7 +17,7 @@ class QRCodeGenerator
      *
      * Filters the input to include only valid Tag instances.
      *
-     * @param Tag[] $tags Array of Tag objects.
+     * @param  Tag[]  $tags  Array of Tag objects.
      *
      * @throws InvalidArgumentException if no valid Tag instances are provided.
      */
@@ -44,9 +45,7 @@ class QRCodeGenerator
     /**
      * Create a QRCodeGenerator instance from an array of Tag objects.
      *
-     * @param Tag[] $tags Array of Tag objects.
-     *
-     * @return QRCodeGenerator
+     * @param  Tag[]  $tags  Array of Tag objects.
      */
     public static function createFromTags(array $tags): QRCodeGenerator
     {
@@ -64,6 +63,4 @@ class QRCodeGenerator
             return (string) $tag;
         }, $this->tags));
     }
-
-
 }
