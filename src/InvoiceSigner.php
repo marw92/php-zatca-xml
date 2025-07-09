@@ -27,8 +27,8 @@ class InvoiceSigner
     /**
      * Signs the invoice XML and returns an InvoiceSigner object.
      *
-     * @param string $xmlInvoice Invoice XML as a string
-     * @param Certificate $certificate Certificate for signing
+     * @param  string  $xmlInvoice  Invoice XML as a string
+     * @param  Certificate  $certificate  Certificate for signing
      *
      * @throws DOMException
      */

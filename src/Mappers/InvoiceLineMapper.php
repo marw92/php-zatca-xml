@@ -2,9 +2,8 @@
 
 namespace Saleh7\Zatca\Mappers;
 
-use Saleh7\Zatca\{
-    InvoiceLine, TaxTotal
-};
+use Saleh7\Zatca\InvoiceLine;
+use Saleh7\Zatca\TaxTotal;
 
 /**
  * Class InvoiceLineMapper

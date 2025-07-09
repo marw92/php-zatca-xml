@@ -26,8 +26,6 @@ class Tag
 
     /**
      * its important to get the number of bytes of a string instated of number of characters
-     *
-     * @return int
      */
     public function getLength(): int
     {
@@ -46,10 +44,6 @@ class Tag
 
     /**
      * To convert the string value to hex.
-     *
-     * @param $value
-     *
-     * @return string
      */
     protected function toHex($value): string
     {

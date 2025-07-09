@@ -4,24 +4,25 @@ namespace Saleh7\Zatca\Mappers;
 
 use DateTime;
 use Exception;
-use Saleh7\Zatca\{ExtensionContent,
-    Invoice,
-    SignatureInformation,
-    TaxCategory,
-    TaxScheme,
-    TaxSubTotal,
-    UBLDocumentSignatures,
-    UBLExtension,
-    UBLExtensions,
-    Signature,
-    InvoiceType,
-    TaxTotal,
-    LegalMonetaryTotal,
-    Delivery,
-    AllowanceCharge,
-    BillingReference};
 use InvalidArgumentException;
+use Saleh7\Zatca\AllowanceCharge;
+use Saleh7\Zatca\BillingReference;
+use Saleh7\Zatca\Delivery;
+use Saleh7\Zatca\ExtensionContent;
+use Saleh7\Zatca\Invoice;
+use Saleh7\Zatca\InvoiceType;
+use Saleh7\Zatca\LegalMonetaryTotal;
 use Saleh7\Zatca\Mappers\Validators\InvoiceValidator;
+use Saleh7\Zatca\Signature;
+use Saleh7\Zatca\SignatureInformation;
+use Saleh7\Zatca\TaxCategory;
+use Saleh7\Zatca\TaxScheme;
+use Saleh7\Zatca\TaxSubTotal;
+use Saleh7\Zatca\TaxTotal;
+use Saleh7\Zatca\UBLDocumentSignatures;
+use Saleh7\Zatca\UBLExtension;
+use Saleh7\Zatca\UBLExtensions;
+
 // use Saleh7\Zatca\Mappers\Validators\InvoiceAmountValidator;
 
 /**
@@ -162,20 +163,20 @@ class InvoiceMapper
     private function mapUBLExtensions(array $data): UBLExtensions
     {
         // Create SignatureInformation and set its properties.
-        $signatureInfo = (new SignatureInformation())
-            ->setReferencedSignatureID($data['referencedSignatureId'] ?? "urn:oasis:names:specification:ubl:signature:Invoice")
+        $signatureInfo = (new SignatureInformation)
+            ->setReferencedSignatureID($data['referencedSignatureId'] ?? 'urn:oasis:names:specification:ubl:signature:Invoice')
             ->setID($data['id'] ?? 'urn:oasis:names:specification:ubl:signature:1');
 
         // Create UBLDocumentSignatures with the signature information.
-        $ublDocSignatures = (new UBLDocumentSignatures())
+        $ublDocSignatures = (new UBLDocumentSignatures)
             ->setSignatureInformation($signatureInfo);
 
         // Create ExtensionContent to hold the UBLDocumentSignatures.
-        $extensionContent = (new ExtensionContent())
+        $extensionContent = (new ExtensionContent)
             ->setUBLDocumentSignatures($ublDocSignatures);
 
         // Create UBLExtension with the URI and extension content.
-        $ublExtension = (new UBLExtension())
+        $ublExtension = (new UBLExtension)
             ->setExtensionURI($data['extensionUri'] ?? 'urn:oasis:names:specification:ubl:dsig:enveloped:xades')
             ->setExtensionContent($extensionContent);
 
@@ -251,16 +252,16 @@ class InvoiceMapper
             // Check if taxCategories is an array and iterate over it.
             if (isset($allowanceCharge['taxCategories']) && is_array($allowanceCharge['taxCategories'])) {
                 foreach ($allowanceCharge['taxCategories'] as $taxCatData) {
-                    $taxCategories[] = (new TaxCategory())
+                    $taxCategories[] = (new TaxCategory)
                         ->setPercent($taxCatData['percent'] ?? 15)
                         ->setTaxScheme(
-                            (new TaxScheme())->setId($taxCatData['taxScheme']['id'] ?? "VAT")
+                            (new TaxScheme)->setId($taxCatData['taxScheme']['id'] ?? 'VAT')
                         );
                 }
             }
 
             // Create the AllowanceCharge object with its tax categories.
-            $allowanceCharges[] = (new AllowanceCharge())
+            $allowanceCharges[] = (new AllowanceCharge)
                 ->setChargeIndicator($allowanceCharge['isCharge'] ?? false)
                 ->setAllowanceChargeReason($allowanceCharge['reason'] ?? 'discount')
                 ->setAmount($allowanceCharge['amount'] ?? 0.00)
@@ -273,13 +274,12 @@ class InvoiceMapper
     /**
      * Map Delivery data to a Delivery object.
      *
-     * @param array $data The delivery data.
-     *
+     * @param  array  $data  The delivery data.
      * @return Delivery The mapped Delivery object.
      */
     private function mapDelivery(array $data): Delivery
     {
-        return (new Delivery())
+        return (new Delivery)
             ->setActualDeliveryDate($data['actualDeliveryDate'] ?? null)
             ->setLatestDeliveryDate($data['latestDeliveryDate'] ?? null);
     }
@@ -304,17 +304,17 @@ class InvoiceMapper
 
                 // Build the TaxScheme object.
                 $taxSchemeData = $taxCategoryData['taxScheme'] ?? [];
-                $taxScheme = (new TaxScheme())->setId($taxSchemeData['id'] ?? "VAT");
-                
+                $taxScheme = (new TaxScheme)->setId($taxSchemeData['id'] ?? 'VAT');
+
                 // Build the TaxCategory object using the extracted data.
-                $taxCategory = (new TaxCategory())
+                $taxCategory = (new TaxCategory)
                     ->setPercent($percent)
                     ->setTaxExemptionReasonCode($reasonCode)
                     ->setTaxExemptionReason($reason)
                     ->setTaxScheme($taxScheme);
 
                 // Create the TaxSubTotal object.
-                $taxSubTotal = (new TaxSubTotal())
+                $taxSubTotal = (new TaxSubTotal)
                     ->setTaxableAmount($subTotal['taxableAmount'] ?? 0)
                     ->setTaxAmount($subTotal['taxAmount'] ?? 0)
                     ->setTaxCategory($taxCategory);

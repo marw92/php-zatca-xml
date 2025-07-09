@@ -2,13 +2,13 @@
 
 namespace Saleh7\Zatca;
 
-use Saleh7\Zatca\Exceptions\ZatcaStorageException;
 use Exception;
 use InvalidArgumentException;
 use Sabre\Xml\Reader;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlDeserializable;
 use Sabre\Xml\XmlSerializable;
+use Saleh7\Zatca\Exceptions\ZatcaStorageException;
 
 use function Sabre\Xml\Deserializer\mixedContent;
 
@@ -66,11 +66,7 @@ class Attachment implements XmlDeserializable, XmlSerializable
     }
 
     /**
-     * @param string $base64Content Base64 encoded base64Content
-     * @param string $fileName
-     * @param string|null $mimeType
-     *
-     * @return static
+     * @param  string  $base64Content  Base64 encoded base64Content
      */
     public function setBase64Content(string $base64Content, string $fileName, ?string $mimeType): static
     {
@@ -108,7 +104,6 @@ class Attachment implements XmlDeserializable, XmlSerializable
     /**
      * The validate function that is called during xml writing to valid the data of the object.
      *
-     * @return void
      *
      * @throws InvalidArgumentException An error with information about required data that is missing to write the XML
      */
@@ -166,15 +161,11 @@ class Attachment implements XmlDeserializable, XmlSerializable
 
     /**
      * The xmlDeserialize method is called during xml reading.
-     *
-     * @param Reader $reader
-     *
-     * @return static
      */
     public static function xmlDeserialize(Reader $reader): static
     {
         $mixedContent = mixedContent($reader);
-        $embeddedDocumentBinaryObject = array_values(array_filter($mixedContent, fn ($element) => $element['name'] === Schema::CBC . 'EmbeddedDocumentBinaryObject'))[0] ?? null;
+        $embeddedDocumentBinaryObject = array_values(array_filter($mixedContent, fn ($element) => $element['name'] === Schema::CBC.'EmbeddedDocumentBinaryObject'))[0] ?? null;
 
         return (new static)
             ->setBase64Content(

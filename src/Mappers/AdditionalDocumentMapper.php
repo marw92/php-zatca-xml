@@ -16,15 +16,14 @@ class AdditionalDocumentMapper
     /**
      * Map additional documents data to an array of AdditionalDocumentReference objects.
      *
-     * @param array $documents An array of additional document data.
-     *                           Each element may contain keys:
-     *                           - id: string (required)
-     *                           - uuid: string (optional)
-     *                           - attachment: array (optional) with keys:
-     *                                 - content: string
-     *                                 - mimeCode: string (default: 'base64')
-     *                                 - mimeType: string (default: 'text/plain')
-     *
+     * @param  array  $documents  An array of additional document data.
+     *                            Each element may contain keys:
+     *                            - id: string (required)
+     *                            - uuid: string (optional)
+     *                            - attachment: array (optional) with keys:
+     *                            - content: string
+     *                            - mimeCode: string (default: 'base64')
+     *                            - mimeType: string (default: 'text/plain')
      * @return AdditionalDocumentReference[] Array of mapped AdditionalDocumentReference objects.
      */
     public function mapAdditionalDocuments(array $documents): array

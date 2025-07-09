@@ -329,7 +329,7 @@ EOL;
     /**
      * Generate keys and CSR.
      *
-     * @param array $config OpenSSL configuration array.
+     * @param  array  $config  OpenSSL configuration array.
      *
      * @throws CertificateBuilderException
      */

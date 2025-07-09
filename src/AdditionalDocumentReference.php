@@ -131,10 +131,6 @@ class AdditionalDocumentReference implements XmlDeserializable, XmlSerializable
 
     /**
      * The xmlDeserialize method is called during xml reading.
-     *
-     * @param Reader $reader
-     *
-     * @return static
      */
     public static function xmlDeserialize(Reader $reader): static
     {

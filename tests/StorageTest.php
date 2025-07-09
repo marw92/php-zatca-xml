@@ -1,8 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Saleh7\Zatca\Storage;
 use Saleh7\Zatca\Exceptions\ZatcaStorageException;
+use Saleh7\Zatca\Storage;
 
 class StorageTest extends TestCase
 {
@@ -15,11 +15,11 @@ class StorageTest extends TestCase
     protected function setUp(): void
     {
         // Initialize storage with a temporary directory
-        $this->storage = new Storage(__DIR__ . '/test_storage');
-        
+        $this->storage = new Storage(__DIR__.'/test_storage');
+
         // Ensure the test directory exists (create it if it doesn't)
-        if (!is_dir(__DIR__ . '/test_storage')) {
-            mkdir(__DIR__ . '/test_storage', 0777, true);
+        if (! is_dir(__DIR__.'/test_storage')) {
+            mkdir(__DIR__.'/test_storage', 0777, true);
         }
     }
 
@@ -29,7 +29,7 @@ class StorageTest extends TestCase
      */
     protected function tearDown(): void
     {
-        $this->deleteDirectory(__DIR__ . '/test_storage');
+        $this->deleteDirectory(__DIR__.'/test_storage');
     }
 
     /**
@@ -49,7 +49,7 @@ class StorageTest extends TestCase
     /**
      * Test that the put() method writes a file successfully.
      */
-    public function testPutWritesFileSuccessfully(): void
+    public function test_put_writes_file_successfully(): void
     {
         $content = 'Test content';
         $path = 'test_file.txt';
@@ -59,14 +59,14 @@ class StorageTest extends TestCase
         $this->assertTrue($result); // Assert the result is true
 
         // Check that the file was written correctly
-        $this->assertFileExists(__DIR__ . '/test_storage/' . $path);
-        $this->assertStringEqualsFile(__DIR__ . '/test_storage/' . $path, $content);
+        $this->assertFileExists(__DIR__.'/test_storage/'.$path);
+        $this->assertStringEqualsFile(__DIR__.'/test_storage/'.$path, $content);
     }
 
     /**
      * Test that the append() method appends data to a file correctly.
      */
-    public function testAppendAppendsToFileSuccessfully(): void
+    public function test_append_appends_to_file_successfully(): void
     {
         $content = 'Initial content';
         $appendContent = 'Appended content';
@@ -74,20 +74,20 @@ class StorageTest extends TestCase
 
         // Write initial content to the file
         $this->storage->put($path, $content);
-        
+
         // Append content to the file
         $result = $this->storage->append($path, $appendContent);
         $this->assertTrue($result); // Assert append was successful
-        
+
         // Check that the content was correctly appended
-        $expectedContent = $content . $appendContent;
-        $this->assertStringEqualsFile(__DIR__ . '/test_storage/' . $path, $expectedContent);
+        $expectedContent = $content.$appendContent;
+        $this->assertStringEqualsFile(__DIR__.'/test_storage/'.$path, $expectedContent);
     }
 
     /**
      * Test that the get() method reads a file's content correctly.
      */
-    public function testGetReadsFileSuccessfully(): void
+    public function test_get_reads_file_successfully(): void
     {
         $content = 'File content';
         $path = 'test_get.txt';
@@ -103,7 +103,7 @@ class StorageTest extends TestCase
     /**
      * Test that the get() method throws an exception when the file does not exist.
      */
-    public function testGetThrowsExceptionIfFileDoesNotExist(): void
+    public function test_get_throws_exception_if_file_does_not_exist(): void
     {
         $this->expectException(ZatcaStorageException::class);
         $this->expectExceptionMessage('File not found.');
@@ -115,7 +115,7 @@ class StorageTest extends TestCase
     /**
      * Test that the exists() method returns true for an existing file.
      */
-    public function testExistsReturnsTrueForExistingFile(): void
+    public function test_exists_returns_true_for_existing_file(): void
     {
         $content = 'Some content';
         $path = 'existing_file.txt';
@@ -130,7 +130,7 @@ class StorageTest extends TestCase
     /**
      * Test that the exists() method returns false for a non-existent file.
      */
-    public function testExistsReturnsFalseForNonExistingFile(): void
+    public function test_exists_returns_false_for_non_existing_file(): void
     {
         $path = 'non_existing_file.txt';
         $this->assertFalse($this->storage->exists($path)); // Assert the file does not exist
@@ -139,7 +139,7 @@ class StorageTest extends TestCase
     /**
      * Test that ensureDirectoryExists() creates the directory if it does not exist.
      */
-    public function testEnsureDirectoryExistsCreatesDirectoryIfNotExists(): void
+    public function test_ensure_directory_exists_creates_directory_if_not_exists(): void
     {
         $path = 'new_directory/test_file.txt';
         $content = 'Test content in a new directory';
@@ -149,6 +149,6 @@ class StorageTest extends TestCase
 
         // Assert that the file was created and written
         $this->assertTrue($result);
-        $this->assertFileExists(__DIR__ . '/test_storage/' . $path);
+        $this->assertFileExists(__DIR__.'/test_storage/'.$path);
     }
 }

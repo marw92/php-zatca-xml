@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -42,8 +43,6 @@ class Address implements XmlSerializable
     /**
      * Set the street name.
      *
-     * @param string|null $streetName
-     * @return self
      * @throws InvalidArgumentException if $streetName is an empty string.
      */
     public function setStreetName(?string $streetName): self
@@ -52,14 +51,12 @@ class Address implements XmlSerializable
             throw new InvalidArgumentException('Street name cannot be empty.');
         }
         $this->streetName = $streetName;
+
         return $this;
     }
 
     /**
      * Set the additional street name.
-     *
-     * @param string|null $additionalStreetName
-     * @return self
      */
     public function setAdditionalStreetName(?string $additionalStreetName): self
     {
@@ -67,14 +64,12 @@ class Address implements XmlSerializable
             throw new InvalidArgumentException('Additional street name cannot be empty.');
         }
         $this->additionalStreetName = $additionalStreetName;
+
         return $this;
     }
 
     /**
      * Set the building number.
-     *
-     * @param string|null $buildingNumber
-     * @return self
      */
     public function setBuildingNumber(?string $buildingNumber): self
     {
@@ -82,14 +77,12 @@ class Address implements XmlSerializable
             throw new InvalidArgumentException('Building number cannot be empty.');
         }
         $this->buildingNumber = $buildingNumber;
+
         return $this;
     }
 
     /**
      * Set the plot identification.
-     *
-     * @param string|null $plotIdentification
-     * @return self
      */
     public function setPlotIdentification(?string $plotIdentification): self
     {
@@ -97,14 +90,12 @@ class Address implements XmlSerializable
             throw new InvalidArgumentException('Plot identification cannot be empty.');
         }
         $this->plotIdentification = $plotIdentification;
+
         return $this;
     }
 
     /**
      * Set the city name.
-     *
-     * @param string|null $cityName
-     * @return self
      */
     public function setCityName(?string $cityName): self
     {
@@ -112,14 +103,12 @@ class Address implements XmlSerializable
             throw new InvalidArgumentException('City name cannot be empty.');
         }
         $this->cityName = $cityName;
+
         return $this;
     }
 
     /**
      * Set the postal zone.
-     *
-     * @param string|null $postalZone
-     * @return self
      */
     public function setPostalZone(?string $postalZone): self
     {
@@ -127,14 +116,12 @@ class Address implements XmlSerializable
             throw new InvalidArgumentException('Postal zone cannot be empty.');
         }
         $this->postalZone = $postalZone;
+
         return $this;
     }
 
     /**
      * Set the country code.
-     *
-     * @param string|null $country
-     * @return self
      */
     public function setCountry(?string $country): self
     {
@@ -142,14 +129,12 @@ class Address implements XmlSerializable
             throw new InvalidArgumentException('Country cannot be empty.');
         }
         $this->country = $country;
+
         return $this;
     }
 
     /**
      * Set the country subentity.
-     *
-     * @param string|null $countrySubentity
-     * @return self
      */
     public function setCountrySubentity(?string $countrySubentity): self
     {
@@ -157,14 +142,12 @@ class Address implements XmlSerializable
             throw new InvalidArgumentException('Country subentity cannot be empty.');
         }
         $this->countrySubentity = $countrySubentity;
+
         return $this;
     }
 
     /**
      * Set the city subdivision name.
-     *
-     * @param string|null $citySubdivisionName
-     * @return self
      */
     public function setCitySubdivisionName(?string $citySubdivisionName): self
     {
@@ -172,13 +155,12 @@ class Address implements XmlSerializable
             throw new InvalidArgumentException('City subdivision name cannot be empty.');
         }
         $this->citySubdivisionName = $citySubdivisionName;
+
         return $this;
     }
 
     /**
      * Get the street name.
-     *
-     * @return string|null
      */
     public function getStreetName(): ?string
     {
@@ -187,8 +169,6 @@ class Address implements XmlSerializable
 
     /**
      * Get the additional street name.
-     *
-     * @return string|null
      */
     public function getAdditionalStreetName(): ?string
     {
@@ -197,8 +177,6 @@ class Address implements XmlSerializable
 
     /**
      * Get the building number.
-     *
-     * @return string|null
      */
     public function getBuildingNumber(): ?string
     {
@@ -207,8 +185,6 @@ class Address implements XmlSerializable
 
     /**
      * Get the plot identification.
-     *
-     * @return string|null
      */
     public function getPlotIdentification(): ?string
     {
@@ -217,8 +193,6 @@ class Address implements XmlSerializable
 
     /**
      * Get the city name.
-     *
-     * @return string|null
      */
     public function getCityName(): ?string
     {
@@ -227,8 +201,6 @@ class Address implements XmlSerializable
 
     /**
      * Get the postal zone.
-     *
-     * @return string|null
      */
     public function getPostalZone(): ?string
     {
@@ -237,8 +209,6 @@ class Address implements XmlSerializable
 
     /**
      * Get the country code.
-     *
-     * @return string|null
      */
     public function getCountry(): ?string
     {
@@ -247,8 +217,6 @@ class Address implements XmlSerializable
 
     /**
      * Get the country subentity.
-     *
-     * @return string|null
      */
     public function getCountrySubentity(): ?string
     {
@@ -257,8 +225,6 @@ class Address implements XmlSerializable
 
     /**
      * Get the city subdivision name.
-     *
-     * @return string|null
      */
     public function getCitySubdivisionName(): ?string
     {
@@ -267,56 +233,53 @@ class Address implements XmlSerializable
 
     /**
      * Serializes this object to XML.
-     *
-     * @param Writer $writer
-     * @return void
      */
     public function xmlSerialize(Writer $writer): void
     {
         if ($this->streetName !== null) {
             $writer->write([
-                Schema::CBC . 'StreetName' => $this->streetName,
+                Schema::CBC.'StreetName' => $this->streetName,
             ]);
         }
         if ($this->buildingNumber !== null) {
             $writer->write([
-                Schema::CBC . 'BuildingNumber' => $this->buildingNumber,
+                Schema::CBC.'BuildingNumber' => $this->buildingNumber,
             ]);
         }
         if ($this->plotIdentification !== null) {
             $writer->write([
-                Schema::CBC . 'PlotIdentification' => $this->plotIdentification,
+                Schema::CBC.'PlotIdentification' => $this->plotIdentification,
             ]);
         }
         if ($this->countrySubentity !== null) {
             $writer->write([
-                Schema::CBC . 'CountrySubentity' => $this->countrySubentity,
+                Schema::CBC.'CountrySubentity' => $this->countrySubentity,
             ]);
         }
         if ($this->citySubdivisionName !== null) {
             $writer->write([
-                Schema::CBC . 'CitySubdivisionName' => $this->citySubdivisionName,
+                Schema::CBC.'CitySubdivisionName' => $this->citySubdivisionName,
             ]);
         }
         if ($this->additionalStreetName !== null) {
             $writer->write([
-                Schema::CBC . 'AdditionalStreetName' => $this->additionalStreetName,
+                Schema::CBC.'AdditionalStreetName' => $this->additionalStreetName,
             ]);
         }
         if ($this->cityName !== null) {
             $writer->write([
-                Schema::CBC . 'CityName' => $this->cityName,
+                Schema::CBC.'CityName' => $this->cityName,
             ]);
         }
         if ($this->postalZone !== null) {
             $writer->write([
-                Schema::CBC . 'PostalZone' => $this->postalZone,
+                Schema::CBC.'PostalZone' => $this->postalZone,
             ]);
         }
         if ($this->country !== null) {
             $writer->write([
-                Schema::CAC . 'Country' => [
-                    Schema::CBC . 'IdentificationCode' => $this->country,
+                Schema::CAC.'Country' => [
+                    Schema::CBC.'IdentificationCode' => $this->country,
                 ],
             ]);
         }

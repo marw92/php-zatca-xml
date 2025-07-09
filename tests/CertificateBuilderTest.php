@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 use Saleh7\Zatca\CertificateBuilder;
 use Saleh7\Zatca\Exceptions\CertificateBuilderException;
@@ -8,10 +9,10 @@ final class CertificateBuilderTest extends TestCase
     /**
      * Test that CertificateBuilder generates and saves CSR and private key.
      */
-    public function testGenerateAndSave(): void
+    public function test_generate_and_save(): void
     {
         // Create CertificateBuilder and set required parameters.
-        $builder = new CertificateBuilder();
+        $builder = new CertificateBuilder;
         $builder->setOrganizationIdentifier('312345678901233')
             ->setSerialNumber('Saleh', '1n', 'SME00023')
             ->setCommonName('My Organization')
@@ -54,13 +55,13 @@ final class CertificateBuilderTest extends TestCase
     /**
      * Test that missing a required parameter throws an exception.
      */
-    public function testMissingRequiredParameter(): void
+    public function test_missing_required_parameter(): void
     {
         $this->expectException(CertificateBuilderException::class);
         $this->expectExceptionMessage('Missing required parameter: businessCategory');
 
         // Create CertificateBuilder without setting businessCategory.
-        $builder = new CertificateBuilder();
+        $builder = new CertificateBuilder;
         $builder->setOrganizationIdentifier('312345678901233')
             ->setSerialNumber('Saleh', '1n', 'SME00023')
             ->setCommonName('My Organization')
@@ -69,7 +70,7 @@ final class CertificateBuilderTest extends TestCase
             ->setAddress('Riyadh 1234 Street')
             ->setInvoiceType(1100)
             ->setProduction(true);
-            // Missing setBusinessCategory
+        // Missing setBusinessCategory
 
         // Calling generate() should throw an exception.
         $builder->generate();

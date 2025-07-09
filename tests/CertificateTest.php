@@ -1,9 +1,9 @@
 <?php
 
+use phpseclib3\Crypt\Common\PrivateKey;
+use phpseclib3\File\X509;
 use PHPUnit\Framework\TestCase;
 use Saleh7\Zatca\Helpers\Certificate;
-use phpseclib3\File\X509;
-use phpseclib3\Crypt\Common\PrivateKey;
 
 /**
  * Test class for the Certificate helper.
@@ -53,7 +53,7 @@ class CertificateTest extends TestCase
     /**
      * Test that getRawCertificate returns the correct certificate data.
      */
-    public function testGetRawCertificate()
+    public function test_get_raw_certificate()
     {
         $this->assertEquals(
             $this->certificateData,
@@ -65,7 +65,7 @@ class CertificateTest extends TestCase
     /**
      * Test that getX509 returns an instance of X509.
      */
-    public function testGetX509()
+    public function test_get_x509()
     {
         $this->assertInstanceOf(
             X509::class,
@@ -77,7 +77,7 @@ class CertificateTest extends TestCase
     /**
      * Test that getPrivateKey returns an instance of PrivateKey.
      */
-    public function testGetPrivateKey()
+    public function test_get_private_key()
     {
         $this->assertInstanceOf(
             PrivateKey::class,
@@ -89,7 +89,7 @@ class CertificateTest extends TestCase
     /**
      * Test that getSecretKey returns the correct secret key.
      */
-    public function testGetSecretKey()
+    public function test_get_secret_key()
     {
         $this->assertEquals(
             $this->secretKeyData,
@@ -101,7 +101,7 @@ class CertificateTest extends TestCase
     /**
      * Test that getAuthHeader returns a properly formatted authorization header.
      */
-    public function testGetAuthHeader()
+    public function test_get_auth_header()
     {
         $authHeader = $this->certificate->getAuthHeader();
         $this->assertStringStartsWith(
@@ -115,15 +115,15 @@ class CertificateTest extends TestCase
     /**
      * Test that getCertHash returns a valid base64 encoded SHA-256 hash.
      */
-    public function testGetCertHash()
+    public function test_get_cert_hash()
     {
         $hash = $this->certificate->getCertHash();
         $this->assertNotEmpty($hash, 'Certificate hash should not be empty.');
-        
+
         // Decode and verify the length of the hash (SHA-256 produces 32 bytes).
         $decoded = base64_decode($hash, true);
         $this->assertStringContainsString(
-            "6e605d1c0c9226847d88fdd511c99157df1739b75a439dc8eaa0eea1d27a0d95", 
+            '6e605d1c0c9226847d88fdd511c99157df1739b75a439dc8eaa0eea1d27a0d95',
             $decoded
         );
     }
@@ -131,12 +131,12 @@ class CertificateTest extends TestCase
     /**
      * Test that getFormattedIssuer returns a non-empty string.
      */
-    public function testGetFormattedIssuer()
+    public function test_get_formatted_issuer()
     {
         $issuer = $this->certificate->getFormattedIssuer();
         $this->assertIsString($issuer, 'Formatted issuer should be a string.');
         $this->assertNotEmpty($issuer, 'Formatted issuer should not be empty.');
-        
+
         // Optionally, check if the issuer contains an expected value.
         $this->assertStringContainsString(
             'eInvoicing',
@@ -148,7 +148,7 @@ class CertificateTest extends TestCase
     /**
      * Test that getRawPublicKey returns a public key in base64 format without headers.
      */
-    public function testGetRawPublicKey()
+    public function test_get_raw_public_key()
     {
         $publicKey = $this->certificate->getRawPublicKey();
         $this->assertIsString($publicKey, 'Raw public key should be a string.');
@@ -163,17 +163,17 @@ class CertificateTest extends TestCase
     /**
      * Test that getCertSignature returns the certificate signature without the extra prefix.
      */
-    public function testGetCertSignature()
+    public function test_get_cert_signature()
     {
         // Get the full signature from the current certificate array via delegation.
         $currentCert = $this->certificate->getCurrentCert();
         $fullSignature = $currentCert['signature'];
-        
+
         // Get the processed signature from the method.
         $signature = $this->certificate->getCertSignature();
         $this->assertIsString($signature, 'Certificate signature should be a string.');
         $this->assertNotEmpty($signature, 'Certificate signature should not be empty.');
-        
+
         // Check that the returned signature length is one less than the full signature.
         $this->assertEquals(
             strlen($fullSignature) - 1,

@@ -1,7 +1,9 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
-use Saleh7\Zatca\Mappers\InvoiceMapper;
 use Saleh7\Zatca\GeneratorInvoice;
+use Saleh7\Zatca\Mappers\InvoiceMapper;
+
 /**
  * Class InvoiceIntegrationTest
  *
@@ -21,7 +23,7 @@ class InvoiceIntegrationTest extends TestCase
      * 1. Maps the data to an Invoice object.
      * 2. Generates XML using the GeneratorInvoice.
      */
-    public function testCompleteInvoiceGenerationFlow(): void
+    public function test_complete_invoice_generation_flow(): void
     {
         // Sample invoice data with all required fields and valid monetary calculations.
         $invoiceData = [
@@ -38,21 +40,21 @@ class InvoiceIntegrationTest extends TestCase
                 'isNominal' => false,
                 'isExport' => false,
                 'isSummary' => false,
-                'isSelfBilled' => false
+                'isSelfBilled' => false,
             ],
             'additionalDocuments' => [
                 [
                     'id' => 'ICV',
-                    'uuid' => '10'
+                    'uuid' => '10',
                 ],
                 [
                     'id' => 'PIH',
                     'attachment' => [
                         'content' => 'dummyBase64Content',
                         'mimeCode' => 'base64',
-                        'mimeType' => 'text/plain'
-                    ]
-                ]
+                        'mimeType' => 'text/plain',
+                    ],
+                ],
             ],
             'supplier' => [
                 'registrationName' => 'Supplier Inc.',
@@ -66,8 +68,8 @@ class InvoiceIntegrationTest extends TestCase
                     'subdivision' => 'Al-Murooj',
                     'city' => 'Riyadh',
                     'postalZone' => '12345',
-                    'country' => 'SA'
-                ]
+                    'country' => 'SA',
+                ],
             ],
             'customer' => [
                 'registrationName' => 'Customer LLC',
@@ -79,11 +81,11 @@ class InvoiceIntegrationTest extends TestCase
                     'subdivision' => 'Al-Murooj',
                     'city' => 'Jeddah',
                     'postalZone' => '54321',
-                    'country' => 'SA'
-                ]
+                    'country' => 'SA',
+                ],
             ],
             'paymentMeans' => [
-                'code' => '10'
+                'code' => '10',
             ],
             'allowanceCharges' => [
                 [
@@ -93,10 +95,10 @@ class InvoiceIntegrationTest extends TestCase
                     'taxCategories' => [
                         [
                             'percent' => 15,
-                            'taxScheme' => ['id' => 'VAT']
-                        ]
-                    ]
-                ]
+                            'taxScheme' => ['id' => 'VAT'],
+                        ],
+                    ],
+                ],
             ],
             'taxTotal' => [
                 'taxAmount' => 30,
@@ -107,18 +109,18 @@ class InvoiceIntegrationTest extends TestCase
                         'taxCategory' => [
                             'percent' => 15,
                             'taxScheme' => [
-                                'id' => 'VAT'
-                            ]
-                        ]
-                    ]
-                ]
+                                'id' => 'VAT',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'legalMonetaryTotal' => [
                 'lineExtensionAmount' => 200,
                 'taxExclusiveAmount' => 200,
                 'taxInclusiveAmount' => 230,
                 'payableAmount' => 230,
-                'allowanceTotalAmount' => 0
+                'allowanceTotalAmount' => 0,
             ],
             'invoiceLines' => [
                 [
@@ -132,25 +134,25 @@ class InvoiceIntegrationTest extends TestCase
                             [
                                 'percent' => 15,
                                 'taxScheme' => [
-                                    'id' => 'VAT'
-                                ]
-                            ]
+                                    'id' => 'VAT',
+                                ],
+                            ],
                         ],
                     ],
                     'price' => [
                         'amount' => 100,
-                        'unitCode' => 'PCE'
+                        'unitCode' => 'PCE',
                     ],
                     'taxTotal' => [
                         'taxAmount' => 30,
-                        'roundingAmount' => 230  // Calculated: 200 + 30 = 230
-                    ]
-                ]
-            ]
+                        'roundingAmount' => 230,  // Calculated: 200 + 30 = 230
+                    ],
+                ],
+            ],
         ];
 
         // Map the invoice data to an Invoice object
-        $mapper = new InvoiceMapper();
+        $mapper = new InvoiceMapper;
         $invoice = $mapper->mapToInvoice($invoiceData);
         $this->assertNotNull($invoice, 'Invoice object should not be null.');
 

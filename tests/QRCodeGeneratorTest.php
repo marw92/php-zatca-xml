@@ -2,17 +2,15 @@
 
 use PHPUnit\Framework\TestCase;
 use Saleh7\Zatca\Helpers\QRCodeGenerator;
-use Saleh7\Zatca\Tags\{
-    Seller,
-    TaxNumber,
-    InvoiceDate,
-    InvoiceTotalAmount,
-    InvoiceTaxAmount,
-    InvoiceHash,
-    InvoiceDigitalSignature,
-    PublicKey,
-    CertificateSignature
-};
+use Saleh7\Zatca\Tags\CertificateSignature;
+use Saleh7\Zatca\Tags\InvoiceDate;
+use Saleh7\Zatca\Tags\InvoiceDigitalSignature;
+use Saleh7\Zatca\Tags\InvoiceHash;
+use Saleh7\Zatca\Tags\InvoiceTaxAmount;
+use Saleh7\Zatca\Tags\InvoiceTotalAmount;
+use Saleh7\Zatca\Tags\PublicKey;
+use Saleh7\Zatca\Tags\Seller;
+use Saleh7\Zatca\Tags\TaxNumber;
 
 /**
  * Test class for the QRCodeGenerator.
@@ -26,20 +24,20 @@ class QRCodeGeneratorTest extends TestCase
      * string by concatenating each tag's __toString() output, and then
      * compares it to the generator's output.
      */
-    public function testEncodeTLV()
+    public function test_encode_tlv()
     {
         // Create sample tags.
-        $seller    = new Seller('latency.sa');
+        $seller = new Seller('latency.sa');
         $taxNumber = new TaxNumber('311111111111113');
 
         // Build the expected TLV string.
-        $expectedTLV = (string)$seller . (string)$taxNumber;
+        $expectedTLV = (string) $seller.(string) $taxNumber;
 
         // Create the generator with the sample tags.
         $generator = QRCodeGenerator::createFromTags([$seller, $taxNumber]);
 
         // Assert that the TLV encoding matches the expected string.
-        $this->assertEquals($expectedTLV, $generator->encodeTLV(), "TLV encoding does not match the expected value.");
+        $this->assertEquals($expectedTLV, $generator->encodeTLV(), 'TLV encoding does not match the expected value.');
     }
 
     /**
@@ -48,7 +46,7 @@ class QRCodeGeneratorTest extends TestCase
      * This test creates a list of Tag instances, builds the TLV string from
      * each tag, encodes it with Base64, and then compares it to the generator's output.
      */
-    public function testEncodeBase64()
+    public function test_encode_base64()
     {
         // Create sample tags.
         $tags = [
@@ -66,7 +64,7 @@ class QRCodeGeneratorTest extends TestCase
         // Build the expected TLV string.
         $expectedTLV = '';
         foreach ($tags as $tag) {
-            $expectedTLV .= (string)$tag;
+            $expectedTLV .= (string) $tag;
         }
         // Encode the TLV string into Base64.
         $expectedBase64 = base64_encode($expectedTLV);
@@ -75,7 +73,7 @@ class QRCodeGeneratorTest extends TestCase
         $generator = QRCodeGenerator::createFromTags($tags);
 
         // Assert that the Base64 encoded TLV string matches the expected value.
-        $this->assertEquals($expectedBase64, $generator->encodeBase64(), "Base64 encoded TLV string does not match the expected value.");
+        $this->assertEquals($expectedBase64, $generator->encodeBase64(), 'Base64 encoded TLV string does not match the expected value.');
     }
 
     /**
@@ -84,7 +82,7 @@ class QRCodeGeneratorTest extends TestCase
      * This test verifies that if an empty array is passed to the generator,
      * an InvalidArgumentException is thrown.
      */
-    public function testEmptyTagsThrowsException()
+    public function test_empty_tags_throws_exception()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Malformed data structure: no valid Tag instances found.');

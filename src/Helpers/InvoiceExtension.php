@@ -1,13 +1,22 @@
 <?php
+
 namespace Saleh7\Zatca\Helpers;
 
 use DOMDocument;
 use DOMElement;
 use DOMException;
 use DOMXPath;
-use WeakMap;
 use InvalidArgumentException;
-use Saleh7\Zatca\Tags\{Seller, TaxNumber, PublicKey, InvoiceTotalAmount, InvoiceTaxAmount, InvoiceHash, InvoiceDigitalSignature, InvoiceDate, CertificateSignature};
+use Saleh7\Zatca\Tags\CertificateSignature;
+use Saleh7\Zatca\Tags\InvoiceDate;
+use Saleh7\Zatca\Tags\InvoiceDigitalSignature;
+use Saleh7\Zatca\Tags\InvoiceHash;
+use Saleh7\Zatca\Tags\InvoiceTaxAmount;
+use Saleh7\Zatca\Tags\InvoiceTotalAmount;
+use Saleh7\Zatca\Tags\PublicKey;
+use Saleh7\Zatca\Tags\Seller;
+use Saleh7\Zatca\Tags\TaxNumber;
+use WeakMap;
 
 /**
  * Class InvoiceExtension
@@ -26,37 +35,38 @@ class InvoiceExtension
      */
     private static $elements = null;
 
-    /** @var DOMElement */
     protected DOMElement $element;
 
     /**
      * Create an InvoiceExtension instance from an XML string.
      *
-     * @param string $xmlString The XML string.
+     * @param  string  $xmlString  The XML string.
      * @return self The InvoiceExtension instance.
+     *
      * @throws InvalidArgumentException if the XML cannot be parsed.
      */
     public static function fromString(string $xmlString): self
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument;
         $doc->preserveWhiteSpace = true;
         $doc->formatOutput = true;
 
         // Ensure proper indentation if not already present.
-        if (!str_contains($xmlString, '    <cbc:ProfileID>')) {
+        if (! str_contains($xmlString, '    <cbc:ProfileID>')) {
             $xmlString = preg_replace('/^[ ]+(?=<)/m', '$0$0', $xmlString);
         }
 
         if ($doc->loadXML($xmlString) === false) {
             throw new InvalidArgumentException('Failed to parse XML string');
         }
+
         return new self($doc->documentElement);
     }
 
     /**
      * Create an InvoiceExtension instance from a DOMElement.
      *
-     * @param DOMElement $element The DOM element.
+     * @param  DOMElement  $element  The DOM element.
      * @return self The wrapped InvoiceExtension instance.
      */
     public static function fromElement(DOMElement $element): self
@@ -66,22 +76,24 @@ class InvoiceExtension
                 ? self::$elements->offsetGet($element)
                 : new self($element);
         }
+
         return $element->uxml ?? new self($element);
     }
 
     /**
      * Create a new InvoiceExtension instance with a new element.
      *
-     * @param string $name The tag name.
-     * @param string|null $value The element value or null.
-     * @param array<string, string> $attrs The element attributes.
-     * @param DOMDocument|null $doc The owner document; if null, a new one is created.
+     * @param  string  $name  The tag name.
+     * @param  string|null  $value  The element value or null.
+     * @param  array<string, string>  $attrs  The element attributes.
+     * @param  DOMDocument|null  $doc  The owner document; if null, a new one is created.
      * @return self The new InvoiceExtension instance.
+     *
      * @throws DOMException if element creation fails.
      */
     public static function newInstance(string $name, ?string $value = null, array $attrs = [], ?DOMDocument $doc = null): self
     {
-        $targetDoc = $doc ?? new DOMDocument();
+        $targetDoc = $doc ?? new DOMDocument;
 
         // Determine the namespace from the tag prefix, if available.
         $prefix = strstr($name, ':', true) ?: '';
@@ -111,20 +123,21 @@ class InvoiceExtension
                 }
             }
         } catch (\Exception $ex) {
-            throw new \Exception('Error: ' . $ex->getMessage() . ', name: ' . $name);
+            throw new \Exception('Error: '.$ex->getMessage().', name: '.$name);
         }
+
         return new self($domElement);
     }
 
     /**
      * Private constructor.
      *
-     * @param DOMElement $element The DOM element instance.
+     * @param  DOMElement  $element  The DOM element instance.
      */
     private function __construct(DOMElement $element)
     {
         if (self::$elements === null) {
-            self::$elements = class_exists(WeakMap::class) ? new WeakMap() : false;
+            self::$elements = class_exists(WeakMap::class) ? new WeakMap : false;
         }
         $this->element = $element;
         if (self::$elements) {
@@ -152,6 +165,7 @@ class InvoiceExtension
     public function getParent(): self
     {
         $parentNode = $this->element->parentNode;
+
         return ($parentNode !== null && $parentNode instanceof DOMElement)
             ? self::fromElement($parentNode)
             : $this;
@@ -170,24 +184,26 @@ class InvoiceExtension
     /**
      * Add a child element.
      *
-     * @param string $name The tag name of the child.
-     * @param string|null $value The value of the child, or null.
-     * @param array<string, string> $attrs The attributes for the child.
+     * @param  string  $name  The tag name of the child.
+     * @param  string|null  $value  The value of the child, or null.
+     * @param  array<string, string>  $attrs  The attributes for the child.
      * @return self The new child InvoiceExtension.
+     *
      * @throws DOMException if child creation fails.
      */
     public function addChild(string $name, ?string $value = null, array $attrs = []): self
     {
         $child = self::newInstance($name, $value, $attrs, $this->element->ownerDocument);
         $this->element->appendChild($child->element);
+
         return $child;
     }
 
     /**
      * Find all elements matching the given XPath query.
      *
-     * @param string $xpath The XPath query relative to this element.
-     * @param int|null $limit Optional maximum number of results.
+     * @param  string  $xpath  The XPath query relative to this element.
+     * @param  int|null  $limit  Optional maximum number of results.
      * @return self[] Array of matched InvoiceExtension instances.
      */
     public function findAll(string $xpath, ?int $limit = null): array
@@ -195,10 +211,11 @@ class InvoiceExtension
         $namespaces = [];
         $xpath = preg_replace_callback('/{(.+?)}/', static function ($match) use (&$namespaces) {
             $ns = $match[1];
-            if (!isset($namespaces[$ns])) {
-                $namespaces[$ns] = self::NS_PREFIX . count($namespaces);
+            if (! isset($namespaces[$ns])) {
+                $namespaces[$ns] = self::NS_PREFIX.count($namespaces);
             }
-            return $namespaces[$ns] . ':';
+
+            return $namespaces[$ns].':';
         }, $xpath);
 
         $xpathInstance = new DOMXPath($this->element->ownerDocument);
@@ -209,7 +226,7 @@ class InvoiceExtension
         $results = [];
         $domNodes = $xpathInstance->query($xpath, $this->element);
         foreach ($domNodes as $node) {
-            if (!$node instanceof DOMElement) {
+            if (! $node instanceof DOMElement) {
                 continue;
             }
             $results[] = self::fromElement($node);
@@ -217,18 +234,20 @@ class InvoiceExtension
                 break;
             }
         }
+
         return $results;
     }
 
     /**
      * Find the first element matching the XPath query.
      *
-     * @param string $xpath The XPath query relative to this element.
+     * @param  string  $xpath  The XPath query relative to this element.
      * @return self|null The first matched instance or null if not found.
      */
     public function find(string $xpath): ?self
     {
         $results = $this->findAll($xpath, 1);
+
         return $results[0] ?? null;
     }
 
@@ -248,7 +267,7 @@ class InvoiceExtension
     /**
      * Remove the first element matching the XPath query.
      *
-     * @param string $xpath The XPath query.
+     * @param  string  $xpath  The XPath query.
      * @return self The current instance.
      */
     public function removeByXpath(string $xpath): self
@@ -256,13 +275,14 @@ class InvoiceExtension
         if ($node = $this->find($xpath)) {
             $node->remove();
         }
+
         return $this;
     }
 
     /**
      * Remove the parent of the first element matching the XPath query.
      *
-     * @param string $xpath The XPath query.
+     * @param  string  $xpath  The XPath query.
      * @return self The current instance.
      */
     public function removeParentByXpath(string $xpath): self
@@ -270,6 +290,7 @@ class InvoiceExtension
         if ($node = $this->find($xpath)) {
             $node->getParent()->remove();
         }
+
         return $this;
     }
 
@@ -286,14 +307,14 @@ class InvoiceExtension
     /**
      * Export the element and its children as an XML string.
      *
-     * @param string|null $version The XML version; null for no declaration.
-     * @param string $encoding The document encoding.
-     * @param bool $format Whether to format the output.
+     * @param  string|null  $version  The XML version; null for no declaration.
+     * @param  string  $encoding  The document encoding.
+     * @param  bool  $format  Whether to format the output.
      * @return string The XML string.
      */
     public function toXml(?string $version = '1.0', string $encoding = 'UTF-8', bool $format = true): string
     {
-        $doc = new DOMDocument();
+        $doc = new DOMDocument;
         if ($version === null) {
             $doc->xmlStandalone = true;
         } else {
@@ -310,45 +331,46 @@ class InvoiceExtension
             ? $doc->saveXML($doc->documentElement)
             : $doc->saveXML();
         unset($doc);
+
         return $xmlString;
     }
 
     /**
      * Generate an array of Tag objects for QR code generation based on the current invoice XML.
      *
-     * @param Certificate $certificate The certificate instance.
-     * @param string|null $invoiceDigest The Base64-encoded invoice digest.
-     * @param string|null $signatureValue The digital signature.
+     * @param  Certificate  $certificate  The certificate instance.
+     * @param  string|null  $invoiceDigest  The Base64-encoded invoice digest.
+     * @param  string|null  $signatureValue  The digital signature.
      * @return array An array of Tag objects.
      */
     public function generateQrTagsArray(Certificate $certificate, ?string $invoiceDigest, ?string $signatureValue): array
     {
-        if (!$invoiceDigest) {
+        if (! $invoiceDigest) {
             $invoiceDigest = $this->computeXmlDigest();
         }
 
-        if (!$signatureValue) {
+        if (! $signatureValue) {
             $signatureValue = base64_encode($certificate->getPrivateKey()->sign(base64_decode($invoiceDigest)));
         }
 
-        $issueDate = $this->find("cbc:IssueDate")?->toText();
-        $issueTime = $this->find("cbc:IssueTime")?->toText();
-        $issueTime = stripos($issueTime, 'Z') === false ? $issueTime . 'Z' : $issueTime;
+        $issueDate = $this->find('cbc:IssueDate')?->toText();
+        $issueTime = $this->find('cbc:IssueTime')?->toText();
+        $issueTime = stripos($issueTime, 'Z') === false ? $issueTime.'Z' : $issueTime;
 
         $qrTags = [
-            new Seller($this->find("cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName")?->toText()),
-            new TaxNumber($this->find("cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID")?->toText()),
-            new InvoiceDate($issueDate . 'T' . $issueTime),
-            new InvoiceTotalAmount($this->find("cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount")?->toText()),
-            new InvoiceTaxAmount($this->find("cac:TaxTotal")?->toText()),
+            new Seller($this->find('cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName')?->toText()),
+            new TaxNumber($this->find('cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID')?->toText()),
+            new InvoiceDate($issueDate.'T'.$issueTime),
+            new InvoiceTotalAmount($this->find('cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount')?->toText()),
+            new InvoiceTaxAmount($this->find('cac:TaxTotal')?->toText()),
             new InvoiceHash($invoiceDigest),
             new InvoiceDigitalSignature($signatureValue),
-            new PublicKey(base64_decode($certificate->getRawPublicKey()))
+            new PublicKey(base64_decode($certificate->getRawPublicKey())),
         ];
 
         // For Simplified Tax Invoices, add the certificate signature.
-        $invoiceTypeCodeNode = $this->find("cbc:InvoiceTypeCode");
-        $isSimplified = $invoiceTypeCodeNode && str_starts_with($invoiceTypeCodeNode->getElement()->getAttribute('name'), "02");
+        $invoiceTypeCodeNode = $this->find('cbc:InvoiceTypeCode');
+        $isSimplified = $invoiceTypeCodeNode && str_starts_with($invoiceTypeCodeNode->getElement()->getAttribute('name'), '02');
 
         if ($isSimplified) {
             $qrTags[] = new CertificateSignature($certificate->getCertSignature());

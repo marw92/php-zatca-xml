@@ -114,7 +114,6 @@ class Storage
      *
      * @param  string  $path  Relative or full path of the file.
      * @return bool True if the file exists, false otherwise.
-     *
      */
     public function exists(string $path): bool
     {

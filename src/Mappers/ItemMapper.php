@@ -2,9 +2,9 @@
 
 namespace Saleh7\Zatca\Mappers;
 
-use Saleh7\Zatca\{
-    Item, TaxScheme, ClassifiedTaxCategory
-};
+use Saleh7\Zatca\ClassifiedTaxCategory;
+use Saleh7\Zatca\Item;
+use Saleh7\Zatca\TaxScheme;
 
 /**
  * Class ItemMapper

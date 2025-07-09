@@ -1,9 +1,12 @@
 <?php
+
 namespace Saleh7\Zatca\Mappers;
 
-use Saleh7\Zatca\{
-    TaxScheme, LegalEntity, PartyTaxScheme, Address, Party
-};
+use Saleh7\Zatca\Address;
+use Saleh7\Zatca\LegalEntity;
+use Saleh7\Zatca\Party;
+use Saleh7\Zatca\PartyTaxScheme;
+use Saleh7\Zatca\TaxScheme;
 
 /**
  * Class CustomerMapper

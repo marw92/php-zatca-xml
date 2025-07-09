@@ -1,82 +1,103 @@
 <?php
+
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use Saleh7\Zatca\InvoiceSigner;
-use Saleh7\Zatca\Helpers\Certificate;
 use phpseclib3\Crypt\Common\PrivateKey;
 use phpseclib3\Crypt\Common\PublicKey;
+use PHPUnit\Framework\TestCase;
+use Saleh7\Zatca\Helpers\Certificate;
+use Saleh7\Zatca\InvoiceSigner;
 
 /**
  * DummyCertificate simulates a certificate with fixed dummy values.
  */
-class DummyCertificateSing extends Certificate {
-    public function __construct() {
+class DummyCertificateSing extends Certificate
+{
+    public function __construct()
+    {
         // No initialization required for dummy values.
     }
-    
-    public function getRawCertificate(): string {
+
+    public function getRawCertificate(): string
+    {
         return 'DUMMY_RAW_CERT';
     }
-    
-    public function getCertHash(): string {
+
+    public function getCertHash(): string
+    {
         return 'DUMMY_CERT_HASH';
     }
-    
-    public function getFormattedIssuer(): string {
+
+    public function getFormattedIssuer(): string
+    {
         return 'DUMMY_ISSUER';
     }
-    
-    public function getCurrentCert(): array {
+
+    public function getCurrentCert(): array
+    {
         return [
             'tbsCertificate' => [
-                'serialNumber' => new class {
-                    public function toString(): string {
+                'serialNumber' => new class
+                {
+                    public function toString(): string
+                    {
                         return 'DUMMY_SERIAL';
                     }
-                }
-            ]
+                },
+            ],
         ];
     }
-    
-    public function getPrivateKey(): PrivateKey {
-        return new class implements PrivateKey {
-            public function toString($format = 'PKCS8', $password = null): string {
+
+    public function getPrivateKey(): PrivateKey
+    {
+        return new class implements PrivateKey
+        {
+            public function toString($format = 'PKCS8', $password = null): string
+            {
                 return 'DUMMY_PRIVATE_KEY';
             }
-            
-            public function withPassword($password = false) {
+
+            public function withPassword($password = false)
+            {
                 return $this;
             }
-            
-            public function __toString(): string {
+
+            public function __toString(): string
+            {
                 return 'DUMMY_PRIVATE_KEY';
             }
-            
+
             // Removed the string type-hint to match the interface signature.
-            public function sign($message): string {
+            public function sign($message): string
+            {
                 return hash('sha256', $message, true); // Simulated signature
             }
-            
-            public function getPublicKey(): PublicKey {
-                return new class implements PublicKey {
-                    public function toString($format = 'PKCS8'): string {
+
+            public function getPublicKey(): PublicKey
+            {
+                return new class implements PublicKey
+                {
+                    public function toString($format = 'PKCS8'): string
+                    {
                         return 'DUMMY_PUBLIC_KEY';
                     }
-                    
-                    public function __toString(): string {
+
+                    public function __toString(): string
+                    {
                         return 'DUMMY_PUBLIC_KEY';
                     }
                 };
             }
         };
     }
-    
-    public function getCertificateSignature(): string {
+
+    public function getCertificateSignature(): string
+    {
         return 'DUMMY_CERT_SIGNATURE';
     }
-    
-    public function getRawPublicKey(): string {
+
+    public function getRawPublicKey(): string
+    {
         return base64_encode('DUMMY_PUBLIC_KEY');
     }
 }
@@ -88,21 +109,19 @@ class InvoiceSignerTest extends TestCase
 {
     /**
      * Create a dummy certificate instance.
-     *
-     * @return Certificate
      */
     private function createDummyCertificate(): Certificate
     {
-        return new DummyCertificateSing();
+        return new DummyCertificateSing;
     }
 
     /**
      * Test that signInvoice() produces a signed invoice with expected output.
      */
-    public function testSignInvoiceProducesValidOutput(): void
+    public function test_sign_invoice_produces_valid_output(): void
     {
         // Dummy invoice XML with required namespace declarations.
-        $invoiceXml = <<<XML
+        $invoiceXml = <<<'XML'
 <Invoice xmlns:cac="urn:oasis:names:specification:ubl:cac" 
          xmlns:cbc="urn:oasis:names:specification:ubl:cbc" 
          xmlns:ext="urn:oasis:names:specification:ubl:dsig:enveloped:xades">
@@ -135,15 +154,15 @@ class InvoiceSignerTest extends TestCase
     </cac:AdditionalDocumentReference>
 </Invoice>
 XML;
-        
+
         $dummyCert = $this->createDummyCertificate();
         $signer = InvoiceSigner::signInvoice($invoiceXml, $dummyCert);
-        
+
         $signedInvoice = $signer->getInvoice();
         $hash = $signer->getHash();
         $qrCode = $signer->getQRCode();
         $cert = $signer->getCertificate();
-        
+
         // Check that the signed invoice is not empty and contains expected tags.
         $this->assertNotEmpty($signedInvoice, 'Signed invoice should not be empty.');
         $this->assertStringContainsString('<ext:UBLExtensions>', $signedInvoice, 'Signed invoice should contain UBLExtensions.');

@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -33,13 +34,11 @@ class AllowanceCharge implements XmlSerializable
     /** @var TaxTotal|null Tax total information. */
     private ?TaxTotal $taxTotal = null;
 
-     /** @var array|null List of tax categories. */
+    /** @var array|null List of tax categories. */
     private ?array $taxCategory = null;
 
     /**
      * Get the charge indicator.
-     *
-     * @return bool
      */
     public function isChargeIndicator(): bool
     {
@@ -48,20 +47,16 @@ class AllowanceCharge implements XmlSerializable
 
     /**
      * Set the charge indicator.
-     *
-     * @param bool $chargeIndicator
-     * @return self
      */
     public function setChargeIndicator(bool $chargeIndicator): self
     {
         $this->chargeIndicator = $chargeIndicator;
+
         return $this;
     }
 
     /**
      * Get the allowance charge reason code.
-     *
-     * @return string|null
      */
     public function getAllowanceChargeReasonCode(): ?string
     {
@@ -71,23 +66,22 @@ class AllowanceCharge implements XmlSerializable
     /**
      * Set the allowance charge reason code.
      *
-     * @param string|null $allowanceChargeReasonCode Must be non-negative if numeric.
-     * @return self
+     * @param  string|null  $allowanceChargeReasonCode  Must be non-negative if numeric.
+     *
      * @throws InvalidArgumentException
      */
     public function setAllowanceChargeReasonCode(?string $allowanceChargeReasonCode): self
     {
-        if ($allowanceChargeReasonCode !== null && is_numeric($allowanceChargeReasonCode) && (float)$allowanceChargeReasonCode < 0) {
+        if ($allowanceChargeReasonCode !== null && is_numeric($allowanceChargeReasonCode) && (float) $allowanceChargeReasonCode < 0) {
             throw new InvalidArgumentException('Allowance charge reason code must be non-negative.');
         }
         $this->allowanceChargeReasonCode = $allowanceChargeReasonCode;
+
         return $this;
     }
 
     /**
      * Get the allowance charge reason.
-     *
-     * @return string|null
      */
     public function getAllowanceChargeReason(): ?string
     {
@@ -97,8 +91,8 @@ class AllowanceCharge implements XmlSerializable
     /**
      * Set the allowance charge reason.
      *
-     * @param string|null $allowanceChargeReason Must not be empty if provided.
-     * @return self
+     * @param  string|null  $allowanceChargeReason  Must not be empty if provided.
+     *
      * @throws InvalidArgumentException
      */
     public function setAllowanceChargeReason(?string $allowanceChargeReason): self
@@ -107,13 +101,12 @@ class AllowanceCharge implements XmlSerializable
             throw new InvalidArgumentException('Allowance charge reason cannot be an empty string.');
         }
         $this->allowanceChargeReason = $allowanceChargeReason;
+
         return $this;
     }
 
     /**
      * Get the multiplier factor numeric.
-     *
-     * @return int|null
      */
     public function getMultiplierFactorNumeric(): ?int
     {
@@ -123,8 +116,8 @@ class AllowanceCharge implements XmlSerializable
     /**
      * Set the multiplier factor numeric.
      *
-     * @param int|null $multiplierFactorNumeric Must be non-negative.
-     * @return self
+     * @param  int|null  $multiplierFactorNumeric  Must be non-negative.
+     *
      * @throws InvalidArgumentException
      */
     public function setMultiplierFactorNumeric(?int $multiplierFactorNumeric): self
@@ -133,13 +126,12 @@ class AllowanceCharge implements XmlSerializable
             throw new InvalidArgumentException('Multiplier factor numeric must be non-negative.');
         }
         $this->multiplierFactorNumeric = $multiplierFactorNumeric;
+
         return $this;
     }
 
     /**
      * Get the base amount.
-     *
-     * @return float|null
      */
     public function getBaseAmount(): ?float
     {
@@ -149,8 +141,8 @@ class AllowanceCharge implements XmlSerializable
     /**
      * Set the base amount.
      *
-     * @param float|null $baseAmount Must be non-negative.
-     * @return self
+     * @param  float|null  $baseAmount  Must be non-negative.
+     *
      * @throws InvalidArgumentException
      */
     public function setBaseAmount(?float $baseAmount): self
@@ -159,13 +151,12 @@ class AllowanceCharge implements XmlSerializable
             throw new InvalidArgumentException('Base amount must be non-negative.');
         }
         $this->baseAmount = $baseAmount;
+
         return $this;
     }
 
     /**
      * Get the amount.
-     *
-     * @return float|null
      */
     public function getAmount(): ?float
     {
@@ -175,8 +166,8 @@ class AllowanceCharge implements XmlSerializable
     /**
      * Set the amount.
      *
-     * @param float|null $amount Must be non-negative.
-     * @return self
+     * @param  float|null  $amount  Must be non-negative.
+     *
      * @throws InvalidArgumentException
      */
     public function setAmount(?float $amount): self
@@ -185,6 +176,7 @@ class AllowanceCharge implements XmlSerializable
             throw new InvalidArgumentException('Amount must be non-negative.');
         }
         $this->amount = $amount;
+
         return $this;
     }
 
@@ -200,9 +192,6 @@ class AllowanceCharge implements XmlSerializable
 
     /**
      * Set the tax category.
-     *
-     * @param TaxCategory|array|null $taxCategory
-     * @return self
      */
     public function setTaxCategory(TaxCategory|array|null $taxCategory): self
     {
@@ -211,13 +200,12 @@ class AllowanceCharge implements XmlSerializable
         } else {
             $this->taxCategory = $taxCategory;
         }
+
         return $this;
     }
 
     /**
      * Get the tax total.
-     *
-     * @return TaxTotal|null
      */
     public function getTaxTotal(): ?TaxTotal
     {
@@ -226,52 +214,49 @@ class AllowanceCharge implements XmlSerializable
 
     /**
      * Set the tax total.
-     *
-     * @param TaxTotal|null $taxTotal
-     * @return self
      */
     public function setTaxTotal(?TaxTotal $taxTotal): self
     {
         $this->taxTotal = $taxTotal;
+
         return $this;
     }
 
     /**
      * Serializes this object to XML.
      *
-     * @param Writer $writer The XML writer.
-     * @return void
+     * @param  Writer  $writer  The XML writer.
      */
     public function xmlSerialize(Writer $writer): void
     {
         // Write ChargeIndicator as "true" or "false"
         $writer->write([
-            Schema::CBC . 'ChargeIndicator' => $this->chargeIndicator ? 'true' : 'false',
+            Schema::CBC.'ChargeIndicator' => $this->chargeIndicator ? 'true' : 'false',
         ]);
 
         if ($this->allowanceChargeReasonCode !== null) {
             $writer->write([
-                Schema::CBC . 'AllowanceChargeReasonCode' => $this->allowanceChargeReasonCode,
+                Schema::CBC.'AllowanceChargeReasonCode' => $this->allowanceChargeReasonCode,
             ]);
         }
 
         if ($this->allowanceChargeReason !== null) {
             $writer->write([
-                Schema::CBC . 'AllowanceChargeReason' => $this->allowanceChargeReason,
+                Schema::CBC.'AllowanceChargeReason' => $this->allowanceChargeReason,
             ]);
         }
 
         if ($this->multiplierFactorNumeric !== null) {
             $writer->write([
-                Schema::CBC . 'MultiplierFactorNumeric' => $this->multiplierFactorNumeric,
+                Schema::CBC.'MultiplierFactorNumeric' => $this->multiplierFactorNumeric,
             ]);
         }
 
         if ($this->amount !== null) {
             $writer->write([
                 [
-                    'name'       => Schema::CBC . 'Amount',
-                    'value'      => number_format($this->amount, 2, '.', ''),
+                    'name' => Schema::CBC.'Amount',
+                    'value' => number_format($this->amount, 2, '.', ''),
                     'attributes' => [
                         'currencyID' => GeneratorInvoice::$currencyID,
                     ],
@@ -280,24 +265,24 @@ class AllowanceCharge implements XmlSerializable
         }
 
         if ($this->taxCategory !== null) {
-            foreach($this->taxCategory as $taxCategory){
+            foreach ($this->taxCategory as $taxCategory) {
                 $writer->write([
-                    Schema::CAC . 'TaxCategory' => $taxCategory
+                    Schema::CAC.'TaxCategory' => $taxCategory,
                 ]);
             }
         }
 
         if ($this->taxTotal !== null) {
             $writer->write([
-                Schema::CAC . 'TaxTotal' => $this->taxTotal,
+                Schema::CAC.'TaxTotal' => $this->taxTotal,
             ]);
         }
 
         if ($this->baseAmount !== null) {
             $writer->write([
                 [
-                    'name'       => Schema::CBC . 'BaseAmount',
-                    'value'      => number_format($this->baseAmount, 2, '.', ''),
+                    'name' => Schema::CBC.'BaseAmount',
+                    'value' => number_format($this->baseAmount, 2, '.', ''),
                     'attributes' => [
                         'currencyID' => GeneratorInvoice::$currencyID,
                     ],

@@ -14,5 +14,6 @@ namespace Saleh7\Zatca;
 final class UnitCode
 {
     public const UNIT = 'C62';
+
     public const PIECE = 'H87';
 }

@@ -2,9 +2,9 @@
 
 namespace Saleh7\Zatca;
 
-use Saleh7\Zatca\Exceptions\ZatcaStorageException;
 use DOMDocument;
 use Sabre\Xml\Service;
+use Saleh7\Zatca\Exceptions\ZatcaStorageException;
 
 /**
  * Class GeneratorInvoice

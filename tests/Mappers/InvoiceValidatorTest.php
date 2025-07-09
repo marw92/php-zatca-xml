@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 use Saleh7\Zatca\Mappers\Validators\InvoiceValidator;
 
@@ -10,9 +11,6 @@ use Saleh7\Zatca\Mappers\Validators\InvoiceValidator;
  */
 class InvoiceValidatorTest extends TestCase
 {
-    /**
-     * @var InvoiceValidator
-     */
     private InvoiceValidator $validator;
 
     /**
@@ -20,7 +18,7 @@ class InvoiceValidatorTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->validator = new InvoiceValidator();
+        $this->validator = new InvoiceValidator;
     }
 
     /**
@@ -29,75 +27,75 @@ class InvoiceValidatorTest extends TestCase
      * This test uses a sample invoice data array with all required fields
      * and expects that no exception is thrown during validation.
      */
-    public function testValidInvoiceData(): void
+    public function test_valid_invoice_data(): void
     {
         $data = [
-            'uuid'            => '123e4567-e89b-12d3-a456-426614174000',
-            'id'              => 'INV-001',
-            'issueDate'       => '2024-09-07',
-            'currencyCode'    => 'SAR',
+            'uuid' => '123e4567-e89b-12d3-a456-426614174000',
+            'id' => 'INV-001',
+            'issueDate' => '2024-09-07',
+            'currencyCode' => 'SAR',
             'taxCurrencyCode' => 'SAR',
-            'invoiceType'     => [
+            'invoiceType' => [
                 'invoice' => 'standard',
-                'type'    => 'invoice'
+                'type' => 'invoice',
             ],
             'supplier' => [
                 'registrationName' => 'Supplier Inc.',
-                'taxId'            => '1234567890',
-                'taxScheme'        => ['id' => 'VAT'],
-                'address'          => [
-                    'street'         => 'Main St',
+                'taxId' => '1234567890',
+                'taxScheme' => ['id' => 'VAT'],
+                'address' => [
+                    'street' => 'Main St',
                     'buildingNumber' => '123',
-                    'city'           => 'Riyadh',
-                    'postalZone'     => '12345',
-                    'country'        => 'SA'
-                ]
+                    'city' => 'Riyadh',
+                    'postalZone' => '12345',
+                    'country' => 'SA',
+                ],
             ],
             'customer' => [
                 'registrationName' => 'Customer LLC',
-                'taxId'            => '0987654321',
-                'taxScheme'        => ['id' => 'VAT'],
-                'address'          => [
-                    'street'         => 'Second St',
+                'taxId' => '0987654321',
+                'taxScheme' => ['id' => 'VAT'],
+                'address' => [
+                    'street' => 'Second St',
                     'buildingNumber' => '456',
-                    'city'           => 'Jeddah',
-                    'postalZone'     => '54321',
-                    'country'        => 'SA'
-                ]
+                    'city' => 'Jeddah',
+                    'postalZone' => '54321',
+                    'country' => 'SA',
+                ],
             ],
             'legalMonetaryTotal' => [
                 'lineExtensionAmount' => 100,
-                'taxExclusiveAmount'  => 100,
-                'taxInclusiveAmount'  => 115,
-                'payableAmount'       => 115
+                'taxExclusiveAmount' => 100,
+                'taxInclusiveAmount' => 115,
+                'payableAmount' => 115,
             ],
             'invoiceLines' => [
                 [
-                    'id'                => 1,
-                    'unitCode'          => 'PCE',
-                    'quantity'          => 2,
-                    'lineExtensionAmount'=> 200, // 100 * 2 = 200
+                    'id' => 1,
+                    'unitCode' => 'PCE',
+                    'quantity' => 2,
+                    'lineExtensionAmount' => 200, // 100 * 2 = 200
                     'item' => [
-                        'name'        => 'Product A',
+                        'name' => 'Product A',
                         'classifiedTaxCategory' => [
                             [
                                 'percent' => 15,
                                 'taxScheme' => [
-                                    'id' => 'VAT'
-                                ]
-                            ]
+                                    'id' => 'VAT',
+                                ],
+                            ],
                         ],
                     ],
                     'price' => [
-                        'amount'      => 100,
-                        'unitCode'    => 'PCE'
+                        'amount' => 100,
+                        'unitCode' => 'PCE',
                     ],
                     'taxTotal' => [
-                        'taxAmount'     => 30,
-                        'roundingAmount'=> 230  // 200 + 30 = 230
-                    ]
-                ]
-            ]
+                        'taxAmount' => 30,
+                        'roundingAmount' => 230,  // 200 + 30 = 230
+                    ],
+                ],
+            ],
         ];
 
         // Expect no exception during validation.
@@ -110,75 +108,75 @@ class InvoiceValidatorTest extends TestCase
      *
      * This test omits the 'uuid' field and expects an InvalidArgumentException.
      */
-    public function testMissingRequiredFieldThrowsException(): void
+    public function test_missing_required_field_throws_exception(): void
     {
         $data = [
             // 'uuid' is intentionally omitted
-            'id'              => 'INV-002',
-            'issueDate'       => '2024-09-07',
-            'currencyCode'    => 'SAR',
+            'id' => 'INV-002',
+            'issueDate' => '2024-09-07',
+            'currencyCode' => 'SAR',
             'taxCurrencyCode' => 'SAR',
-            'invoiceType'     => [
+            'invoiceType' => [
                 'invoice' => 'standard',
-                'type'    => 'invoice'
+                'type' => 'invoice',
             ],
             'supplier' => [
                 'registrationName' => 'Supplier Inc.',
-                'taxId'            => '1234567890',
-                'taxScheme'        => ['id' => 'VAT'],
-                'address'          => [
-                    'street'         => 'Main St',
+                'taxId' => '1234567890',
+                'taxScheme' => ['id' => 'VAT'],
+                'address' => [
+                    'street' => 'Main St',
                     'buildingNumber' => '123',
-                    'city'           => 'Riyadh',
-                    'postalZone'     => '12345',
-                    'country'        => 'SA'
-                ]
+                    'city' => 'Riyadh',
+                    'postalZone' => '12345',
+                    'country' => 'SA',
+                ],
             ],
             'customer' => [
                 'registrationName' => 'Customer LLC',
-                'taxId'            => '0987654321',
-                'taxScheme'        => ['id' => 'VAT'],
-                'address'          => [
-                    'street'         => 'Second St',
+                'taxId' => '0987654321',
+                'taxScheme' => ['id' => 'VAT'],
+                'address' => [
+                    'street' => 'Second St',
                     'buildingNumber' => '456',
-                    'city'           => 'Jeddah',
-                    'postalZone'     => '54321',
-                    'country'        => 'SA'
-                ]
+                    'city' => 'Jeddah',
+                    'postalZone' => '54321',
+                    'country' => 'SA',
+                ],
             ],
             'legalMonetaryTotal' => [
                 'lineExtensionAmount' => 100,
-                'taxExclusiveAmount'  => 100,
-                'taxInclusiveAmount'  => 115,
-                'payableAmount'       => 115
+                'taxExclusiveAmount' => 100,
+                'taxInclusiveAmount' => 115,
+                'payableAmount' => 115,
             ],
             'invoiceLines' => [
                 [
-                    'id'                => 1,
-                    'unitCode'          => 'PCE',
-                    'quantity'          => 2,
-                    'lineExtensionAmount'=> 200,
+                    'id' => 1,
+                    'unitCode' => 'PCE',
+                    'quantity' => 2,
+                    'lineExtensionAmount' => 200,
                     'item' => [
-                        'name'        => 'Product A',
+                        'name' => 'Product A',
                         'classifiedTaxCategory' => [
                             [
                                 'percent' => 15,
                                 'taxScheme' => [
-                                    'id' => 'VAT'
-                                ]
-                            ]
+                                    'id' => 'VAT',
+                                ],
+                            ],
                         ],
                     ],
                     'price' => [
-                        'amount'      => 100,
-                        'unitCode'    => 'PCE',
+                        'amount' => 100,
+                        'unitCode' => 'PCE',
                     ],
                     'taxTotal' => [
-                        'taxAmount'     => 30,
-                        'roundingAmount'=> 230
-                    ]
-                ]
-            ]
+                        'taxAmount' => 30,
+                        'roundingAmount' => 230,
+                    ],
+                ],
+            ],
         ];
 
         $this->expectException(\InvalidArgumentException::class);

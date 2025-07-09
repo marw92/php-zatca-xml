@@ -1,7 +1,8 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
-use Saleh7\Zatca\Mappers\InvoiceMapper;
 use Saleh7\Zatca\Invoice;
+use Saleh7\Zatca\Mappers\InvoiceMapper;
 
 /**
  * Class InvoiceMapperTest
@@ -11,9 +12,6 @@ use Saleh7\Zatca\Invoice;
  */
 class InvoiceMapperTest extends TestCase
 {
-    /**
-     * @var InvoiceMapper
-     */
     private InvoiceMapper $mapper;
 
     /**
@@ -21,7 +19,7 @@ class InvoiceMapperTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->mapper = new InvoiceMapper();
+        $this->mapper = new InvoiceMapper;
     }
 
     /**
@@ -30,7 +28,7 @@ class InvoiceMapperTest extends TestCase
      * This test uses a sample invoice array with all required fields and
      * verifies that the mapping returns an instance of Invoice.
      */
-    public function testMapToInvoiceWithValidData(): void
+    public function test_map_to_invoice_with_valid_data(): void
     {
         $invoiceData = [
             'uuid' => '3cf5ee18-ee25-44ea-a444-2c37ba7f28be',
@@ -46,30 +44,30 @@ class InvoiceMapperTest extends TestCase
                 'isNominal' => false,
                 'isExport' => false,
                 'isSummary' => false,
-                'isSelfBilled' => false
+                'isSelfBilled' => false,
             ],
             'additionalDocuments' => [
                 [
                     'id' => 'ICV',
-                    'uuid' => '10'
+                    'uuid' => '10',
                 ],
                 [
                     'id' => 'PIH',
                     'attachment' => [
                         'content' => 'dummyBase64Content',
                         'mimeCode' => 'base64',
-                        'mimeType' => 'text/plain'
-                    ]
+                        'mimeType' => 'text/plain',
+                    ],
                 ],
                 [
-                    'id' => 'QR'
-                ]
+                    'id' => 'QR',
+                ],
             ],
             'supplier' => [
                 'registrationName' => 'Maximum Speed Tech Supply',
                 'taxId' => '399999999900003',
                 'taxScheme' => [
-                    'id' => 'VAT'
+                    'id' => 'VAT',
                 ],
                 'identificationId' => '1010010000',
                 'identificationType' => 'CRN',
@@ -79,14 +77,14 @@ class InvoiceMapperTest extends TestCase
                     'subdivision' => 'Al-Murabba',
                     'city' => 'Riyadh',
                     'postalZone' => '23333',
-                    'country' => 'SA'
-                ]
+                    'country' => 'SA',
+                ],
             ],
             'customer' => [
                 'registrationName' => 'Fatoora Samples',
                 'taxId' => '399999999800003',
                 'taxScheme' => [
-                    'id' => 'VAT'
+                    'id' => 'VAT',
                 ],
                 'address' => [
                     'street' => 'Salah Al-Din',
@@ -94,11 +92,11 @@ class InvoiceMapperTest extends TestCase
                     'subdivision' => 'Al-Murooj',
                     'city' => 'Riyadh',
                     'postalZone' => '12222',
-                    'country' => 'SA'
-                ]
+                    'country' => 'SA',
+                ],
             ],
             'paymentMeans' => [
-                'code' => '10'
+                'code' => '10',
             ],
             'delivery' => [
                 'actualDeliveryDate' => '2022-09-07',
@@ -112,11 +110,11 @@ class InvoiceMapperTest extends TestCase
                         [
                             'percent' => 15,
                             'taxScheme' => [
-                                'id' => 'VAT'
-                            ]
-                        ]
-                    ]
-                ]
+                                'id' => 'VAT',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'taxTotal' => [
                 'taxAmount' => 0.6,
@@ -127,11 +125,11 @@ class InvoiceMapperTest extends TestCase
                         'taxCategory' => [
                             'percent' => 15,
                             'taxScheme' => [
-                                'id' => 'VAT'
-                            ]
-                        ]
-                    ]
-                ]
+                                'id' => 'VAT',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'legalMonetaryTotal' => [
                 'lineExtensionAmount' => 4,
@@ -139,7 +137,7 @@ class InvoiceMapperTest extends TestCase
                 'taxInclusiveAmount' => 4.60,
                 'prepaidAmount' => 0,
                 'payableAmount' => 4.60,
-                'allowanceTotalAmount' => 0
+                'allowanceTotalAmount' => 0,
             ],
             'invoiceLines' => [
                 [
@@ -153,9 +151,9 @@ class InvoiceMapperTest extends TestCase
                             [
                                 'percent' => 15,
                                 'taxScheme' => [
-                                    'id' => 'VAT'
-                                ]
-                            ]
+                                    'id' => 'VAT',
+                                ],
+                            ],
                         ],
                     ],
                     'price' => [
@@ -165,16 +163,16 @@ class InvoiceMapperTest extends TestCase
                             [
                                 'isCharge' => true,
                                 'reason' => 'discount',
-                                'amount' => 0.00
-                            ]
-                        ]
+                                'amount' => 0.00,
+                            ],
+                        ],
                     ],
                     'taxTotal' => [
                         'taxAmount' => 0.60,
-                        'roundingAmount' => 4.60
-                    ]
-                ]
-            ]
+                        'roundingAmount' => 4.60,
+                    ],
+                ],
+            ],
         ];
 
         // Map the invoice data to an Invoice object
@@ -182,7 +180,7 @@ class InvoiceMapperTest extends TestCase
 
         // Assert that the returned object is an instance of Invoice
         $this->assertInstanceOf(Invoice::class, $invoice);
-        
+
         // Additional assertions can be added to validate specific properties
     }
 
@@ -191,7 +189,7 @@ class InvoiceMapperTest extends TestCase
      *
      * This test verifies that an InvalidArgumentException is thrown when required data is missing.
      */
-    public function testMapToInvoiceWithInvalidDataThrowsException(): void
+    public function test_map_to_invoice_with_invalid_data_throws_exception(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->mapper->mapToInvoice([]); // Passing empty data should trigger validation error

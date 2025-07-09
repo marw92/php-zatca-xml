@@ -311,7 +311,7 @@ class Invoice implements XmlSerializable
         if (trim($languageID) === '') {
             throw new InvalidArgumentException('languageID cannot be empty.');
         }
-        
+
         $this->languageID = $languageID;
 
         return $this;

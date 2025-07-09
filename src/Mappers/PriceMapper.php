@@ -2,9 +2,9 @@
 
 namespace Saleh7\Zatca\Mappers;
 
-use Saleh7\Zatca\{
-    Price, AllowanceCharge, UnitCode
-};
+use Saleh7\Zatca\AllowanceCharge;
+use Saleh7\Zatca\Price;
+use Saleh7\Zatca\UnitCode;
 
 /**
  * Class PriceMapper

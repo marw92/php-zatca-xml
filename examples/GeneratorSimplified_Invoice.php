@@ -1,16 +1,38 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';
 
-use Saleh7\Zatca\{
-    SignatureInformation,UBLDocumentSignatures,ExtensionContent,UBLExtension,UBLExtensions,Signature,InvoiceType,AdditionalDocumentReference,
-    TaxScheme,PartyTaxScheme,Address,LegalEntity,Delivery,Party,PaymentMeans,TaxCategory,
-    AllowanceCharge,TaxSubTotal,TaxTotal,LegalMonetaryTotal,ClassifiedTaxCategory,Item,Price,InvoiceLine,
-    GeneratorInvoice,Invoice,UnitCode,OrderReference,BillingReference,Contract,Attachment
-};
+require __DIR__.'/../vendor/autoload.php';
+
+use Saleh7\Zatca\AdditionalDocumentReference;
+use Saleh7\Zatca\Address;
+use Saleh7\Zatca\AllowanceCharge;
+use Saleh7\Zatca\Attachment;
+use Saleh7\Zatca\ClassifiedTaxCategory;
+use Saleh7\Zatca\ExtensionContent;
+use Saleh7\Zatca\GeneratorInvoice;
+use Saleh7\Zatca\Invoice;
+use Saleh7\Zatca\InvoiceLine;
+use Saleh7\Zatca\InvoiceType;
+use Saleh7\Zatca\Item;
+use Saleh7\Zatca\LegalEntity;
+use Saleh7\Zatca\LegalMonetaryTotal;
+use Saleh7\Zatca\Party;
+use Saleh7\Zatca\PartyTaxScheme;
+use Saleh7\Zatca\PaymentMeans;
+use Saleh7\Zatca\Price;
+use Saleh7\Zatca\Signature;
+use Saleh7\Zatca\SignatureInformation;
+use Saleh7\Zatca\TaxCategory;
+use Saleh7\Zatca\TaxScheme;
+use Saleh7\Zatca\TaxSubTotal;
+use Saleh7\Zatca\TaxTotal;
+use Saleh7\Zatca\UBLDocumentSignatures;
+use Saleh7\Zatca\UBLExtension;
+use Saleh7\Zatca\UBLExtensions;
+use Saleh7\Zatca\UnitCode;
 
 // --- Signature Information & UBL Document Signatures ---
 $signatureInfo = (new SignatureInformation)
-    ->setReferencedSignatureID("urn:oasis:names:specification:ubl:signature:Invoice")
+    ->setReferencedSignatureID('urn:oasis:names:specification:ubl:signature:Invoice')
     ->setID('urn:oasis:names:specification:ubl:signature:1');
 
 $ublDocSignatures = (new UBLDocumentSignatures)
@@ -29,11 +51,11 @@ $ublExtensions = (new UBLExtensions)
 
 // --- Signature Default ---
 $signature = (new Signature)
-    ->setId("urn:oasis:names:specification:ubl:signature:Invoice")
-    ->setSignatureMethod("urn:oasis:names:specification:ubl:dsig:enveloped:xades");
+    ->setId('urn:oasis:names:specification:ubl:signature:Invoice')
+    ->setSignatureMethod('urn:oasis:names:specification:ubl:dsig:enveloped:xades');
 
 // --- Invoice Type ---
-$invoiceType = (new InvoiceType())
+$invoiceType = (new InvoiceType)
     ->setInvoice('simplified') // 'standard' or 'simplified'
     ->setInvoiceType('invoice') // 'invoice', 'debit', or 'credit', 'prepayment'
     ->setIsThirdParty(false) // Third-party transaction
@@ -43,123 +65,121 @@ $invoiceType = (new InvoiceType())
     ->setIsSelfBilled(false); // Self-billed invoice
 
 // add Attachment
-$attachment = (new Attachment())
+$attachment = (new Attachment)
     ->setBase64Content('NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ==',
-    'base64', 
-    'text/plain'
-);
+        'base64',
+        'text/plain'
+    );
 
 // --- Additional Document References ---
 $additionalDocs = [];
 
 // icv = Invoice counter value
-$additionalDocs[] = (new AdditionalDocumentReference())
+$additionalDocs[] = (new AdditionalDocumentReference)
     ->setId('ICV')
-    ->setUUID("10"); //Invoice counter value
+    ->setUUID('10'); // Invoice counter value
 
 // pih = Previous Invoice Hash
-$additionalDocs[] = (new AdditionalDocumentReference())
+$additionalDocs[] = (new AdditionalDocumentReference)
     ->setId('PIH')
     ->setAttachment($attachment); // Previous Invoice Hash
 
 // qr = QR Code Default
-$additionalDocs[] = (new AdditionalDocumentReference())
+$additionalDocs[] = (new AdditionalDocumentReference)
     ->setId('QR');
 
 // --- Tax Scheme & Party Tax Schemes ---
-$taxScheme = (new TaxScheme())
-    ->setId("VAT");
+$taxScheme = (new TaxScheme)
+    ->setId('VAT');
 
 // --- Legal Entity Company ---
-$legalEntityCompany = (new LegalEntity())
+$legalEntityCompany = (new LegalEntity)
     ->setRegistrationName('Maximum Speed Tech Supply');
 
 // --- Party Tax Scheme Company ---
-$partyTaxSchemeCompany = (new PartyTaxScheme())
+$partyTaxSchemeCompany = (new PartyTaxScheme)
     ->setTaxScheme($taxScheme)
     ->setCompanyId('399999999900003');
 
 // --- Address Company ---
-$addressCompany = (new Address())
+$addressCompany = (new Address)
     ->setStreetName('Prince Sultan')
-    ->setBuildingNumber("2322")
+    ->setBuildingNumber('2322')
     ->setCitySubdivisionName('Al-Murabba')
     ->setCityName('Riyadh')
     ->setPostalZone('23333')
     ->setCountry('SA');
 
- // --- Supplier Company ---
-$supplierCompany = (new Party())
-->setPartyIdentification("1010010000")
-->setPartyIdentificationId("CRN")
-->setLegalEntity($legalEntityCompany)
-->setPartyTaxScheme($partyTaxSchemeCompany)
-->setPostalAddress($addressCompany);
-
+// --- Supplier Company ---
+$supplierCompany = (new Party)
+    ->setPartyIdentification('1010010000')
+    ->setPartyIdentificationId('CRN')
+    ->setLegalEntity($legalEntityCompany)
+    ->setPartyTaxScheme($partyTaxSchemeCompany)
+    ->setPostalAddress($addressCompany);
 
 // --- Legal Entity Customer ---
-$legalEntityCustomer = (new LegalEntity())
+$legalEntityCustomer = (new LegalEntity)
     ->setRegistrationName('Fatoora Samples');
 
 // --- Party Tax Scheme Customer ---
-$partyTaxSchemeCustomer = (new PartyTaxScheme())
+$partyTaxSchemeCustomer = (new PartyTaxScheme)
     ->setTaxScheme($taxScheme)
     ->setCompanyId('399999999800003');
 
 // --- Address Customer ---
-$addressCustomer = (new Address())
+$addressCustomer = (new Address)
     ->setStreetName('Salah Al-Din')
-    ->setBuildingNumber("1111")
+    ->setBuildingNumber('1111')
     ->setCitySubdivisionName('Al-Murooj')
     ->setCityName('Riyadh')
     ->setPostalZone('12222')
     ->setCountry('SA');
 
 // --- Supplier Customer ---
-$supplierCustomer = (new Party())
+$supplierCustomer = (new Party)
     ->setLegalEntity($legalEntityCustomer)
     ->setPartyTaxScheme($partyTaxSchemeCustomer)
     ->setPostalAddress($addressCustomer);
 
 // --- Payment Means ---
-$paymentMeans = (new PaymentMeans())
-    ->setPaymentMeansCode("10");
-
+$paymentMeans = (new PaymentMeans)
+    ->setPaymentMeansCode('10');
 
 // --- array of Tax Category Discount ---
 $taxCategoryDiscount = [];
 
 // --- Tax Category Discount ---
-$taxCategoryDiscount[] = (new TaxCategory())
+$taxCategoryDiscount[] = (new TaxCategory)
     ->setPercent(15)
     ->setTaxScheme($taxScheme);
 
 // --- Allowance Charge (for Invoice Line) ---
 $allowanceCharges = [];
-$allowanceCharges[] = (new AllowanceCharge())
+$allowanceCharges[] = (new AllowanceCharge)
     ->setChargeIndicator(false)
     ->setAllowanceChargeReason('discount')
     ->setAmount(0.00)
-    ->setTaxCategory($taxCategoryDiscount);// Tax Category Discount
+    ->setTaxCategory($taxCategoryDiscount); // Tax Category Discount
 
 // --- Tax Category ---
-$taxCategorySubTotal = (new TaxCategory())
+$taxCategorySubTotal = (new TaxCategory)
     ->setPercent(15)
     ->setTaxScheme($taxScheme);
 
 // --- Tax Sub Total ---
-$taxSubTotal = (new TaxSubTotal())
+$taxSubTotal = (new TaxSubTotal)
     ->setTaxableAmount(4)
     ->setTaxAmount(0.6)
     ->setTaxCategory($taxCategorySubTotal);
 
 // --- Tax Total ---
-$taxTotal = (new TaxTotal())
+$taxTotal = (new TaxTotal)
     ->addTaxSubTotal($taxSubTotal)
     ->setTaxAmount(0.6);
 
 // --- Legal Monetary Total ---
-$legalMonetaryTotal = (new LegalMonetaryTotal())
+$legalMonetaryTotal = (new LegalMonetaryTotal)
     ->setLineExtensionAmount(4)// Total amount of the invoice
     ->setTaxExclusiveAmount(4) // Total amount without tax
     ->setTaxInclusiveAmount(4.60) // Total amount with tax
@@ -168,36 +188,36 @@ $legalMonetaryTotal = (new LegalMonetaryTotal())
     ->setAllowanceTotalAmount(0); // Total amount of allowances
 
 // --- Classified Tax Category ---
-$classifiedTax = (new ClassifiedTaxCategory())
+$classifiedTax = (new ClassifiedTaxCategory)
     ->setPercent(15)
     ->setTaxScheme($taxScheme);
 
 // --- Item (Product) ---
-$productItem = (new Item())
+$productItem = (new Item)
     ->setName('Product') // Product name
     ->setClassifiedTaxCategory($classifiedTax); // Classified tax category
 
 // --- Allowance Charge (for Price) ---
 $allowanceChargesPrice = [];
-$allowanceChargesPrice[] = (new AllowanceCharge())
+$allowanceChargesPrice[] = (new AllowanceCharge)
     ->setChargeIndicator(true)
     ->setAllowanceChargeReason('discount')
     ->setAmount(0.00);
 
 // --- Price ---
-$price = (new Price())
+$price = (new Price)
     ->setUnitCode(UnitCode::UNIT)
     ->setAllowanceCharges($allowanceChargesPrice)
     ->setPriceAmount(2);
 
 // --- Invoice Line Tax Total ---
-$lineTaxTotal = (new TaxTotal())
+$lineTaxTotal = (new TaxTotal)
     ->setTaxAmount(0.60)
     ->setRoundingAmount(4.60);
 
 // --- Invoice Line(s) ---
-$invoiceLine = (new InvoiceLine())
-    ->setUnitCode("PCE")
+$invoiceLine = (new InvoiceLine)
+    ->setUnitCode('PCE')
     ->setId(1)
     ->setItem($productItem)
     ->setLineExtensionAmount(4)
@@ -206,9 +226,8 @@ $invoiceLine = (new InvoiceLine())
     ->setInvoicedQuantity(2);
 $invoiceLines = [$invoiceLine];
 
-
 // Invoice
-$invoice = (new Invoice())
+$invoice = (new Invoice)
     ->setUBLExtensions($ublExtensions)
     ->setUUID('3cf5ee18-ee25-44ea-a444-2c37ba7f28be')
     ->setId('SME00023')
@@ -229,7 +248,6 @@ $invoice = (new Invoice())
     ->setInvoiceLines($invoiceLines)// Invoice lines
     ->setSignature($signature);
 
-
 try {
     // Generate the XML (default currency 'SAR')
     // Save the XML to an output file
@@ -237,6 +255,6 @@ try {
 
 } catch (\Exception $e) {
     // Log error message and exit
-    echo "An error occurred: " . $e->getMessage() . "\n";
+    echo 'An error occurred: '.$e->getMessage()."\n";
     exit(1);
 }

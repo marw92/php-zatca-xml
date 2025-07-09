@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -53,8 +54,6 @@ class InvoiceLine implements XmlSerializable
 
     /**
      * Get the invoice line ID.
-     *
-     * @return string|null
      */
     public function getId(): ?string
     {
@@ -64,8 +63,6 @@ class InvoiceLine implements XmlSerializable
     /**
      * Set the invoice line ID.
      *
-     * @param string|null $id
-     * @return self
      * @throws InvalidArgumentException if ID is empty.
      */
     public function setId(?string $id): self
@@ -74,13 +71,12 @@ class InvoiceLine implements XmlSerializable
             throw new InvalidArgumentException('Invoice line ID cannot be empty.');
         }
         $this->id = $id;
+
         return $this;
     }
 
     /**
      * Get the invoiced quantity.
-     *
-     * @return float|null
      */
     public function getInvoicedQuantity(): ?float
     {
@@ -90,8 +86,6 @@ class InvoiceLine implements XmlSerializable
     /**
      * Set the invoiced quantity.
      *
-     * @param float|null $invoicedQuantity
-     * @return self
      * @throws InvalidArgumentException if quantity is negative.
      */
     public function setInvoicedQuantity(?float $invoicedQuantity): self
@@ -100,13 +94,12 @@ class InvoiceLine implements XmlSerializable
             throw new InvalidArgumentException('Invoiced quantity must be non-negative.');
         }
         $this->invoicedQuantity = $invoicedQuantity;
+
         return $this;
     }
 
     /**
      * Get the line extension amount.
-     *
-     * @return float|null
      */
     public function getLineExtensionAmount(): ?float
     {
@@ -116,8 +109,6 @@ class InvoiceLine implements XmlSerializable
     /**
      * Set the line extension amount.
      *
-     * @param float|null $lineExtensionAmount
-     * @return self
      * @throws InvalidArgumentException if amount is negative.
      */
     public function setLineExtensionAmount(?float $lineExtensionAmount): self
@@ -126,6 +117,7 @@ class InvoiceLine implements XmlSerializable
             throw new InvalidArgumentException('Line extension amount must be non-negative.');
         }
         $this->lineExtensionAmount = $lineExtensionAmount;
+
         return $this;
     }
 
@@ -142,19 +134,17 @@ class InvoiceLine implements XmlSerializable
     /**
      * Set the allowance charges.
      *
-     * @param AllowanceCharge[]|null $allowanceCharges
-     * @return self
+     * @param  AllowanceCharge[]|null  $allowanceCharges
      */
     public function setAllowanceCharges(?array $allowanceCharges): self
     {
         $this->allowanceCharges = $allowanceCharges;
+
         return $this;
     }
 
     /**
      * Get the document reference.
-     *
-     * @return DocumentReference|null
      */
     public function getDocumentReference(): ?DocumentReference
     {
@@ -163,20 +153,16 @@ class InvoiceLine implements XmlSerializable
 
     /**
      * Set the document reference.
-     *
-     * @param DocumentReference|null $documentReference
-     * @return self
      */
     public function setDocumentReference(?DocumentReference $documentReference): self
     {
         $this->documentReference = $documentReference;
+
         return $this;
     }
 
     /**
      * Get the unit code.
-     *
-     * @return string
      */
     public function getUnitCode(): string
     {
@@ -186,8 +172,6 @@ class InvoiceLine implements XmlSerializable
     /**
      * Set the unit code.
      *
-     * @param string|null $unitCode
-     * @return self
      * @throws InvalidArgumentException if unit code is empty.
      */
     public function setUnitCode(?string $unitCode): self
@@ -196,13 +180,12 @@ class InvoiceLine implements XmlSerializable
             throw new InvalidArgumentException('Unit code cannot be empty.');
         }
         $this->unitCode = $unitCode ?? $this->unitCode;
+
         return $this;
     }
 
     /**
      * Get the tax total.
-     *
-     * @return TaxTotal|null
      */
     public function getTaxTotal(): ?TaxTotal
     {
@@ -211,20 +194,16 @@ class InvoiceLine implements XmlSerializable
 
     /**
      * Set the tax total.
-     *
-     * @param TaxTotal|null $taxTotal
-     * @return self
      */
     public function setTaxTotal(?TaxTotal $taxTotal): self
     {
         $this->taxTotal = $taxTotal;
+
         return $this;
     }
 
     /**
      * Get the note.
-     *
-     * @return string|null
      */
     public function getNote(): ?string
     {
@@ -234,8 +213,6 @@ class InvoiceLine implements XmlSerializable
     /**
      * Set the note.
      *
-     * @param string|null $note
-     * @return self
      * @throws InvalidArgumentException if note is provided as an empty string.
      */
     public function setNote(?string $note): self
@@ -244,13 +221,12 @@ class InvoiceLine implements XmlSerializable
             throw new InvalidArgumentException('Note cannot be empty if provided.');
         }
         $this->note = $note;
+
         return $this;
     }
 
     /**
      * Get the invoice period.
-     *
-     * @return InvoicePeriod|null
      */
     public function getInvoicePeriod(): ?InvoicePeriod
     {
@@ -259,20 +235,16 @@ class InvoiceLine implements XmlSerializable
 
     /**
      * Set the invoice period.
-     *
-     * @param InvoicePeriod|null $invoicePeriod
-     * @return self
      */
     public function setInvoicePeriod(?InvoicePeriod $invoicePeriod): self
     {
         $this->invoicePeriod = $invoicePeriod;
+
         return $this;
     }
 
     /**
      * Get the item.
-     *
-     * @return Item|null
      */
     public function getItem(): ?Item
     {
@@ -281,20 +253,16 @@ class InvoiceLine implements XmlSerializable
 
     /**
      * Set the item.
-     *
-     * @param Item $item
-     * @return self
      */
     public function setItem(Item $item): self
     {
         $this->item = $item;
+
         return $this;
     }
 
     /**
      * Get the price.
-     *
-     * @return Price|null
      */
     public function getPrice(): ?Price
     {
@@ -303,20 +271,16 @@ class InvoiceLine implements XmlSerializable
 
     /**
      * Set the price.
-     *
-     * @param Price|null $price
-     * @return self
      */
     public function setPrice(?Price $price): self
     {
         $this->price = $price;
+
         return $this;
     }
 
     /**
      * Get the accounting cost code.
-     *
-     * @return string|null
      */
     public function getAccountingCostCode(): ?string
     {
@@ -326,8 +290,6 @@ class InvoiceLine implements XmlSerializable
     /**
      * Set the accounting cost code.
      *
-     * @param string|null $accountingCostCode
-     * @return self
      * @throws InvalidArgumentException if provided as an empty string.
      */
     public function setAccountingCostCode(?string $accountingCostCode): self
@@ -336,13 +298,12 @@ class InvoiceLine implements XmlSerializable
             throw new InvalidArgumentException('Accounting cost code cannot be empty.');
         }
         $this->accountingCostCode = $accountingCostCode;
+
         return $this;
     }
 
     /**
      * Get the accounting cost.
-     *
-     * @return string|null
      */
     public function getAccountingCost(): ?string
     {
@@ -352,8 +313,6 @@ class InvoiceLine implements XmlSerializable
     /**
      * Set the accounting cost.
      *
-     * @param string|null $accountingCost
-     * @return self
      * @throws InvalidArgumentException if provided as an empty string.
      */
     public function setAccountingCost(?string $accountingCost): self
@@ -362,52 +321,52 @@ class InvoiceLine implements XmlSerializable
             throw new InvalidArgumentException('Accounting cost cannot be empty.');
         }
         $this->accountingCost = $accountingCost;
+
         return $this;
     }
 
     /**
      * XML serialize the invoice line.
      *
-     * @param Writer $writer The XML writer.
-     * @return void
+     * @param  Writer  $writer  The XML writer.
      */
     public function xmlSerialize(Writer $writer): void
     {
         // Write ID element
         $writer->write([
-            Schema::CBC . 'ID' => $this->id
+            Schema::CBC.'ID' => $this->id,
         ]);
 
         // Write Note element if provided
-        if (!empty($this->getNote())) {
+        if (! empty($this->getNote())) {
             $writer->write([
-                Schema::CBC . 'Note' => $this->getNote()
+                Schema::CBC.'Note' => $this->getNote(),
             ]);
         }
 
         // Write InvoicedQuantity and LineExtensionAmount elements with attributes
         $writer->write([
             [
-                'name'       => Schema::CBC . 'InvoicedQuantity',
-                'value'      => number_format($this->invoicedQuantity ?? 0, 6, '.', ''),
+                'name' => Schema::CBC.'InvoicedQuantity',
+                'value' => number_format($this->invoicedQuantity ?? 0, 6, '.', ''),
                 'attributes' => [
-                    'unitCode' => $this->unitCode
-                ]
+                    'unitCode' => $this->unitCode,
+                ],
             ],
             [
-                'name'       => Schema::CBC . 'LineExtensionAmount',
-                'value'      => number_format($this->lineExtensionAmount ?? 0, 2, '.', ''),
+                'name' => Schema::CBC.'LineExtensionAmount',
+                'value' => number_format($this->lineExtensionAmount ?? 0, 2, '.', ''),
                 'attributes' => [
-                    'currencyID' => GeneratorInvoice::$currencyID
-                ]
-            ]
+                    'currencyID' => GeneratorInvoice::$currencyID,
+                ],
+            ],
         ]);
 
         // Write each AllowanceCharge element if available
         if ($this->allowanceCharges !== null) {
             foreach ($this->allowanceCharges as $allowanceCharge) {
                 $writer->write([
-                    Schema::CAC . 'AllowanceCharge' => $allowanceCharge
+                    Schema::CAC.'AllowanceCharge' => $allowanceCharge,
                 ]);
             }
         }
@@ -415,51 +374,51 @@ class InvoiceLine implements XmlSerializable
         // Write DocumentReference element if available
         if ($this->documentReference !== null) {
             $writer->write([
-                Schema::CAC . 'DocumentReference' => $this->documentReference
+                Schema::CAC.'DocumentReference' => $this->documentReference,
             ]);
         }
 
         // Write AccountingCostCode if available
         if ($this->accountingCostCode !== null) {
             $writer->write([
-                Schema::CBC . 'AccountingCostCode' => $this->accountingCostCode
+                Schema::CBC.'AccountingCostCode' => $this->accountingCostCode,
             ]);
         }
 
         // Write AccountingCost if available
         if ($this->accountingCost !== null) {
             $writer->write([
-                Schema::CBC . 'AccountingCost' => $this->accountingCost
+                Schema::CBC.'AccountingCost' => $this->accountingCost,
             ]);
         }
 
         // Write InvoicePeriod element if available
         if ($this->invoicePeriod !== null) {
             $writer->write([
-                Schema::CAC . 'InvoicePeriod' => $this->invoicePeriod
+                Schema::CAC.'InvoicePeriod' => $this->invoicePeriod,
             ]);
         }
 
         // Write TaxTotal element if available
         if ($this->taxTotal !== null) {
             $writer->write([
-                Schema::CAC . 'TaxTotal' => $this->taxTotal
+                Schema::CAC.'TaxTotal' => $this->taxTotal,
             ]);
         }
 
         // Write Item element (mandatory)
         $writer->write([
-            Schema::CAC . 'Item' => $this->item,
+            Schema::CAC.'Item' => $this->item,
         ]);
 
         // Write Price element if available; otherwise output a null TaxScheme as fallback.
         if ($this->price !== null) {
             $writer->write([
-                Schema::CAC . 'Price' => $this->price
+                Schema::CAC.'Price' => $this->price,
             ]);
         } else {
             $writer->write([
-                Schema::CAC . 'TaxScheme' => null,
+                Schema::CAC.'TaxScheme' => null,
             ]);
         }
     }
