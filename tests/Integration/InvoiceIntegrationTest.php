@@ -1,5 +1,7 @@
 <?php
 
+namespace Saleh7\Zatca\Tests\Integration;
+
 use PHPUnit\Framework\TestCase;
 use Saleh7\Zatca\GeneratorInvoice;
 use Saleh7\Zatca\Mappers\InvoiceMapper;

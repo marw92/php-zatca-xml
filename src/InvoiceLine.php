@@ -25,8 +25,8 @@ class InvoiceLine implements XmlSerializable
     /** @var AllowanceCharge[]|null Array of allowance charge objects. */
     private ?array $allowanceCharges = null;
 
-    /** @var DocumentReference|null Document reference. */
-    private ?DocumentReference $documentReference = null;
+// todo
+//    private ?DocumentReference $documentReference = null;
 
     /** @var string Unit code (default 'MON'). */
     private string $unitCode = 'MON';
@@ -34,8 +34,8 @@ class InvoiceLine implements XmlSerializable
     /** @var TaxTotal|null Tax total details for the line. */
     private ?TaxTotal $taxTotal = null;
 
-    /** @var InvoicePeriod|null Invoice period. */
-    private ?InvoicePeriod $invoicePeriod = null;
+// todo
+//    private ?InvoicePeriod $invoicePeriod = null;
 
     /** @var string|null Note for the line. */
     private ?string $note = null;
@@ -144,22 +144,24 @@ class InvoiceLine implements XmlSerializable
     }
 
     /**
+     * todo
      * Get the document reference.
      */
-    public function getDocumentReference(): ?DocumentReference
-    {
-        return $this->documentReference;
-    }
+//    public function getDocumentReference(): ?DocumentReference
+//    {
+//        return $this->documentReference;
+//    }
 
     /**
+     * todo
      * Set the document reference.
      */
-    public function setDocumentReference(?DocumentReference $documentReference): self
-    {
-        $this->documentReference = $documentReference;
-
-        return $this;
-    }
+//    public function setDocumentReference(?DocumentReference $documentReference): self
+//    {
+//        $this->documentReference = $documentReference;
+//
+//        return $this;
+//    }
 
     /**
      * Get the unit code.
@@ -226,22 +228,24 @@ class InvoiceLine implements XmlSerializable
     }
 
     /**
+     * todo
      * Get the invoice period.
      */
-    public function getInvoicePeriod(): ?InvoicePeriod
-    {
-        return $this->invoicePeriod;
-    }
+//    public function getInvoicePeriod(): ?InvoicePeriod
+//    {
+//        return $this->invoicePeriod;
+//    }
 
     /**
+     * todo
      * Set the invoice period.
      */
-    public function setInvoicePeriod(?InvoicePeriod $invoicePeriod): self
-    {
-        $this->invoicePeriod = $invoicePeriod;
-
-        return $this;
-    }
+//    public function setInvoicePeriod(?InvoicePeriod $invoicePeriod): self
+//    {
+//        $this->invoicePeriod = $invoicePeriod;
+//
+//        return $this;
+//    }
 
     /**
      * Get the item.
@@ -372,11 +376,12 @@ class InvoiceLine implements XmlSerializable
         }
 
         // Write DocumentReference element if available
-        if ($this->documentReference !== null) {
-            $writer->write([
-                Schema::CAC.'DocumentReference' => $this->documentReference,
-            ]);
-        }
+// todo
+//        if ($this->documentReference !== null) {
+//            $writer->write([
+//                Schema::CAC.'DocumentReference' => $this->documentReference,
+//            ]);
+//        }
 
         // Write AccountingCostCode if available
         if ($this->accountingCostCode !== null) {
@@ -393,11 +398,12 @@ class InvoiceLine implements XmlSerializable
         }
 
         // Write InvoicePeriod element if available
-        if ($this->invoicePeriod !== null) {
-            $writer->write([
-                Schema::CAC.'InvoicePeriod' => $this->invoicePeriod,
-            ]);
-        }
+// todo
+//        if ($this->invoicePeriod !== null) {
+//            $writer->write([
+//                Schema::CAC.'InvoicePeriod' => $this->invoicePeriod,
+//            ]);
+//        }
 
         // Write TaxTotal element if available
         if ($this->taxTotal !== null) {

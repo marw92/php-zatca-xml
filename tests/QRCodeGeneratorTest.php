@@ -1,5 +1,7 @@
 <?php
 
+namespace Saleh7\Zatca\Tests;
+
 use PHPUnit\Framework\TestCase;
 use Saleh7\Zatca\Helpers\QRCodeGenerator;
 use Saleh7\Zatca\Tags\CertificateSignature;

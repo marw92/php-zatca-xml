@@ -1,5 +1,7 @@
 <?php
 
+namespace Saleh7\Zatca\Tests;
+
 use phpseclib3\Crypt\Common\PrivateKey;
 use phpseclib3\File\X509;
 use PHPUnit\Framework\TestCase;

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Saleh7\Zatca\Tests;
+
 use phpseclib3\Crypt\Common\PrivateKey;
 use phpseclib3\Crypt\Common\PublicKey;
 use PHPUnit\Framework\TestCase;
