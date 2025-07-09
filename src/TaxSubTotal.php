@@ -1,9 +1,10 @@
 <?php
+
 namespace Saleh7\Zatca;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
-use InvalidArgumentException;
 
 /**
  * Class TaxSubTotal
@@ -26,56 +27,47 @@ class TaxSubTotal implements XmlSerializable
 
     /**
      * Set the taxable amount.
-     *
-     * @param float|null $taxableAmount
-     * @return self
      */
     public function setTaxableAmount(?float $taxableAmount): self
     {
         $this->taxableAmount = $taxableAmount;
+
         return $this;
     }
 
     /**
      * Set the tax amount.
-     *
-     * @param float|null $taxAmount
-     * @return self
      */
     public function setTaxAmount(?float $taxAmount): self
     {
         $this->taxAmount = $taxAmount;
+
         return $this;
     }
 
     /**
      * Set the tax category.
-     *
-     * @param TaxCategory $taxCategory
-     * @return self
      */
     public function setTaxCategory(TaxCategory $taxCategory): self
     {
         $this->taxCategory = $taxCategory;
+
         return $this;
     }
 
     /**
      * Set the tax percentage.
-     *
-     * @param float|null $percent
-     * @return self
      */
     public function setPercent(?float $percent): self
     {
         $this->percent = $percent;
+
         return $this;
     }
 
     /**
      * Validates that the required data is present.
      *
-     * @return void
      * @throws InvalidArgumentException if taxableAmount, taxAmount, or taxCategory is missing.
      */
     public function validate(): void
@@ -94,8 +86,7 @@ class TaxSubTotal implements XmlSerializable
     /**
      * Serializes the TaxSubTotal object to XML.
      *
-     * @param Writer $writer The XML writer instance.
-     * @return void
+     * @param  Writer  $writer  The XML writer instance.
      */
     public function xmlSerialize(Writer $writer): void
     {
@@ -106,14 +97,14 @@ class TaxSubTotal implements XmlSerializable
         // Write TaxableAmount and TaxAmount elements
         $writer->write([
             [
-                'name' => Schema::CBC . 'TaxableAmount',
+                'name' => Schema::CBC.'TaxableAmount',
                 'value' => number_format($this->taxableAmount, 2, '.', ''),
                 'attributes' => [
                     'currencyID' => $currencyID,
                 ],
             ],
             [
-                'name' => Schema::CBC . 'TaxAmount',
+                'name' => Schema::CBC.'TaxAmount',
                 'value' => number_format($this->taxAmount, 2, '.', ''),
                 'attributes' => [
                     'currencyID' => $currencyID,
@@ -124,13 +115,13 @@ class TaxSubTotal implements XmlSerializable
         // Optionally write the Percent element
         if ($this->percent !== null) {
             $writer->write([
-                Schema::CBC . 'Percent' => $this->percent
+                Schema::CBC.'Percent' => $this->percent,
             ]);
         }
 
         // Write the TaxCategory element
         $writer->write([
-            Schema::CAC . 'TaxCategory' => $this->taxCategory
+            Schema::CAC.'TaxCategory' => $this->taxCategory,
         ]);
     }
 }

@@ -1,9 +1,10 @@
 <?php
+
 namespace Saleh7\Zatca;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
-use InvalidArgumentException;
 
 /**
  * Class UBLDocumentSignatures
@@ -17,21 +18,19 @@ class UBLDocumentSignatures implements XmlSerializable
 
     /**
      * Set the signature information.
-     *
-     * @param SignatureInformation $signatureInformation
-     * @return self
      */
     public function setSignatureInformation(SignatureInformation $signatureInformation): self
     {
         $this->signatureInformation = $signatureInformation;
+
         return $this;
     }
 
     /**
      * Serializes this object to XML.
      *
-     * @param Writer $writer The XML writer.
-     * @return void
+     * @param  Writer  $writer  The XML writer.
+     *
      * @throws InvalidArgumentException if signature information is not set.
      */
     public function xmlSerialize(Writer $writer): void
@@ -40,7 +39,7 @@ class UBLDocumentSignatures implements XmlSerializable
             throw new InvalidArgumentException('Signature information must be set.');
         }
         $writer->write([
-            Schema::SAC . 'SignatureInformation' => $this->signatureInformation
+            Schema::SAC.'SignatureInformation' => $this->signatureInformation,
         ]);
     }
 }

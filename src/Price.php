@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -35,8 +36,6 @@ class Price implements XmlSerializable
     /**
      * Set the price amount.
      *
-     * @param float|null $priceAmount
-     * @return self
      * @throws InvalidArgumentException if price amount is negative.
      */
     public function setPriceAmount(?float $priceAmount): self
@@ -45,13 +44,12 @@ class Price implements XmlSerializable
             throw new InvalidArgumentException('Price amount must be non-negative.');
         }
         $this->priceAmount = $priceAmount;
+
         return $this;
     }
 
     /**
      * Get the price amount.
-     *
-     * @return float|null
      */
     public function getPriceAmount(): ?float
     {
@@ -61,8 +59,6 @@ class Price implements XmlSerializable
     /**
      * Set the base quantity.
      *
-     * @param float|null $baseQuantity
-     * @return self
      * @throws InvalidArgumentException if base quantity is negative.
      */
     public function setBaseQuantity(?float $baseQuantity): self
@@ -70,14 +66,14 @@ class Price implements XmlSerializable
         if ($baseQuantity !== null && $baseQuantity < 0) {
             throw new InvalidArgumentException('Base quantity must be non-negative.');
         }
+
         $this->baseQuantity = $baseQuantity;
+
         return $this;
     }
 
     /**
      * Get the base quantity.
-     *
-     * @return float|null
      */
     public function getBaseQuantity(): ?float
     {
@@ -87,8 +83,6 @@ class Price implements XmlSerializable
     /**
      * Set the unit code.
      *
-     * @param string|null $unitCode
-     * @return self
      * @throws InvalidArgumentException if unit code is empty.
      */
     public function setUnitCode(?string $unitCode): self
@@ -97,13 +91,12 @@ class Price implements XmlSerializable
             throw new InvalidArgumentException('Unit code cannot be empty.');
         }
         $this->unitCode = $unitCode ?? $this->unitCode;
+
         return $this;
     }
 
     /**
      * Get the unit code.
-     *
-     * @return string
      */
     public function getUnitCode(): string
     {
@@ -123,20 +116,20 @@ class Price implements XmlSerializable
     /**
      * Set the allowance charges.
      *
-     * @param AllowanceCharge[]|null $allowanceCharges
-     * @return self
+     * @param  AllowanceCharge[]|null  $allowanceCharges
      */
     public function setAllowanceCharges(?array $allowanceCharges): self
     {
         $this->allowanceCharges = $allowanceCharges;
+
         return $this;
     }
 
     /**
      * Serializes this object to XML.
      *
-     * @param Writer $writer The XML writer.
-     * @return void
+     * @param  Writer  $writer  The XML writer.
+     *
      * @throws InvalidArgumentException if price amount is not set.
      */
     public function xmlSerialize(Writer $writer): void
@@ -146,8 +139,8 @@ class Price implements XmlSerializable
         }
         $writer->write([
             [
-                'name'       => Schema::CBC . 'PriceAmount',
-                'value'      => number_format($this->priceAmount, 4, '.', ''),
+                'name' => Schema::CBC.'PriceAmount',
+                'value' => number_format($this->priceAmount, 4, '.', ''),
                 'attributes' => [
                     'currencyID' => GeneratorInvoice::$currencyID,
                 ],
@@ -155,8 +148,8 @@ class Price implements XmlSerializable
         ]);
         if ($this->baseQuantity !== null) {
             $writer->write([
-                'name'       => Schema::CBC . 'BaseQuantity',
-                'value'      => number_format($this->baseQuantity, 4, '.', ''),
+                'name' => Schema::CBC.'BaseQuantity',
+                'value' => number_format($this->baseQuantity, 4, '.', ''),
                 'attributes' => [
                     'unitCode' => $this->unitCode,
                 ],
@@ -165,7 +158,7 @@ class Price implements XmlSerializable
         if ($this->allowanceCharges !== null) {
             foreach ($this->allowanceCharges as $allowanceCharge) {
                 $writer->write([
-                    Schema::CAC . 'AllowanceCharge' => $allowanceCharge,
+                    Schema::CAC.'AllowanceCharge' => $allowanceCharge,
                 ]);
             }
         }

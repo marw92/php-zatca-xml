@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -33,8 +34,6 @@ class Item implements XmlSerializable
     /**
      * Set the item description.
      *
-     * @param string|null $description
-     * @return self
      * @throws InvalidArgumentException if provided description is an empty string.
      */
     public function setDescription(?string $description): self
@@ -43,13 +42,12 @@ class Item implements XmlSerializable
             throw new InvalidArgumentException('Description cannot be an empty string.');
         }
         $this->description = $description;
+
         return $this;
     }
 
     /**
      * Get the item description.
-     *
-     * @return string|null
      */
     public function getDescription(): ?string
     {
@@ -59,8 +57,6 @@ class Item implements XmlSerializable
     /**
      * Set the item name.
      *
-     * @param string|null $name
-     * @return self
      * @throws InvalidArgumentException if provided name is empty.
      */
     public function setName(?string $name): self
@@ -69,13 +65,12 @@ class Item implements XmlSerializable
             throw new InvalidArgumentException('Name cannot be empty.');
         }
         $this->name = $name;
+
         return $this;
     }
 
     /**
      * Get the item name.
-     *
-     * @return string|null
      */
     public function getName(): ?string
     {
@@ -84,20 +79,16 @@ class Item implements XmlSerializable
 
     /**
      * Set the standard item identification.
-     *
-     * @param string|null $standardItemIdentification
-     * @return self
      */
     public function setStandardItemIdentification(?string $standardItemIdentification): self
     {
         $this->standardItemIdentification = $standardItemIdentification;
+
         return $this;
     }
 
     /**
      * Get the standard item identification.
-     *
-     * @return string|null
      */
     public function getStandardItemIdentification(): ?string
     {
@@ -107,8 +98,6 @@ class Item implements XmlSerializable
     /**
      * Set the buyers item identification.
      *
-     * @param string|null $buyersItemIdentification
-     * @return self
      * @throws InvalidArgumentException if provided value is empty.
      */
     public function setBuyersItemIdentification(?string $buyersItemIdentification): self
@@ -116,14 +105,14 @@ class Item implements XmlSerializable
         if ($buyersItemIdentification !== null && trim($buyersItemIdentification) === '') {
             throw new InvalidArgumentException('Buyers item identification cannot be empty.');
         }
+
         $this->buyersItemIdentification = $buyersItemIdentification;
+
         return $this;
     }
 
     /**
      * Get the buyers item identification.
-     *
-     * @return string|null
      */
     public function getBuyersItemIdentification(): ?string
     {
@@ -133,8 +122,6 @@ class Item implements XmlSerializable
     /**
      * Set the sellers item identification.
      *
-     * @param string|null $sellersItemIdentification
-     * @return self
      * @throws InvalidArgumentException if provided value is empty.
      */
     public function setSellersItemIdentification(?string $sellersItemIdentification): self
@@ -142,14 +129,14 @@ class Item implements XmlSerializable
         if ($sellersItemIdentification !== null && trim($sellersItemIdentification) === '') {
             throw new InvalidArgumentException('Sellers item identification cannot be empty.');
         }
+
         $this->sellersItemIdentification = $sellersItemIdentification;
+
         return $this;
     }
 
     /**
      * Get the sellers item identification.
-     *
-     * @return string|null
      */
     public function getSellersItemIdentification(): ?string
     {
@@ -158,9 +145,6 @@ class Item implements XmlSerializable
 
     /**
      * Set the classified tax category.
-     *
-     * @param ClassifiedTaxCategory|array|null $classifiedTaxCategory
-     * @return self
      */
     public function setClassifiedTaxCategory(ClassifiedTaxCategory|array|null $classifiedTaxCategory): self
     {
@@ -169,13 +153,12 @@ class Item implements XmlSerializable
         } else {
             $this->classifiedTaxCategory = $classifiedTaxCategory;
         }
+
         return $this;
     }
 
     /**
      * Get the classified tax category.
-     *
-     * @return array|null
      */
     public function getClassifiedTaxCategory(): ?array
     {
@@ -185,55 +168,54 @@ class Item implements XmlSerializable
     /**
      * Serializes this object to XML.
      *
-     * @param Writer $writer The XML writer.
-     * @return void
+     * @param  Writer  $writer  The XML writer.
      */
     public function xmlSerialize(Writer $writer): void
     {
         // Write mandatory Name element.
         $writer->write([
-            Schema::CBC . 'Name' => $this->name,
+            Schema::CBC.'Name' => $this->name,
         ]);
 
         // Write Description element if provided.
         if ($this->description !== null) {
             $writer->write([
-                Schema::CBC . 'Description' => $this->description,
+                Schema::CBC.'Description' => $this->description,
             ]);
         }
 
         // Write StandardItemIdentification element if provided.
-        if (!empty($this->getStandardItemIdentification())) {
+        if (! empty($this->getStandardItemIdentification())) {
             $writer->write([
-                Schema::CAC . 'StandardItemIdentification' => [
-                    Schema::CBC . 'ID' => $this->standardItemIdentification,
+                Schema::CAC.'StandardItemIdentification' => [
+                    Schema::CBC.'ID' => $this->standardItemIdentification,
                 ],
             ]);
         }
 
         // Write BuyersItemIdentification element if provided.
-        if (!empty($this->buyersItemIdentification)) {
+        if (! empty($this->buyersItemIdentification)) {
             $writer->write([
-                Schema::CAC . 'BuyersItemIdentification' => [
-                    Schema::CBC . 'ID' => $this->buyersItemIdentification,
+                Schema::CAC.'BuyersItemIdentification' => [
+                    Schema::CBC.'ID' => $this->buyersItemIdentification,
                 ],
             ]);
         }
 
         // Write SellersItemIdentification element if provided.
-        if (!empty($this->sellersItemIdentification)) {
+        if (! empty($this->sellersItemIdentification)) {
             $writer->write([
-                Schema::CAC . 'SellersItemIdentification' => [
-                    Schema::CBC . 'ID' => $this->sellersItemIdentification,
+                Schema::CAC.'SellersItemIdentification' => [
+                    Schema::CBC.'ID' => $this->sellersItemIdentification,
                 ],
             ]);
         }
 
         // Write ClassifiedTaxCategory element if provided.
-        if (!empty($this->classifiedTaxCategory)) {
-            foreach($this->classifiedTaxCategory as $classifiedTaxCategory){
+        if (! empty($this->classifiedTaxCategory)) {
+            foreach ($this->classifiedTaxCategory as $classifiedTaxCategory) {
                 $writer->write([
-                    Schema::CAC . 'ClassifiedTaxCategory' => $classifiedTaxCategory
+                    Schema::CAC.'ClassifiedTaxCategory' => $classifiedTaxCategory,
                 ]);
             }
         }

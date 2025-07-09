@@ -1,9 +1,10 @@
 <?php
+
 namespace Saleh7\Zatca;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
-use InvalidArgumentException;
 
 /**
  * Class OrderReference
@@ -21,8 +22,6 @@ class OrderReference implements XmlSerializable
     /**
      * Set the order reference identifier.
      *
-     * @param string $id
-     * @return self
      * @throws InvalidArgumentException if the provided ID is empty.
      */
     public function setId(string $id): self
@@ -31,14 +30,13 @@ class OrderReference implements XmlSerializable
             throw new InvalidArgumentException('Order reference ID cannot be empty.');
         }
         $this->id = $id;
+
         return $this;
     }
 
     /**
      * Set the sales order identifier.
      *
-     * @param string $salesOrderId
-     * @return self
      * @throws InvalidArgumentException if the provided SalesOrderID is empty.
      */
     public function setSalesOrderId(string $salesOrderId): self
@@ -47,25 +45,23 @@ class OrderReference implements XmlSerializable
             throw new InvalidArgumentException('Sales order ID cannot be empty.');
         }
         $this->salesOrderId = $salesOrderId;
+
         return $this;
     }
 
     /**
      * Serializes this object to XML.
-     *
-     * @param Writer $writer
-     * @return void
      */
     public function xmlSerialize(Writer $writer): void
     {
         if ($this->id !== null) {
             $writer->write([
-                Schema::CBC . 'ID' => $this->id
+                Schema::CBC.'ID' => $this->id,
             ]);
         }
         if ($this->salesOrderId !== null) {
             $writer->write([
-                Schema::CBC . 'SalesOrderID' => $this->salesOrderId
+                Schema::CBC.'SalesOrderID' => $this->salesOrderId,
             ]);
         }
     }

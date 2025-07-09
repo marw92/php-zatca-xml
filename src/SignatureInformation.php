@@ -1,9 +1,10 @@
 <?php
+
 namespace Saleh7\Zatca;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
-use InvalidArgumentException;
 
 /**
  * Class SignatureInformation
@@ -21,8 +22,6 @@ class SignatureInformation implements XmlSerializable
     /**
      * Set the signature identifier.
      *
-     * @param string $id
-     * @return self
      * @throws InvalidArgumentException if $id is empty.
      */
     public function setID(string $id): self
@@ -31,14 +30,13 @@ class SignatureInformation implements XmlSerializable
             throw new InvalidArgumentException('Signature ID cannot be empty.');
         }
         $this->id = $id;
+
         return $this;
     }
 
     /**
      * Set the referenced signature identifier.
      *
-     * @param string $referencedSignatureID
-     * @return self
      * @throws InvalidArgumentException if $referencedSignatureID is empty.
      */
     public function setReferencedSignatureID(string $referencedSignatureID): self
@@ -47,20 +45,20 @@ class SignatureInformation implements XmlSerializable
             throw new InvalidArgumentException('Referenced Signature ID cannot be empty.');
         }
         $this->referencedSignatureID = $referencedSignatureID;
+
         return $this;
     }
 
     /**
      * Serializes this object to XML.
      *
-     * @param Writer $writer The XML writer.
-     * @return void
+     * @param  Writer  $writer  The XML writer.
      */
     public function xmlSerialize(Writer $writer): void
     {
         $writer->write([
-            [ Schema::CBC . 'ID' => $this->id ],
-            [ Schema::SBC . 'ReferencedSignatureID' => $this->referencedSignatureID ]
+            [Schema::CBC.'ID' => $this->id],
+            [Schema::SBC.'ReferencedSignatureID' => $this->referencedSignatureID],
         ]);
     }
 }

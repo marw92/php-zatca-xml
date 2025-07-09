@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -21,8 +22,6 @@ class PartyTaxScheme implements XmlSerializable
     /**
      * Set the company ID.
      *
-     * @param string|null $companyId
-     * @return self
      * @throws InvalidArgumentException if company ID is empty.
      */
     public function setCompanyId(?string $companyId): self
@@ -31,25 +30,23 @@ class PartyTaxScheme implements XmlSerializable
             throw new InvalidArgumentException('Company ID cannot be empty.');
         }
         $this->companyId = $companyId;
+
         return $this;
     }
 
     /**
      * Set the tax scheme.
-     *
-     * @param TaxScheme $taxScheme
-     * @return self
      */
     public function setTaxScheme(TaxScheme $taxScheme): self
     {
         $this->taxScheme = $taxScheme;
+
         return $this;
     }
 
     /**
      * Validate that the required data is set.
      *
-     * @return void
      * @throws InvalidArgumentException if the tax scheme is missing.
      */
     public function validate(): void
@@ -61,9 +58,6 @@ class PartyTaxScheme implements XmlSerializable
 
     /**
      * Serializes this object to XML.
-     *
-     * @param Writer $writer
-     * @return void
      */
     public function xmlSerialize(Writer $writer): void
     {
@@ -71,12 +65,12 @@ class PartyTaxScheme implements XmlSerializable
 
         if ($this->companyId !== null) {
             $writer->write([
-                Schema::CBC . 'CompanyID' => $this->companyId,
+                Schema::CBC.'CompanyID' => $this->companyId,
             ]);
         }
         if ($this->taxScheme !== null) {
             $writer->write([
-                Schema::CAC . 'TaxScheme' => $this->taxScheme,
+                Schema::CAC.'TaxScheme' => $this->taxScheme,
             ]);
         }
     }

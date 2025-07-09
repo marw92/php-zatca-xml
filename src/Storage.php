@@ -11,7 +11,7 @@ class Storage
     /**
      * Constructor to set base storage path.
      *
-     * @param string|null $basePath Root directory for storage. Set to null if you want to handle files with a full path.
+     * @param  string|null  $basePath  Root directory for storage. Set to null if you want to handle files with a full path.
      */
     public function __construct(?string $basePath = null)
     {
@@ -23,7 +23,7 @@ class Storage
     /**
      * Sets a global base storage path.
      *
-     * @param string $path The base directory.
+     * @param  string  $path  The base directory.
      */
     public static function setBasePath(string $path): void
     {
@@ -33,9 +33,10 @@ class Storage
     /**
      * Writes data to a file, creating directories if necessary.
      *
-     * @param string $path Relative or full path of the file.
-     * @param string $content Content to write.
+     * @param  string  $path  Relative or full path of the file.
+     * @param  string  $content  Content to write.
      * @return bool True if writing was successful, false otherwise.
+     *
      * @throws ZatcaStorageException If the file cannot be written.
      */
     public function put(string $path, string $content): bool
@@ -46,7 +47,7 @@ class Storage
         $this->ensureDirectoryExists($directory);
 
         if (file_put_contents($fullPath, $content) === false) {
-            throw new ZatcaStorageException("Failed to write to file.", [
+            throw new ZatcaStorageException('Failed to write to file.', [
                 'path' => $fullPath,
             ]);
         }
@@ -57,9 +58,10 @@ class Storage
     /**
      * Appends data to a file, creating directories if necessary.
      *
-     * @param string $path Relative or full path of the file.
-     * @param string $content Content to append.
+     * @param  string  $path  Relative or full path of the file.
+     * @param  string  $content  Content to append.
      * @return bool True if writing was successful, false otherwise.
+     *
      * @throws ZatcaStorageException If the file cannot be written.
      */
     public function append(string $path, string $content): bool
@@ -70,7 +72,7 @@ class Storage
         $this->ensureDirectoryExists($directory);
 
         if (file_put_contents($fullPath, $content, FILE_APPEND) === false) {
-            throw new ZatcaStorageException("Failed to append to file.", [
+            throw new ZatcaStorageException('Failed to append to file.', [
                 'path' => $fullPath,
             ]);
         }
@@ -81,16 +83,17 @@ class Storage
     /**
      * Reads content from a file.
      *
-     * @param string $path Relative or full path of the file.
+     * @param  string  $path  Relative or full path of the file.
      * @return string The file contents.
+     *
      * @throws ZatcaStorageException If the file does not exist or cannot be read.
      */
     public function get(string $path): string
     {
         $fullPath = $this->path($path);
 
-        if (!file_exists($fullPath)) {
-            throw new ZatcaStorageException("File not found.", [
+        if (! file_exists($fullPath)) {
+            throw new ZatcaStorageException('File not found.', [
                 'path' => $fullPath,
             ]);
         }
@@ -98,7 +101,7 @@ class Storage
         $content = file_get_contents($fullPath);
 
         if ($content === false) {
-            throw new ZatcaStorageException("Failed to read file.", [
+            throw new ZatcaStorageException('Failed to read file.', [
                 'path' => $fullPath,
             ]);
         }
@@ -109,10 +112,9 @@ class Storage
     /**
      * Checks if a file exists.
      *
-     * @param string $path Relative or full path of the file.
-     *
+     * @param  string  $path  Relative or full path of the file.
      * @return bool True if the file exists, false otherwise.
-     * @throws ZatcaStorageException
+     *
      */
     public function exists(string $path): bool
     {
@@ -122,13 +124,13 @@ class Storage
     /**
      * Returns the full path of a file.
      *
-     * @param string $file Relative or full path of the file.
+     * @param  string  $file  Relative or full path of the file.
      * @return string Absolute path to the file.
      */
     public function path(string $file): string
     {
         if (self::$basePath) {
-            return self::$basePath . DIRECTORY_SEPARATOR . $file;
+            return self::$basePath.DIRECTORY_SEPARATOR.$file;
         }
 
         return $file;
@@ -137,31 +139,33 @@ class Storage
     /**
      * Ensures the directory exists, creates it if needed.
      *
-     * @param string $path Directory path.
+     * @param  string  $path  Directory path.
+     *
      * @throws ZatcaStorageException If the directory cannot be created.
      */
     protected function ensureDirectoryExists(string $path): void
     {
-        if (!$path) {
+        if (! $path) {
             return;
         }
 
-        // If directory exists but is not writable, throw exception
+        // If a directory exists but is not writable, throw exception
         if (is_dir($path)) {
-            if (!is_writable($path)) {
+            if (! is_writable($path)) {
                 throw new ZatcaStorageException('Directory exists but is not writable.', ['path' => $path]);
             }
+
             return;
         }
 
         // Ensure the parent directory exists before creating the target directory
         $parentDir = dirname($path);
-        if (!is_dir($parentDir)) {
+        if (! is_dir($parentDir)) {
             $this->ensureDirectoryExists($parentDir); // Recursively create parent directories
         }
 
-        // If directory does not exist, attempt to create it
-        if (!is_dir($path) && !mkdir($path, 0755, true) && !is_dir($path)) {
+        // If a directory does not exist, attempt to create it
+        if (! is_dir($path) && ! mkdir($path, 0755, true) && ! is_dir($path)) {
             throw new ZatcaStorageException('Failed to create directory.', ['path' => $path]);
         }
     }

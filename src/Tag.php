@@ -4,9 +4,9 @@ namespace Saleh7\Zatca;
 
 class Tag
 {
-    protected $tag;
+    protected int $tag;
 
-    protected $value;
+    protected string $value;
 
     public function __construct($tag, $value)
     {
@@ -14,18 +14,12 @@ class Tag
         $this->value = $value;
     }
 
-    /**
-     * @return int
-     */
-    public function getTag()
+    public function getTag(): int
     {
         return $this->tag;
     }
 
-    /**
-     * @return string
-     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -33,9 +27,9 @@ class Tag
     /**
      * its important to get the number of bytes of a string instated of number of characters
      *
-     * @return false|int
+     * @return int
      */
-    public function getLength()
+    public function getLength(): int
     {
         return strlen($this->value);
     }
@@ -55,11 +49,10 @@ class Tag
      *
      * @param $value
      *
-     * @return false|string
+     * @return string
      */
-    protected function toHex($value)
+    protected function toHex($value): string
     {
-        return pack("H*", sprintf("%02X", $value));
+        return pack('H*', sprintf('%02X', $value));
     }
 }
-

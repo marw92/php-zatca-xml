@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -21,10 +22,10 @@ class LegalMonetaryTotal implements XmlSerializable
     /** @var float|null The tax inclusive amount. */
     private ?float $taxInclusiveAmount = null;
 
-    /** @var float The total allowance amount. Defaults to 0.0. */
+    /** @var ?float The total allowance amount. Defaults to 0.0. */
     private ?float $allowanceTotalAmount = null;
 
-    /** @var float The total charge amount. Defaults to 0.0. */
+    /** @var ?float The total charge amount. Defaults to 0.0. */
     private ?float $chargeTotalAmount = null;
 
     /** @var float|null The prepaid amount. */
@@ -37,8 +38,6 @@ class LegalMonetaryTotal implements XmlSerializable
 
     /**
      * Get the line extension amount.
-     *
-     * @return float|null
      */
     public function getLineExtensionAmount(): ?float
     {
@@ -47,8 +46,6 @@ class LegalMonetaryTotal implements XmlSerializable
 
     /**
      * Get the tax exclusive amount.
-     *
-     * @return float|null
      */
     public function getTaxExclusiveAmount(): ?float
     {
@@ -57,8 +54,6 @@ class LegalMonetaryTotal implements XmlSerializable
 
     /**
      * Get the tax inclusive amount.
-     *
-     * @return float|null
      */
     public function getTaxInclusiveAmount(): ?float
     {
@@ -67,8 +62,6 @@ class LegalMonetaryTotal implements XmlSerializable
 
     /**
      * Get the total allowance amount.
-     *
-     * @return float
      */
     public function getAllowanceTotalAmount(): float
     {
@@ -77,8 +70,6 @@ class LegalMonetaryTotal implements XmlSerializable
 
     /**
      * Get the charge total amount.
-     *
-     * @return float
      */
     public function getChargeTotalAmount(): float
     {
@@ -87,8 +78,6 @@ class LegalMonetaryTotal implements XmlSerializable
 
     /**
      * Get the prepaid amount.
-     *
-     * @return float|null
      */
     public function getPrepaidAmount(): ?float
     {
@@ -97,8 +86,6 @@ class LegalMonetaryTotal implements XmlSerializable
 
     /**
      * Get the payable amount.
-     *
-     * @return float|null
      */
     public function getPayableAmount(): ?float
     {
@@ -110,8 +97,6 @@ class LegalMonetaryTotal implements XmlSerializable
     /**
      * Set the line extension amount.
      *
-     * @param float|null $lineExtensionAmount
-     * @return self
      * @throws InvalidArgumentException if the amount is negative.
      */
     public function setLineExtensionAmount(?float $lineExtensionAmount): self
@@ -120,14 +105,13 @@ class LegalMonetaryTotal implements XmlSerializable
             throw new InvalidArgumentException('Line extension amount must be non-negative.');
         }
         $this->lineExtensionAmount = $lineExtensionAmount;
+
         return $this;
     }
 
     /**
      * Set the tax exclusive amount.
      *
-     * @param float|null $taxExclusiveAmount
-     * @return self
      * @throws InvalidArgumentException if the amount is negative.
      */
     public function setTaxExclusiveAmount(?float $taxExclusiveAmount): self
@@ -136,14 +120,13 @@ class LegalMonetaryTotal implements XmlSerializable
             throw new InvalidArgumentException('Tax exclusive amount must be non-negative.');
         }
         $this->taxExclusiveAmount = $taxExclusiveAmount;
+
         return $this;
     }
 
     /**
      * Set the tax inclusive amount.
      *
-     * @param float|null $taxInclusiveAmount
-     * @return self
      * @throws InvalidArgumentException if the amount is negative.
      */
     public function setTaxInclusiveAmount(?float $taxInclusiveAmount): self
@@ -152,14 +135,13 @@ class LegalMonetaryTotal implements XmlSerializable
             throw new InvalidArgumentException('Tax inclusive amount must be non-negative.');
         }
         $this->taxInclusiveAmount = $taxInclusiveAmount;
+
         return $this;
     }
 
     /**
      * Set the total allowance amount.
      *
-     * @param float|null $allowanceTotalAmount
-     * @return self
      * @throws InvalidArgumentException if the amount is negative.
      */
     public function setAllowanceTotalAmount(?float $allowanceTotalAmount): self
@@ -168,14 +150,13 @@ class LegalMonetaryTotal implements XmlSerializable
             throw new InvalidArgumentException('Allowance total amount must be non-negative.');
         }
         $this->allowanceTotalAmount = $allowanceTotalAmount ?? 0.0;
+
         return $this;
     }
 
     /**
      * Set the charge total amount.
      *
-     * @param float|null $chargeTotalAmount
-     * @return self
      * @throws InvalidArgumentException if the amount is negative.
      */
     public function setChargeTotalAmount(?float $chargeTotalAmount): self
@@ -183,15 +164,15 @@ class LegalMonetaryTotal implements XmlSerializable
         if ($chargeTotalAmount !== null && $chargeTotalAmount < 0) {
             throw new InvalidArgumentException('Charge total amount must be non-negative.');
         }
+
         $this->chargeTotalAmount = $chargeTotalAmount ?? 0.0;
+
         return $this;
     }
 
     /**
      * Set the prepaid amount.
      *
-     * @param float|null $prepaidAmount
-     * @return self
      * @throws InvalidArgumentException if the amount is negative.
      */
     public function setPrepaidAmount(?float $prepaidAmount): self
@@ -199,15 +180,15 @@ class LegalMonetaryTotal implements XmlSerializable
         if ($prepaidAmount !== null && $prepaidAmount < 0) {
             throw new InvalidArgumentException('Prepaid amount must be non-negative.');
         }
+
         $this->prepaidAmount = $prepaidAmount;
+
         return $this;
     }
 
     /**
      * Set the payable amount.
      *
-     * @param float|null $payableAmount
-     * @return self
      * @throws InvalidArgumentException if the amount is negative.
      */
     public function setPayableAmount(?float $payableAmount): self
@@ -215,7 +196,9 @@ class LegalMonetaryTotal implements XmlSerializable
         if ($payableAmount !== null && $payableAmount < 0) {
             throw new InvalidArgumentException('Payable amount must be non-negative.');
         }
+
         $this->payableAmount = $payableAmount;
+
         return $this;
     }
 
@@ -224,8 +207,7 @@ class LegalMonetaryTotal implements XmlSerializable
      *
      * The amounts are formatted to 2 decimal places and include a currency attribute.
      *
-     * @param Writer $writer The XML writer.
-     * @return void
+     * @param  Writer  $writer  The XML writer.
      */
     public function xmlSerialize(Writer $writer): void
     {
@@ -235,60 +217,60 @@ class LegalMonetaryTotal implements XmlSerializable
 
         if ($this->lineExtensionAmount !== null) {
             $elements[] = [
-                'name' => Schema::CBC . 'LineExtensionAmount',
+                'name' => Schema::CBC.'LineExtensionAmount',
                 'value' => number_format($this->lineExtensionAmount, 2, '.', ''),
                 'attributes' => ['currencyID' => $currencyID],
             ];
         }
-        
+
         if ($this->taxExclusiveAmount !== null) {
             $elements[] = [
-                'name' => Schema::CBC . 'TaxExclusiveAmount',
+                'name' => Schema::CBC.'TaxExclusiveAmount',
                 'value' => number_format($this->taxExclusiveAmount, 2, '.', ''),
                 'attributes' => ['currencyID' => $currencyID],
             ];
         }
-        
+
         if ($this->taxInclusiveAmount !== null) {
             $elements[] = [
-                'name' => Schema::CBC . 'TaxInclusiveAmount',
+                'name' => Schema::CBC.'TaxInclusiveAmount',
                 'value' => number_format($this->taxInclusiveAmount, 2, '.', ''),
                 'attributes' => ['currencyID' => $currencyID],
             ];
         }
-        
+
         if ($this->allowanceTotalAmount !== null) {
             $elements[] = [
-                'name' => Schema::CBC . 'AllowanceTotalAmount',
+                'name' => Schema::CBC.'AllowanceTotalAmount',
                 'value' => number_format($this->allowanceTotalAmount, 2, '.', ''),
                 'attributes' => ['currencyID' => $currencyID],
             ];
         }
-        
+
         if ($this->chargeTotalAmount !== null) {
             $elements[] = [
-                'name' => Schema::CBC . 'ChargeTotalAmount',
+                'name' => Schema::CBC.'ChargeTotalAmount',
                 'value' => number_format($this->chargeTotalAmount, 2, '.', ''),
                 'attributes' => ['currencyID' => $currencyID],
             ];
         }
-        
+
         if ($this->prepaidAmount !== null) {
             $elements[] = [
-                'name' => Schema::CBC . 'PrepaidAmount',
+                'name' => Schema::CBC.'PrepaidAmount',
                 'value' => number_format($this->prepaidAmount, 2, '.', ''),
                 'attributes' => ['currencyID' => $currencyID],
             ];
         }
-        
+
         if ($this->payableAmount !== null) {
             $elements[] = [
-                'name' => Schema::CBC . 'PayableAmount',
+                'name' => Schema::CBC.'PayableAmount',
                 'value' => number_format($this->payableAmount, 2, '.', ''),
                 'attributes' => ['currencyID' => $currencyID],
             ];
         }
-        
-        $writer->write($elements);        
+
+        $writer->write($elements);
     }
 }

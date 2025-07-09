@@ -1,9 +1,10 @@
 <?php
+
 namespace Saleh7\Zatca;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
-use InvalidArgumentException;
 
 /**
  * Class Signature
@@ -13,16 +14,14 @@ use InvalidArgumentException;
 class Signature implements XmlSerializable
 {
     /** @var string Signature identifier. */
-    private string $id = "urn:oasis:names:specification:ubl:signature:Invoice";
+    private string $id = 'urn:oasis:names:specification:ubl:signature:Invoice';
 
     /** @var string Signature method. */
-    private string $signatureMethod = "urn:oasis:names:specification:ubl:dsig:enveloped:xades";
+    private string $signatureMethod = 'urn:oasis:names:specification:ubl:dsig:enveloped:xades';
 
     /**
      * Set the signature identifier.
      *
-     * @param string $id
-     * @return self
      * @throws InvalidArgumentException if the provided ID is empty.
      */
     public function setId(string $id): self
@@ -31,14 +30,13 @@ class Signature implements XmlSerializable
             throw new InvalidArgumentException('Signature ID cannot be empty.');
         }
         $this->id = $id;
+
         return $this;
     }
 
     /**
      * Set the signature method.
      *
-     * @param string $method
-     * @return self
      * @throws InvalidArgumentException if the provided method is empty.
      */
     public function setSignatureMethod(string $method): self
@@ -47,20 +45,20 @@ class Signature implements XmlSerializable
             throw new InvalidArgumentException('Signature method cannot be empty.');
         }
         $this->signatureMethod = $method;
+
         return $this;
     }
 
     /**
      * Serializes this object to XML.
      *
-     * @param Writer $writer The XML writer instance.
-     * @return void
+     * @param  Writer  $writer  The XML writer instance.
      */
     public function xmlSerialize(Writer $writer): void
     {
         $writer->write([
-            Schema::CBC . "ID" => $this->id,
-            Schema::CBC . "SignatureMethod" => $this->signatureMethod,
+            Schema::CBC.'ID' => $this->id,
+            Schema::CBC.'SignatureMethod' => $this->signatureMethod,
         ]);
     }
 }

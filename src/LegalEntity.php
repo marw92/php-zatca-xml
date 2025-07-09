@@ -1,9 +1,10 @@
 <?php
+
 namespace Saleh7\Zatca;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
-use InvalidArgumentException;
 
 /**
  * Class LegalEntity
@@ -18,8 +19,6 @@ class LegalEntity implements XmlSerializable
     /**
      * Set the registration name.
      *
-     * @param string|null $registrationName
-     * @return self
      * @throws InvalidArgumentException if the registration name is an empty string.
      */
     public function setRegistrationName(?string $registrationName): self
@@ -28,13 +27,12 @@ class LegalEntity implements XmlSerializable
             throw new InvalidArgumentException('Registration name cannot be empty.');
         }
         $this->registrationName = $registrationName;
+
         return $this;
     }
 
     /**
      * Get the registration name.
-     *
-     * @return string|null
      */
     public function getRegistrationName(): ?string
     {
@@ -43,15 +41,12 @@ class LegalEntity implements XmlSerializable
 
     /**
      * Serializes this object to XML.
-     *
-     * @param Writer $writer
-     * @return void
      */
     public function xmlSerialize(Writer $writer): void
     {
         if ($this->registrationName !== null) {
             $writer->write([
-                Schema::CBC . 'RegistrationName' => $this->registrationName,
+                Schema::CBC.'RegistrationName' => $this->registrationName,
             ]);
         }
     }

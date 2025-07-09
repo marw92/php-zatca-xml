@@ -1,9 +1,10 @@
 <?php
+
 namespace Saleh7\Zatca;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
-use InvalidArgumentException;
 
 /**
  * Class UBLExtension
@@ -14,14 +15,12 @@ class UBLExtension implements XmlSerializable
 {
     /** @var string|null The extension URI. */
     private ?string $extensionURI = null;
-    
+
     /** @var ExtensionContent|null The extension content. */
     private ?ExtensionContent $extensionContent = null;
 
     /**
      * Get the extension URI.
-     *
-     * @return string|null
      */
     public function getExtensionURI(): ?string
     {
@@ -31,8 +30,6 @@ class UBLExtension implements XmlSerializable
     /**
      * Set the extension URI.
      *
-     * @param string $uri
-     * @return self
      * @throws InvalidArgumentException if $uri is empty.
      */
     public function setExtensionURI(string $uri): self
@@ -41,13 +38,12 @@ class UBLExtension implements XmlSerializable
             throw new InvalidArgumentException('Extension URI cannot be empty.');
         }
         $this->extensionURI = $uri;
+
         return $this;
     }
 
     /**
      * Get the extension content.
-     *
-     * @return ExtensionContent|null
      */
     public function getExtensionContent(): ?ExtensionContent
     {
@@ -56,21 +52,19 @@ class UBLExtension implements XmlSerializable
 
     /**
      * Set the extension content.
-     *
-     * @param ExtensionContent $extensionContent
-     * @return self
      */
     public function setExtensionContent(ExtensionContent $extensionContent): self
     {
         $this->extensionContent = $extensionContent;
+
         return $this;
     }
 
     /**
      * Serializes this object to XML.
      *
-     * @param Writer $writer The XML writer.
-     * @return void
+     * @param  Writer  $writer  The XML writer.
+     *
      * @throws InvalidArgumentException if extension URI or content is not set.
      */
     public function xmlSerialize(Writer $writer): void
@@ -84,11 +78,11 @@ class UBLExtension implements XmlSerializable
 
         $writer->write([
             [
-                'name'  => Schema::EXT . 'ExtensionURI',
+                'name' => Schema::EXT.'ExtensionURI',
                 'value' => $this->extensionURI,
             ],
             [
-                'name'  => Schema::EXT . 'ExtensionContent',
+                'name' => Schema::EXT.'ExtensionContent',
                 'value' => $this->extensionContent,
             ],
         ]);

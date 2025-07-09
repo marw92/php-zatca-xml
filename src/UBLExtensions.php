@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -28,40 +29,38 @@ class UBLExtensions implements XmlSerializable
     /**
      * Set the UBL extensions.
      *
-     * @param UBLExtension[] $UBLExtensions
-     * @return self
+     * @param  UBLExtension[]  $UBLExtensions
      */
     public function setUBLExtensions(array $UBLExtensions): self
     {
         $this->UBLExtensions = $UBLExtensions;
+
         return $this;
     }
 
     /**
      * Validates that UBLExtensions are set.
      *
-     * @return void
      * @throws InvalidArgumentException if UBLExtensions are not provided.
      */
     private function validate(): void
     {
         if (empty($this->UBLExtensions)) {
-            throw new InvalidArgumentException("Missing UBL Extension(s).");
+            throw new InvalidArgumentException('Missing UBL Extension(s).');
         }
     }
 
     /**
      * Serializes this object to XML.
      *
-     * @param Writer $writer The XML writer.
-     * @return void
+     * @param  Writer  $writer  The XML writer.
      */
     public function xmlSerialize(Writer $writer): void
     {
         $this->validate();
         foreach ($this->UBLExtensions as $UBLExtension) {
             $writer->write([
-                Schema::EXT . 'UBLExtension' => $UBLExtension
+                Schema::EXT.'UBLExtension' => $UBLExtension,
             ]);
         }
     }

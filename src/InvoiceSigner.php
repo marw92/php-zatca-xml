@@ -2,19 +2,24 @@
 
 namespace Saleh7\Zatca;
 
+use DOMException;
 use Saleh7\Zatca\Exceptions\ZatcaStorageException;
-use Saleh7\Zatca\Helpers\QRCodeGenerator;
 use Saleh7\Zatca\Helpers\Certificate;
 use Saleh7\Zatca\Helpers\InvoiceExtension;
 use Saleh7\Zatca\Helpers\InvoiceSignatureBuilder;
+use Saleh7\Zatca\Helpers\QRCodeGenerator;
 
 class InvoiceSigner
 {
-    private $signedInvoice;  // Signed invoice XML string
-    private $hash;           // Invoice hash (base64 encoded)
-    private $qrCode;         // QR Code (base64 encoded)
-    private $certificate;    // Certificate used for signing
-    private $digitalSignature; // Digital signature (base64 encoded)
+    private mixed $signedInvoice;  // Signed invoice XML string
+
+    private string $hash;           // Invoice hash (base64 encoded)
+
+    private string $qrCode;         // QR Code (base64 encoded)
+
+    private Certificate $certificate;    // Certificate used for signing
+
+    private mixed $digitalSignature; // Digital signature (base64 encoded)
 
     // Private constructor to force usage of signInvoice method
     private function __construct() {}
@@ -22,13 +27,14 @@ class InvoiceSigner
     /**
      * Signs the invoice XML and returns an InvoiceSigner object.
      *
-     * @param string      $xmlInvoice  Invoice XML as a string
+     * @param string $xmlInvoice Invoice XML as a string
      * @param Certificate $certificate Certificate for signing
-     * @return self
+     *
+     * @throws DOMException
      */
     public static function signInvoice(string $xmlInvoice, Certificate $certificate): self
     {
-        $instance = new self();
+        $instance = new self;
         $instance->certificate = $certificate;
 
         // Convert XML string to DOM
@@ -60,16 +66,15 @@ class InvoiceSigner
             $xmlDom->generateQrTagsArray($certificate, $instance->hash, $instance->digitalSignature)
         )->encodeBase64();
 
-
         // Insert UBL Extension and QR Code into the XML
         $signedInvoice = str_replace(
             [
-                "<cbc:ProfileID>",
+                '<cbc:ProfileID>',
                 '<cac:AccountingSupplierParty>',
             ],
             [
-                "<ext:UBLExtensions>" . $ublExtension . "</ext:UBLExtensions>" . PHP_EOL . "    <cbc:ProfileID>",
-                $instance->getQRNode($instance->qrCode) . PHP_EOL . "    <cac:AccountingSupplierParty>",
+                '<ext:UBLExtensions>'.$ublExtension.'</ext:UBLExtensions>'.PHP_EOL.'    <cbc:ProfileID>',
+                $instance->getQRNode($instance->qrCode).PHP_EOL.'    <cac:AccountingSupplierParty>',
             ],
             $xmlDom->toXml()
         );
@@ -83,21 +88,20 @@ class InvoiceSigner
     /**
      * Saves the signed invoice as an XML file.
      *
-     * @param string $filename (Optional) File path to save the XML.
-     * @param string|null $outputDir (Optional) Directory name. Set to null if $filename contains the full file path.
-     * @return self
+     * @param  string  $filename  (Optional) File path to save the XML.
+     * @param  string|null  $outputDir  (Optional) Directory name. Set to null if $filename contains the full file path.
+     *
      * @throws ZatcaStorageException If the XML file cannot be saved.
      */
     public function saveXMLFile(string $filename = 'signed_invoice.xml', ?string $outputDir = 'output'): self
     {
         (new Storage($outputDir))->put($filename, $this->signedInvoice);
+
         return $this;
     }
 
     /**
      * Get the signed XML string.
-     *
-     * @return string
      */
     public function getXML(): string
     {
@@ -106,9 +110,6 @@ class InvoiceSigner
 
     /**
      * Returns the QR node string.
-     *
-     * @param string $QRCode
-     * @return string
      */
     private function getQRNode(string $QRCode): string
     {
@@ -123,10 +124,9 @@ class InvoiceSigner
         <cbc:SignatureMethod>urn:oasis:names:specification:ubl:dsig:enveloped:xades</cbc:SignatureMethod>
     </cac:Signature>";
     }
+
     /**
      * Get signed invoice XML.
-     *
-     * @return string
      */
     public function getInvoice(): string
     {
@@ -135,8 +135,6 @@ class InvoiceSigner
 
     /**
      * Get invoice hash.
-     *
-     * @return string
      */
     public function getHash(): string
     {
@@ -145,8 +143,6 @@ class InvoiceSigner
 
     /**
      * Get QR Code.
-     *
-     * @return string
      */
     public function getQRCode(): string
     {
@@ -155,8 +151,6 @@ class InvoiceSigner
 
     /**
      * Get the certificate used for signing.
-     *
-     * @return Certificate
      */
     public function getCertificate(): Certificate
     {
