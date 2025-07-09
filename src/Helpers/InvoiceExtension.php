@@ -331,16 +331,16 @@ class InvoiceExtension
             $signatureValue = base64_encode($certificate->getPrivateKey()->sign(base64_decode($invoiceDigest)));
         }
 
-        $issueDate = $this->find("cbc:IssueDate")->toText();
-        $issueTime = $this->find("cbc:IssueTime")->toText();
+        $issueDate = $this->find("cbc:IssueDate")?->toText();
+        $issueTime = $this->find("cbc:IssueTime")?->toText();
         $issueTime = stripos($issueTime, 'Z') === false ? $issueTime . 'Z' : $issueTime;
 
         $qrTags = [
-            new Seller($this->find("cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName")->toText()),
-            new TaxNumber($this->find("cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID")->toText()),
+            new Seller($this->find("cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName")?->toText()),
+            new TaxNumber($this->find("cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID")?->toText()),
             new InvoiceDate($issueDate . 'T' . $issueTime),
-            new InvoiceTotalAmount($this->find("cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount")->toText()),
-            new InvoiceTaxAmount($this->find("cac:TaxTotal")->toText()),
+            new InvoiceTotalAmount($this->find("cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount")?->toText()),
+            new InvoiceTaxAmount($this->find("cac:TaxTotal")?->toText()),
             new InvoiceHash($invoiceDigest),
             new InvoiceDigitalSignature($signatureValue),
             new PublicKey(base64_decode($certificate->getRawPublicKey()))
