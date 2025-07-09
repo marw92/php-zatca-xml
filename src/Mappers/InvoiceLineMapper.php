@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca\Mappers;
 
 use Saleh7\Zatca\{
@@ -29,8 +30,8 @@ class InvoiceLineMapper
      */
     public function __construct()
     {
-        $this->itemMapper = new ItemMapper();
-        $this->priceMapper = new PriceMapper();
+        $this->itemMapper = new ItemMapper;
+        $this->priceMapper = new PriceMapper;
     }
 
     /**
@@ -50,7 +51,7 @@ class InvoiceLineMapper
      *   ]
      * ]
      *
-     * @param array $lines Array of invoice lines data.
+     * @param  array  $lines  Array of invoice lines data.
      * @return InvoiceLine[] Array of mapped InvoiceLine objects.
      */
     public function mapInvoiceLines(array $lines): array
@@ -64,9 +65,9 @@ class InvoiceLineMapper
             // Map line tax total data.
             $taxTotal = $this->mapLineTaxTotal($line['taxTotal'] ?? []);
             // Create and populate the InvoiceLine object.
-            $invoiceLine = (new InvoiceLine())
-                ->setUnitCode($line['unitCode'] ?? "PCE")
-                ->setId((string)($line['id'] ?? '1'))
+            $invoiceLine = (new InvoiceLine)
+                ->setUnitCode($line['unitCode'] ?? 'PCE')
+                ->setId((string) ($line['id'] ?? '1'))
                 ->setItem($item)
                 ->setLineExtensionAmount($line['lineExtensionAmount'] ?? 0)
                 ->setPrice($price)
@@ -74,6 +75,7 @@ class InvoiceLineMapper
                 ->setInvoicedQuantity($line['quantity'] ?? 0);
             $invoiceLines[] = $invoiceLine;
         }
+
         return $invoiceLines;
     }
 
@@ -86,12 +88,12 @@ class InvoiceLineMapper
      *   'roundingAmount' => (float)
      * ]
      *
-     * @param array $data Array of line tax total data.
+     * @param  array  $data  Array of line tax total data.
      * @return TaxTotal The mapped TaxTotal object.
      */
     private function mapLineTaxTotal(array $data): TaxTotal
     {
-        return (new TaxTotal())
+        return (new TaxTotal)
             ->setTaxAmount($data['taxAmount'] ?? 0)
             ->setRoundingAmount($data['roundingAmount'] ?? 0);
     }

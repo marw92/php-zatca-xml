@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca\Mappers;
 
 use Saleh7\Zatca\AdditionalDocumentReference;
@@ -29,25 +30,25 @@ class AdditionalDocumentMapper
     public function mapAdditionalDocuments(array $documents): array
     {
         $additionalDocs = [];
-        
+
         foreach ($documents as $doc) {
             // Ensure a valid document ID is provided
             $docId = $doc['id'] ?? '';
             if (empty($docId)) {
                 continue; // Skip documents without an ID
             }
-            
-            $docRef = new AdditionalDocumentReference();
+
+            $docRef = new AdditionalDocumentReference;
             $docRef->setId($docId);
-            
-            if (isset($doc['uuid']) && !empty($doc['uuid'])) {
+
+            if (! empty($doc['uuid'])) {
                 $docRef->setUUID($doc['uuid']);
             }
-            
+
             // If document ID is 'PIH', map the attachment if provided.
             if ($docId === 'PIH' && isset($doc['attachment']) && is_array($doc['attachment'])) {
                 $attachmentData = $doc['attachment'];
-                $attachment = (new Attachment())
+                $attachment = (new Attachment)
                     ->setBase64Content(
                         $attachmentData['content'] ?? '',
                         $attachmentData['mimeCode'] ?? 'base64',
@@ -55,10 +56,10 @@ class AdditionalDocumentMapper
                     );
                 $docRef->setAttachment($attachment);
             }
-            
+
             $additionalDocs[] = $docRef;
         }
-        
+
         // Append a default additional document reference for QR code if not already present.
         $qrExists = false;
         foreach ($additionalDocs as $docRef) {
@@ -67,10 +68,11 @@ class AdditionalDocumentMapper
                 break;
             }
         }
-        if (!$qrExists) {
-            $additionalDocs[] = (new AdditionalDocumentReference())->setId('QR');
+
+        if (! $qrExists) {
+            $additionalDocs[] = (new AdditionalDocumentReference)->setId('QR');
         }
-        
+
         return $additionalDocs;
     }
 }

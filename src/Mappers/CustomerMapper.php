@@ -32,30 +32,28 @@ class CustomerMapper
      *   "identificationType" => "IDType"          // optional
      * ]
      *
-     * @param array $data Customer data.
+     * @param  array  $data  Customer data.
      * @return Party The mapped customer as a Party object.
      */
     public function map(array $data): Party
     {
-
         if (empty($data)) {
-            return new Party();
+            return new Party;
         }
+
         // Map the TaxScheme for the customer.
-        $taxScheme = (new TaxScheme())
-            ->setId($data['taxScheme']['id'] ?? "VAT");
+        $taxScheme = (new TaxScheme)->setId($data['taxScheme']['id'] ?? 'VAT');
 
         // Map the LegalEntity for the customer.
-        $legalEntity = (new LegalEntity())
-            ->setRegistrationName($data['registrationName'] ?? '');
+        $legalEntity = (new LegalEntity)->setRegistrationName($data['registrationName'] ?? '');
 
         // Map the PartyTaxScheme for the customer.
-        $partyTaxScheme = (new PartyTaxScheme())
+        $partyTaxScheme = (new PartyTaxScheme)
             ->setTaxScheme($taxScheme)
             ->setCompanyId($data['taxId'] ?? '');
 
         // Map the Address for the customer.
-        $address = (new Address())
+        $address = (new Address)
             ->setStreetName($data['address']['street'] ?? '')
             ->setBuildingNumber($data['address']['buildingNumber'] ?? '')
             ->setCitySubdivisionName($data['address']['subdivision'] ?? '')
@@ -64,7 +62,7 @@ class CustomerMapper
             ->setCountry($data['address']['country'] ?? 'SA');
 
         // Create and populate the Party object.
-        $party = (new Party())
+        $party = (new Party)
             ->setLegalEntity($legalEntity)
             ->setPartyTaxScheme($partyTaxScheme)
             ->setPostalAddress($address);
@@ -72,10 +70,12 @@ class CustomerMapper
         // Set party identification if available.
         if (isset($data['identificationId'])) {
             $party->setPartyIdentification($data['identificationId']);
+
             if (isset($data['identificationType'])) {
                 $party->setPartyIdentificationId($data['identificationType']);
             }
         }
+
         return $party;
     }
 }
