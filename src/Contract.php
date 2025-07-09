@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -17,8 +18,6 @@ class Contract implements XmlSerializable
 
     /**
      * Get the contract identifier.
-     *
-     * @return string|null
      */
     public function getId(): ?string
     {
@@ -28,8 +27,6 @@ class Contract implements XmlSerializable
     /**
      * Set the contract identifier.
      *
-     * @param string $id
-     * @return self
      * @throws InvalidArgumentException if the id is empty.
      */
     public function setId(string $id): self
@@ -37,21 +34,20 @@ class Contract implements XmlSerializable
         if (trim($id) === '') {
             throw new InvalidArgumentException('Contract ID cannot be empty.');
         }
+
         $this->id = $id;
+
         return $this;
     }
 
     /**
      * Serializes this object to XML.
-     *
-     * @param Writer $writer
-     * @return void
      */
     public function xmlSerialize(Writer $writer): void
     {
         if ($this->id !== null) {
             $writer->write([
-                Schema::CBC . 'ID' => $this->id,
+                Schema::CBC.'ID' => $this->id,
             ]);
         }
     }

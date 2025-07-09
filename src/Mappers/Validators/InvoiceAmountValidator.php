@@ -16,7 +16,7 @@ use InvalidArgumentException;
  * - Each invoice line has valid numeric values for quantity, price, and line extension amounts,
  *   and that calculations (such as price * quantity) are consistent with the provided amounts.
  *
- * @package App\Services\Zatca\Saleh7\Mappers\Validators
+ * @package Saleh7\Zatca\Mappers\Validators
  */
 class InvoiceAmountValidator
 {

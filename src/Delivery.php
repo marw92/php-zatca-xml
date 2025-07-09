@@ -1,7 +1,9 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use DateTime;
+use Exception;
 use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
@@ -27,8 +29,6 @@ class Delivery implements XmlSerializable
      *
      * Accepts a DateTime instance or a date string (which will be converted to DateTime).
      *
-     * @param DateTime|string|null $actualDeliveryDate
-     * @return self
      * @throws InvalidArgumentException if the date string is invalid.
      */
     public function setActualDeliveryDate(DateTime|string|null $actualDeliveryDate): self
@@ -36,18 +36,17 @@ class Delivery implements XmlSerializable
         if (is_string($actualDeliveryDate)) {
             try {
                 $actualDeliveryDate = new DateTime($actualDeliveryDate);
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 throw new InvalidArgumentException('Invalid actual delivery date format.');
             }
         }
         $this->actualDeliveryDate = $actualDeliveryDate;
+
         return $this;
     }
 
     /**
      * Get the actual delivery date.
-     *
-     * @return DateTime|null
      */
     public function getActualDeliveryDate(): ?DateTime
     {
@@ -59,8 +58,6 @@ class Delivery implements XmlSerializable
      *
      * Accepts a DateTime instance or a date string (which will be converted to DateTime).
      *
-     * @param DateTime|string|null $latestDeliveryDate
-     * @return self
      * @throws InvalidArgumentException if the date string is invalid.
      */
     public function setLatestDeliveryDate(DateTime|string|null $latestDeliveryDate): self
@@ -68,18 +65,17 @@ class Delivery implements XmlSerializable
         if (is_string($latestDeliveryDate)) {
             try {
                 $latestDeliveryDate = new DateTime($latestDeliveryDate);
-            } catch (\Exception $e) {
+            } catch (Exception) {
                 throw new InvalidArgumentException('Invalid latest delivery date format.');
             }
         }
         $this->latestDeliveryDate = $latestDeliveryDate;
+
         return $this;
     }
 
     /**
      * Get the latest delivery date.
-     *
-     * @return DateTime|null
      */
     public function getLatestDeliveryDate(): ?DateTime
     {
@@ -88,20 +84,16 @@ class Delivery implements XmlSerializable
 
     /**
      * Set the delivery location.
-     *
-     * @param Address|null $deliveryLocation
-     * @return self
      */
     public function setDeliveryLocation(?Address $deliveryLocation): self
     {
         $this->deliveryLocation = $deliveryLocation;
+
         return $this;
     }
 
     /**
      * Get the delivery location.
-     *
-     * @return Address|null
      */
     public function getDeliveryLocation(): ?Address
     {
@@ -112,25 +104,22 @@ class Delivery implements XmlSerializable
      * Serializes this object to XML.
      *
      * Dates are formatted as 'Y-m-d'. Adjust the format if needed.
-     *
-     * @param Writer $writer
-     * @return void
      */
     public function xmlSerialize(Writer $writer): void
     {
         $data = [];
 
         if ($this->actualDeliveryDate !== null) {
-            $data[Schema::CBC . 'ActualDeliveryDate'] = $this->actualDeliveryDate->format('Y-m-d');
+            $data[Schema::CBC.'ActualDeliveryDate'] = $this->actualDeliveryDate->format('Y-m-d');
         }
 
         if ($this->latestDeliveryDate !== null) {
-            $data[Schema::CBC . 'LatestDeliveryDate'] = $this->latestDeliveryDate->format('Y-m-d');
+            $data[Schema::CBC.'LatestDeliveryDate'] = $this->latestDeliveryDate->format('Y-m-d');
         }
-        
+
         if ($this->deliveryLocation !== null) {
-            $data[Schema::CAC . 'DeliveryLocation'] = [
-                Schema::CAC . 'Address' => $this->deliveryLocation,
+            $data[Schema::CAC.'DeliveryLocation'] = [
+                Schema::CAC.'Address' => $this->deliveryLocation,
             ];
         }
 

@@ -1,9 +1,11 @@
 <?php
+
 namespace Saleh7\Zatca;
 
-use Sabre\Xml\Service;
 use Saleh7\Zatca\Exceptions\ZatcaStorageException;
 use DOMDocument;
+use Sabre\Xml\Service;
+
 /**
  * Class GeneratorInvoice
  *
@@ -23,21 +25,21 @@ class GeneratorInvoice
     /**
      * Generate the invoice XML.
      *
-     * @param Invoice $invoice The invoice object to serialize.
-     * @param string $currencyId Currency identifier. Default is 'SAR'.
+     * @param  Invoice  $invoice  The invoice object to serialize.
+     * @param  string  $currencyId  Currency identifier. Default is 'SAR'.
      * @return self The instance of GeneratorInvoice.
      */
     public static function invoice(Invoice $invoice, string $currencyId = 'SAR'): self
     {
-        $instance = new self();
+        $instance = new self;
         self::$currencyID = $currencyId;
 
-        $xmlService = new Service();
+        $xmlService = new Service;
         $xmlService->namespaceMap = [
             'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2' => '',
             'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2' => 'cac',
             'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2' => 'cbc',
-            'urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2' => 'ext'
+            'urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2' => 'ext',
         ];
 
         // Serialize the invoice object to XML.
@@ -52,7 +54,7 @@ class GeneratorInvoice
     /**
      * Format XML with proper indentation and convert 2-space indentation to 4-space indentation.
      *
-     * @param string $xml Unformatted XML string.
+     * @param  string  $xml  Unformatted XML string.
      * @return string Formatted XML string.
      */
     private static function formatXml(string $xml): string
@@ -71,24 +73,24 @@ class GeneratorInvoice
 
         return $formattedXml;
     }
+
     /**
      * Saves the generated invoice as an XML file.
      *
-     * @param string $filename (Optional) File path to save the XML.
-     * @param string|null $outputDir (Optional) Directory name. Set to null if $filename contains the full file path.
-     * @return self
+     * @param  string  $filename  (Optional) File path to save the XML.
+     * @param  string|null  $outputDir  (Optional) Directory name. Set to null if $filename contains the full file path.
+     *
      * @throws ZatcaStorageException If the XML file cannot be saved.
      */
     public function saveXMLFile(string $filename = 'unsigned_invoice.xml', ?string $outputDir = 'output'): self
     {
         (new Storage($outputDir))->put($filename, $this->generatedXml);
+
         return $this;
     }
 
     /**
      * Get the generated XML string.
-     *
-     * @return string
      */
     public function getXML(): string
     {

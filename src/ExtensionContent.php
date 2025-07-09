@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -17,20 +18,16 @@ class ExtensionContent implements XmlSerializable
 
     /**
      * Set the UBL document signatures.
-     *
-     * @param UBLDocumentSignatures $UBLDocumentSignatures
-     * @return self
      */
     public function setUBLDocumentSignatures(UBLDocumentSignatures $UBLDocumentSignatures): self
     {
         $this->UBLDocumentSignatures = $UBLDocumentSignatures;
+
         return $this;
     }
 
     /**
      * Get the UBL document signatures.
-     *
-     * @return UBLDocumentSignatures|null
      */
     public function getUBLDocumentSignatures(): ?UBLDocumentSignatures
     {
@@ -40,8 +37,6 @@ class ExtensionContent implements XmlSerializable
     /**
      * Serializes this object to XML.
      *
-     * @param Writer $writer
-     * @return void
      * @throws InvalidArgumentException if UBLDocumentSignatures is not set.
      */
     public function xmlSerialize(Writer $writer): void
@@ -51,7 +46,7 @@ class ExtensionContent implements XmlSerializable
         }
 
         $writer->write([
-            Schema::SIG . 'UBLDocumentSignatures' => $this->UBLDocumentSignatures,
+            Schema::SIG.'UBLDocumentSignatures' => $this->UBLDocumentSignatures,
         ]);
     }
 }

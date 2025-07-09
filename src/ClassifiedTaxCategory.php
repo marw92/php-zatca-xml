@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
@@ -42,23 +43,23 @@ class ClassifiedTaxCategory implements XmlSerializable
      * Get the tax category identifier.
      *
      * If not set, it is derived from the percent value.
-     *
-     * @return string|null
      */
     public function getId(): ?string
     {
-        if (!empty($this->id)) {
+        if (! empty($this->id)) {
             return $this->id;
         }
 
         if ($this->getPercent() !== null) {
             if ($this->getPercent() >= 15) {
                 return 'S';
-            } elseif ($this->getPercent() >= 6 && $this->getPercent() < 15) {
-                return 'AA';
-            } else {
-                return 'Z';
             }
+
+            if ($this->getPercent() >= 6) {
+                return 'AA';
+            }
+
+            return 'Z';
         }
 
         return null;
@@ -67,8 +68,6 @@ class ClassifiedTaxCategory implements XmlSerializable
     /**
      * Set the tax category identifier.
      *
-     * @param string|null $id
-     * @return self
      * @throws InvalidArgumentException if the provided ID is an empty string.
      */
     public function setId(?string $id): self
@@ -77,13 +76,12 @@ class ClassifiedTaxCategory implements XmlSerializable
             throw new InvalidArgumentException('Tax category ID cannot be empty.');
         }
         $this->id = $id;
+
         return $this;
     }
 
     /**
      * Get the tax category name.
-     *
-     * @return string|null
      */
     public function getName(): ?string
     {
@@ -92,9 +90,6 @@ class ClassifiedTaxCategory implements XmlSerializable
 
     /**
      * Set the tax category name.
-     *
-     * @param string|null $name
-     * @return self
      */
     public function setName(?string $name): self
     {
@@ -102,13 +97,12 @@ class ClassifiedTaxCategory implements XmlSerializable
             throw new InvalidArgumentException('Tax category name cannot be empty.');
         }
         $this->name = $name;
+
         return $this;
     }
 
     /**
      * Get the tax percentage.
-     *
-     * @return float|null
      */
     public function getPercent(): ?float
     {
@@ -118,8 +112,6 @@ class ClassifiedTaxCategory implements XmlSerializable
     /**
      * Set the tax percentage.
      *
-     * @param float|null $percent
-     * @return self
      * @throws InvalidArgumentException if the percentage is negative.
      */
     public function setPercent(?float $percent): self
@@ -128,13 +120,12 @@ class ClassifiedTaxCategory implements XmlSerializable
             throw new InvalidArgumentException('Tax percent must be non-negative.');
         }
         $this->percent = $percent;
+
         return $this;
     }
 
     /**
      * Get the tax scheme.
-     *
-     * @return TaxScheme|null
      */
     public function getTaxScheme(): ?TaxScheme
     {
@@ -143,20 +134,16 @@ class ClassifiedTaxCategory implements XmlSerializable
 
     /**
      * Set the tax scheme.
-     *
-     * @param TaxScheme|null $taxScheme
-     * @return self
      */
     public function setTaxScheme(?TaxScheme $taxScheme): self
     {
         $this->taxScheme = $taxScheme;
+
         return $this;
     }
 
     /**
      * Get the scheme ID.
-     *
-     * @return string|null
      */
     public function getSchemeID(): ?string
     {
@@ -165,23 +152,20 @@ class ClassifiedTaxCategory implements XmlSerializable
 
     /**
      * Set the scheme ID.
-     *
-     * @param string|null $schemeID
-     * @return self
      */
     public function setSchemeID(?string $schemeID): self
     {
         if ($schemeID !== null && trim($schemeID) === '') {
             throw new InvalidArgumentException('Scheme ID cannot be empty.');
         }
+
         $this->schemeID = $schemeID;
+
         return $this;
     }
 
     /**
      * Get the scheme name.
-     *
-     * @return string|null
      */
     public function getSchemeName(): ?string
     {
@@ -190,23 +174,20 @@ class ClassifiedTaxCategory implements XmlSerializable
 
     /**
      * Set the scheme name.
-     *
-     * @param string|null $schemeName
-     * @return self
      */
     public function setSchemeName(?string $schemeName): self
     {
         if ($schemeName !== null && trim($schemeName) === '') {
             throw new InvalidArgumentException('Scheme name cannot be empty.');
         }
+
         $this->schemeName = $schemeName;
+
         return $this;
     }
 
     /**
      * Get the tax exemption reason.
-     *
-     * @return string|null
      */
     public function getTaxExemptionReason(): ?string
     {
@@ -215,23 +196,20 @@ class ClassifiedTaxCategory implements XmlSerializable
 
     /**
      * Set the tax exemption reason.
-     *
-     * @param string|null $taxExemptionReason
-     * @return self
      */
     public function setTaxExemptionReason(?string $taxExemptionReason): self
     {
         if ($taxExemptionReason !== null && trim($taxExemptionReason) === '') {
             throw new InvalidArgumentException('Tax exemption reason cannot be empty.');
         }
+
         $this->taxExemptionReason = $taxExemptionReason;
+
         return $this;
     }
 
     /**
      * Get the tax exemption reason code.
-     *
-     * @return string|null
      */
     public function getTaxExemptionReasonCode(): ?string
     {
@@ -240,23 +218,21 @@ class ClassifiedTaxCategory implements XmlSerializable
 
     /**
      * Set the tax exemption reason code.
-     *
-     * @param string|null $taxExemptionReasonCode
-     * @return self
      */
     public function setTaxExemptionReasonCode(?string $taxExemptionReasonCode): self
     {
         if ($taxExemptionReasonCode !== null && trim($taxExemptionReasonCode) === '') {
             throw new InvalidArgumentException('Tax exemption reason code cannot be empty.');
         }
+
         $this->taxExemptionReasonCode = $taxExemptionReasonCode;
+
         return $this;
     }
 
     /**
      * Validates required data before XML serialization.
      *
-     * @return void
      * @throws InvalidArgumentException if required data is missing.
      */
     public function validate(): void
@@ -272,9 +248,6 @@ class ClassifiedTaxCategory implements XmlSerializable
 
     /**
      * Serializes this object to XML.
-     *
-     * @param Writer $writer
-     * @return void
      */
     public function xmlSerialize(Writer $writer): void
     {
@@ -290,29 +263,29 @@ class ClassifiedTaxCategory implements XmlSerializable
 
         $writer->write([
             [
-                'name'       => Schema::CBC . 'ID',
-                'value'      => $this->getId(),
+                'name' => Schema::CBC.'ID',
+                'value' => $this->getId(),
                 'attributes' => $schemeAttributes,
             ],
-            Schema::CBC . 'Percent' => number_format($this->percent, 2, '.', ''),
+            Schema::CBC.'Percent' => number_format($this->percent, 2, '.', ''),
         ]);
 
         if ($this->name !== null) {
             $writer->write([
-                Schema::CBC . 'Name' => $this->name,
+                Schema::CBC.'Name' => $this->name,
             ]);
         }
 
         if ($this->taxExemptionReasonCode !== null) {
             $writer->write([
-                Schema::CBC . 'TaxExemptionReasonCode' => $this->taxExemptionReasonCode,
-                Schema::CBC . 'TaxExemptionReason'     => $this->taxExemptionReason,
+                Schema::CBC.'TaxExemptionReasonCode' => $this->taxExemptionReasonCode,
+                Schema::CBC.'TaxExemptionReason' => $this->taxExemptionReason,
             ]);
         }
 
         if ($this->taxScheme !== null) {
             $writer->write([
-                Schema::CAC . 'TaxScheme' => $this->taxScheme,
+                Schema::CAC.'TaxScheme' => $this->taxScheme,
             ]);
         }
     }
