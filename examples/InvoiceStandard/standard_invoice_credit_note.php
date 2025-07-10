@@ -8,8 +8,8 @@ use Saleh7\Zatca\InvoiceSigner;
 use Saleh7\Zatca\Mappers\InvoiceMapper;
 
 $invoiceData = [
-    'uuid' => 'b51bd500-9081-4acf-9ae4-c266d569cb79',
-    'id' => '111222333-debit',
+    'uuid' => 'd51bd500-9081-4acf-9ae4-c266d569cb79',
+    'id' => '444555666-credit',
     'issueDate' => date('Y-m-d H:i:s'),
     'issueTime' => date('Y-m-d H:i:s'),
     'delivery' => [
@@ -20,8 +20,8 @@ $invoiceData = [
     'note' => 'Tax ID is 333333333333333 because a customer didnt provide it.',
     'languageID' => 'en',
     'invoiceType' => [
-        'invoice' => 'simplified',
-        'type' => 'debit',
+        'invoice' => 'standard',
+        'type' => 'credit',
         'isThirdParty' => false,
         'isNominal' => false,
         'isExport' => false,
@@ -30,7 +30,7 @@ $invoiceData = [
     ],
     'billingReferences' => [
         [
-            'id' => '111222333',
+            'id' => '444555666',
         ],
     ],
     'additionalDocuments' => [
@@ -196,8 +196,8 @@ $certificate = (new Certificate(
 ));
 $signedInvoice = InvoiceSigner::signInvoice($generatorInvoice->getXML(), $certificate);
 
-$generatorInvoice->saveXMLFile('Simplified_Debit_Note.xml');
-echo "Simplified Debit Generated Successfully\n";
+$generatorInvoice->saveXMLFile('Standard_Credit_Note.xml');
+echo "Standard Credit Note Generated Successfully\n";
 
-$signedInvoice->saveXMLFile('Simplified_Debit_Note_Signed.xml');
-echo "Simplified Debit Signed Successfully\n";
+$signedInvoice->saveXMLFile('Standard_Credit_Note_Signed.xml');
+echo "Standard Credit Note Signed Successfully\n";

@@ -198,5 +198,6 @@ $signedInvoice = InvoiceSigner::signInvoice($generatorInvoice->getXML(), $certif
 
 $generatorInvoice->saveXMLFile('Simplified_Credit_Note.xml');
 echo "Simplified Credit Generated Successfully\n";
+
 $signedInvoice->saveXMLFile('Simplified_Credit_Note_Signed.xml');
 echo "Simplified Credit Signed Successfully\n";
