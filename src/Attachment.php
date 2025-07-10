@@ -14,15 +14,15 @@ use function Sabre\Xml\Deserializer\mixedContent;
 
 class Attachment implements XmlDeserializable, XmlSerializable
 {
-    private ?string $filePath;
+    private ?string $filePath = null;
 
-    private ?string $externalReference;
+    private ?string $externalReference = null;
 
-    private ?string $base64Content;
+    private ?string $base64Content = null;
 
-    private string $fileName;
+    private string $fileName = '';
 
-    private ?string $mimeType;
+    private ?string $mimeType = null;
 
     /**
      * @throws Exception exception when the mime type cannot be determined

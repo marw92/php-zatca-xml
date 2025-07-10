@@ -8,8 +8,8 @@ use Saleh7\Zatca\InvoiceSigner;
 use Saleh7\Zatca\Mappers\InvoiceMapper;
 
 $invoiceData = [
-    'uuid' => 'b51bd500-9081-4acf-9ae4-c266d569cb77',
-    'id' => '111222333',
+    'uuid' => 'c51bd500-9081-4acf-9ae4-c266d569cb88',
+    'id' => '111222333-credit',
     'issueDate' => date('Y-m-d H:i:s'),
     'issueTime' => date('Y-m-d H:i:s'),
     'delivery' => [
@@ -21,12 +21,17 @@ $invoiceData = [
     'languageID' => 'en',
     'invoiceType' => [
         'invoice' => 'simplified',
-        'type' => 'invoice',
+        'type' => 'credit',
         'isThirdParty' => false,
         'isNominal' => false,
         'isExport' => false,
         'isSummary' => false,
         'isSelfBilled' => false,
+    ],
+    'billingReferences' => [
+        [
+            'id' => '111222333',
+        ],
     ],
     'additionalDocuments' => [
         [
@@ -68,6 +73,7 @@ $invoiceData = [
     ],
     'paymentMeans' => [
         'code' => '10', // cash
+        'note' => 'Items and/or services have been updated.',
     ],
     'allowanceCharges' => [
         [
@@ -180,17 +186,17 @@ $invoiceMapper = new InvoiceMapper;
 $invoice = $invoiceMapper->mapToInvoice($invoiceData);
 
 // Generate the invoice XML
-$outputXML = GeneratorInvoice::invoice($invoice)->saveXMLFile('Simplified_Invoice.xml');
-echo "Simplified Invoice Generated Successfully\n";
+$generatorInvoice = GeneratorInvoice::invoice($invoice);
 
-// get invoice.xml
-$xmlInvoice = file_get_contents('output/Simplified_Invoice.xml');
+// sign the invoice XML with the certificate
 $certificate = (new Certificate(
     'MIID3jCCA4SgAwIBAgITEQAAOAPF90Ajs/xcXwABAAA4AzAKBggqhkjOPQQDAjBiMRUwEwYKCZImiZPyLGQBGRYFbG9jYWwxEzARBgoJkiaJk/IsZAEZFgNnb3YxFzAVBgoJkiaJk/IsZAEZFgdleHRnYXp0MRswGQYDVQQDExJQUlpFSU5WT0lDRVNDQTQtQ0EwHhcNMjQwMTExMDkxOTMwWhcNMjkwMTA5MDkxOTMwWjB1MQswCQYDVQQGEwJTQTEmMCQGA1UEChMdTWF4aW11bSBTcGVlZCBUZWNoIFN1cHBseSBMVEQxFjAUBgNVBAsTDVJpeWFkaCBCcmFuY2gxJjAkBgNVBAMTHVRTVC04ODY0MzExNDUtMzk5OTk5OTk5OTAwMDAzMFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEoWCKa0Sa9FIErTOv0uAkC1VIKXxU9nPpx2vlf4yhMejy8c02XJblDq7tPydo8mq0ahOMmNo8gwni7Xt1KT9UeKOCAgcwggIDMIGtBgNVHREEgaUwgaKkgZ8wgZwxOzA5BgNVBAQMMjEtVFNUfDItVFNUfDMtZWQyMmYxZDgtZTZhMi0xMTE4LTliNTgtZDlhOGYxMWU0NDVmMR8wHQYKCZImiZPyLGQBAQwPMzk5OTk5OTk5OTAwMDAzMQ0wCwYDVQQMDAQxMTAwMREwDwYDVQQaDAhSUlJEMjkyOTEaMBgGA1UEDwwRU3VwcGx5IGFjdGl2aXRpZXMwHQYDVR0OBBYEFEX+YvmmtnYoDf9BGbKo7ocTKYK1MB8GA1UdIwQYMBaAFJvKqqLtmqwskIFzVvpP2PxT+9NnMHsGCCsGAQUFBwEBBG8wbTBrBggrBgEFBQcwAoZfaHR0cDovL2FpYTQuemF0Y2EuZ292LnNhL0NlcnRFbnJvbGwvUFJaRUludm9pY2VTQ0E0LmV4dGdhenQuZ292LmxvY2FsX1BSWkVJTlZPSUNFU0NBNC1DQSgxKS5jcnQwDgYDVR0PAQH/BAQDAgeAMDwGCSsGAQQBgjcVBwQvMC0GJSsGAQQBgjcVCIGGqB2E0PsShu2dJIfO+xnTwFVmh/qlZYXZhD4CAWQCARIwHQYDVR0lBBYwFAYIKwYBBQUHAwMGCCsGAQUFBwMCMCcGCSsGAQQBgjcVCgQaMBgwCgYIKwYBBQUHAwMwCgYIKwYBBQUHAwIwCgYIKoZIzj0EAwIDSAAwRQIhALE/ichmnWXCUKUbca3yci8oqwaLvFdHVjQrveI9uqAbAiA9hC4M8jgMBADPSzmd2uiPJA6gKR3LE03U75eqbC/rXA==',
     'MHQCAQEEIL14JV+5nr/sE8Sppaf2IySovrhVBtt8+yz+g4NRKyz8oAcGBSuBBAAKoUQDQgAEoWCKa0Sa9FIErTOv0uAkC1VIKXxU9nPpx2vlf4yhMejy8c02XJblDq7tPydo8mq0ahOMmNo8gwni7Xt1KT9UeA==',
     'secret'
 ));
+$signedInvoice = InvoiceSigner::signInvoice($generatorInvoice->getXML(), $certificate);
 
-// sign the invoice XML with the certificate
-InvoiceSigner::signInvoice($xmlInvoice, $certificate)->saveXMLFile('Simplified_Invoice_Signed.xml');
-echo "Simplified Invoice Signed Successfully\n";
+$generatorInvoice->saveXMLFile('Simplified_Credit_Note.xml');
+echo "Simplified Credit Generated Successfully\n";
+$signedInvoice->saveXMLFile('Simplified_Credit_Note_Signed.xml');
+echo "Simplified Credit Signed Successfully\n";
