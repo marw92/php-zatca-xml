@@ -13,7 +13,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-            php-version: '8.2'
+            php-version: '8.1'
             extensions: mbstring, xml, ctype, json, curl, openssl
 
       - name: Install Composer dependencies
@@ -22,8 +22,12 @@ jobs:
       - name: Generator Invoice
         run: |
           cd examples
-          php GeneratorStandard_Invoice.php
-          php SigningInvoices.php
+          php InvoiceSimplified/simplified_invoice.php
+          php InvoiceSimplified/simplified_debit_note.php
+          php InvoiceSimplified/simplified_credit_note.php
+          php InvoiceStandard/standard_invoice.php
+          php InvoiceStandard/standard_invoice_debit_note.php
+          php InvoiceStandard/standard_invoice_credit_note.php
 
       - name: ☕ Install OpenJDK 11.0.26
         run: |
@@ -86,6 +90,10 @@ jobs:
           cd ../Apps
           chmod +x fatoora
           # ✅ Validate Invoice using Fatoora
-          fatoora -validate -invoice ../../../examples/output/GeneratorSimplified_Invoice_Signed.xml
-          fatoora -validate -invoice ../../../examples/output/GeneratorStandard_Invoice_Signed.xml
+          fatoora -validate -invoice ../../../examples/output/Simplified_Invoice_Signed.xml
+          fatoora -validate -invoice ../../../examples/output/Simplified_Debit_Note_Signed.xml
+          fatoora -validate -invoice ../../../examples/output/Simplified_Credit_Note_Signed.xml
+          fatoora -validate -invoice ../../../examples/output/Standard_Invoice_Signed.xml
+          fatoora -validate -invoice ../../../examples/output/Standard_Debit_Note_Signed.xml
+          fatoora -validate -invoice ../../../examples/output/Standard_Credit_Note_Signed.xml
 
