@@ -20,12 +20,11 @@
     "authors": [
         {
             "name": "Saleh7",
-            "email": "Saleh7@protonmail.ch",
             "homepage": "https://github.com/Saleh7"
         },
         {
             "name": "sevaske",
-            "homepage": "https://github.com/evaske"
+            "homepage": "https://github.com/sevaske"
         }
     ],
     "minimum-stability": "stable",

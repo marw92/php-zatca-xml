@@ -1,16 +1,10 @@
 <p align="center">
-    <img src="https://i.imgur.com/hLSMzHU.png"  alt="php-zatca-xml">
-</p>
-
-
-<p align="center">
-<img src="https://badgen.net/packagist/php/sevaske/php-zatca-xml" alt="php Version">
+<img src="https://badgen.net/packagist/php/sevaske/php-zatca-xml" alt="php Vers ion">
 <a href="https://packagist.org/packages/sevaske/php-zatca-xml"><img alt="Packagist Stars" src="https://img.shields.io/packagist/stars/sevaske/php-zatca-xml"></a>
 <a href="https://packagist.org/packages/sevaske/php-zatca-xml"><img alt="Packagist Downloads" src="https://img.shields.io/packagist/dt/sevaske/php-zatca-xml"></a>
 <a href="https://packagist.org/packages/sevaske/php-zatca-xml"><img alt="Packagist Version" src="https://img.shields.io/packagist/v/sevaske/php-zatca-xml"></a>
 <a href="https://packagist.org/packages/sevaske/php-zatca-xml"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
 </p>
-
 
 <p align="center">
 Please feel free to <a href="https://github.com/sevaske/php-zatca-xml/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aopen"><strong>contribute</strong></a> if you are missing features or tags
@@ -18,11 +12,9 @@ Please feel free to <a href="https://github.com/sevaske/php-zatca-xml/pulls?q=so
 <a href="https://github.com/sevaske/php-zatca-xml/tree/main/examples">View Examples</a>
 ·
 <a href="https://github.com/sevaske/php-zatca-xml/issues">Report a bug</a>
-·
-<a href="https://github.com/sevaske/php-zatca-xml/issues">Request a feature</a>
 </p>
 
-# php-zatca-xml (Fork)
+# FORK!
 
 **Note:** The original author of the repository [Saleh7/php-zatca-xml](https://github.com/Saleh7/php-zatca-xml) has been inactive and unresponsive for several months.
 
@@ -30,13 +22,23 @@ This repository is a community-maintained fork with fixes and updates to keep th
 
 All changes and bug fixes are collected here to support users and continue development.
 
+**Namespaces:**  
+The original namespace `Saleh7\Zatca` has not been changed to maintain compatibility.
+
+**Future Merge:**  
+If the original author returns and resumes activity, we are open to merging all changes and improvements back into the original repository.
+
+**API Integration:**  
+API-related functionality has been refactored and moved to a separate library for better modularity and maintainability:  
+🔗 [sevaske/zatca-api](https://github.com/sevaske/zatca-api)
+
 Original project: [https://github.com/Saleh7/php-zatca-xml](https://github.com/Saleh7/php-zatca-xml)
+
 
 ## 📖 Introduction  
 
-**PHP-ZATCA-XML** is an unofficial PHP library for generating **ZATCA Fatoora** e-invoices. It simplifies the process of creating compliant e-invoices, generating QR codes, handling certificates, and submitting invoices to **ZATCA’s servers**.  
+This is an unofficial PHP library for generating ZATCA Fatoora e-invoices (simplified invoice, simplified credit note, simplified debit note, standard invoice, standard credit note, standard debit note), certificates, and for interacting with the API.  
 
-Designed for **easy integration**, this library provides developers with a **customizable, robust, and efficient toolkit** to automate the ZATCA e-invoicing process in PHP applications. 
 
 ## ✨ Features  
 
@@ -63,7 +65,11 @@ composer require sevaske/php-zatca-xml
 
 ## 🚀 Usage  
 
-This library simplifies the process of generating **ZATCA-compliant** e-invoices, handling **certificates**, signing invoices, and submitting them to **ZATCA’s API**. Below are the main usage examples:
+This library simplifies the process of generating **ZATCA-compliant** e-invoices, handling **certificates**, signing invoices, and submitting them to **ZATCA’s API**. 
+
+You can find working examples for generating and signing invoices and notes here:
+
+🔗 [examples](https://github.com/sevaske/php-zatca-xml/tree/main/examples)
 
 ---
 
@@ -342,7 +348,7 @@ Other examples you can find in the ./examples folder.
 
 ### 📤 **5. Submitting the Signed Invoice to ZATCA**  
 
-Once the invoice is **digitally signed**, it can be submitted to **ZATCA’s API** for compliance validation and clearance.  
+Once the invoice is **digitally signed**, it can be submitted to **ZATCA’s API** for compliance validation and clearance.
 
 
 ## Contributing
@@ -351,12 +357,6 @@ Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
-
-## 👨‍💻 Contributors
-
-<img src="https://github.com/sevaske.png" width="60px;"/><br /><sub><a href="https://github.com/sevaske">sevaske</a></sub>
-
-Thank you all for your continuous support and contributions!
 
 ## License
 
