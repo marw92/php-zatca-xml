@@ -34,9 +34,9 @@ subjectAltName = dirName:dir_sect
 [dir_sect]
 EOL;
 
-    private string $organizationIdentifier;
+    private string $organizationIdentifier = '';
 
-    private string $serialNumber;
+    private string $serialNumber = '';
 
     private string $commonName = '';
 
@@ -95,6 +95,11 @@ EOL;
         );
 
         return $this;
+    }
+
+    public function getSerialNumber(): string
+    {
+        return $this->serialNumber;
     }
 
     /**
