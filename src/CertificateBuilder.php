@@ -256,6 +256,20 @@ EOL;
     }
 
     /**
+     * @throws CertificateBuilderException
+     */
+    public function getPrivateKey(): string
+    {
+        $privateKey = null;
+
+        if (! openssl_pkey_export($this->privateKey, $privateKey)) {
+            throw new CertificateBuilderException('Private key export failed: '.$this->getOpenSslErrors());
+        }
+
+        return $privateKey;
+    }
+
+    /**
      * Validate required parameters.
      */
     private function validateParameters(): void
