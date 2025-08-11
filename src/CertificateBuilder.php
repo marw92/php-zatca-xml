@@ -48,7 +48,7 @@ EOL;
 
     private string $address = '';
 
-    private int $invoiceType = 1100;
+    private string $invoiceType = '1100';
 
     private bool $production = false;
 
@@ -157,13 +157,19 @@ EOL;
 
     /**
      * Set invoice type (0- to 4-digit number).
+     *
+     * @param int $type
+     *
+     * @return self
+     * @throws CertificateBuilderException
      */
     public function setInvoiceType(int $type): self
     {
         if ($type < 0 || $type > 9999) {
             throw new CertificateBuilderException('Invoice type must be a 4-digit number.');
         }
-        $this->invoiceType = $type;
+
+        $this->invoiceType = str_pad((string) $type, 4, '0', STR_PAD_LEFT);
 
         return $this;
     }
@@ -317,7 +323,7 @@ EOL;
         $dirSection = [
             'SN' => $this->serialNumber,
             'UID' => $this->organizationIdentifier,
-            'title' => (string) $this->invoiceType,
+            'title' => $this->invoiceType,
             'registeredAddress' => $this->address,
             'businessCategory' => $this->businessCategory,
         ];
