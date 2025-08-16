@@ -207,7 +207,7 @@ class InvoiceSignatureBuilder
             '                                </xades:SignedSignatureProperties>'.PHP_EOL.
             '                            </xades:SignedProperties>';
 
-        return str_replace(
+        $signedPropertiesXml = str_replace(
             [
                 'SIGNING_TIME_PLACEHOLDER',
                 'DIGEST_PLACEHOLDER',
@@ -222,6 +222,9 @@ class InvoiceSignatureBuilder
             ],
             $template
         );
+
+        // Normalize to LF (\n) for consistent XML digest hashing across platforms
+        return str_replace("\r\n", "\n", $signedPropertiesXml);
     }
 
     /**
