@@ -60,7 +60,7 @@ $invoiceData = [
         ],
     ],
     'customer' => [
-        'registrationName' => 'Naturo Uzumaki',
+        'registrationName' => 'Naruto Uzumaki',
         'taxId' => '333333333333333',
         'address' => [
             'street' => 'Al Urubah Road',
