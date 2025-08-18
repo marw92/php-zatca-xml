@@ -25,8 +25,8 @@ class InvoiceLine implements XmlSerializable
     /** @var AllowanceCharge[]|null Array of allowance charge objects. */
     private ?array $allowanceCharges = null;
 
-// todo
-//    private ?DocumentReference $documentReference = null;
+    /** @var DocumentReference|null Document Reference */
+    private ?DocumentReference $documentReference = null;
 
     /** @var string Unit code (default 'MON'). */
     private string $unitCode = 'MON';
@@ -144,24 +144,23 @@ class InvoiceLine implements XmlSerializable
     }
 
     /**
-     * todo
-     * Get the document reference.
+     * Get the document reference
+     * @return DocumentReference|null
      */
-//    public function getDocumentReference(): ?DocumentReference
-//    {
-//        return $this->documentReference;
-//    }
+    public function getDocumentReference(): ?DocumentReference
+    {
+        return $this->documentReference;
+    }
 
     /**
-     * todo
-     * Set the document reference.
+     * Set the document reference
+     * @return self
      */
-//    public function setDocumentReference(?DocumentReference $documentReference): self
-//    {
-//        $this->documentReference = $documentReference;
-//
-//        return $this;
-//    }
+    public function setDocumentReference(?DocumentReference $documentReference): self
+    {
+        $this->documentReference = $documentReference;
+        return $this;
+    }
 
     /**
      * Get the unit code.
@@ -376,12 +375,11 @@ class InvoiceLine implements XmlSerializable
         }
 
         // Write DocumentReference element if available
-// todo
-//        if ($this->documentReference !== null) {
-//            $writer->write([
-//                Schema::CAC.'DocumentReference' => $this->documentReference,
-//            ]);
-//        }
+        if ($this->documentReference !== null) {
+            $writer->write([
+                Schema::CAC.'DocumentReference' => $this->documentReference,
+            ]);
+        }
 
         // Write AccountingCostCode if available
         if ($this->accountingCostCode !== null) {
