@@ -3,6 +3,7 @@
 namespace Saleh7\Zatca\Mappers;
 
 use DateTime;
+use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
 use Saleh7\Zatca\AllowanceCharge;
@@ -346,19 +347,28 @@ class InvoiceMapper
     /**
      * Convert a date string to a DateTime object.
      *
-     * @param  string|null  $dateTimeStr  The date string.
+     * @param string|null $dateTimeStr The date string.
+     *
      * @return DateTime The resulting DateTime object.
+     * @throws Exception
      */
     private function mapDateTime(?string $dateTimeStr): DateTime
     {
+        // target timezone: UTC
+        $utc = new DateTimeZone('UTC');
+
         if (empty($dateTimeStr)) {
-            return new DateTime;
+            return new DateTime('now', $utc);
         }
 
         try {
-            return new DateTime($dateTimeStr);
+            $dt = new DateTime($dateTimeStr);
+            $dt->setTimezone($utc);
+
+            return $dt;
         } catch (Exception) {
-            return new DateTime;
+            // On error, return current UTC date/time
+            return new DateTime('now', $utc);
         }
     }
 }
