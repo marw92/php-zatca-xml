@@ -40,13 +40,14 @@
         "psr/http-message": "^2.0",
         "psr/http-client": "^1.0",
         "phpseclib/phpseclib": "^3.0",
-        "sevaske/zatca-api": "^1.0"
+        "sevaske/zatca-api": "^1.0",
+        "brick/math": "^0.12"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
         "guzzlehttp/guzzle": "^7.9",
         "phpstan/phpstan": "^2.1",
-        "laravel/pint": "^1.20"
+        "laravel/pint": "^1.0"
     },
     "autoload": {
         "psr-4": {
