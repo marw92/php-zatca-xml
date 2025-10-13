@@ -25,6 +25,6 @@ final class InvoiceTypeCode
         self::INVOICE,
         self::PREPAYMENT,
         self::DEBIT_NOTE,
-        self::CREDIT_NOTE
+        self::CREDIT_NOTE,
     ];
 }

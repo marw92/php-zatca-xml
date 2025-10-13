@@ -34,8 +34,8 @@ class InvoiceLine implements XmlSerializable
     /** @var TaxTotal|null Tax total details for the line. */
     private ?TaxTotal $taxTotal = null;
 
-// todo
-//    private ?InvoicePeriod $invoicePeriod = null;
+    // todo
+    // private ?InvoicePeriod $invoicePeriod = null;
 
     /** @var string|null Note for the line. */
     private ?string $note = null;
@@ -145,7 +145,6 @@ class InvoiceLine implements XmlSerializable
 
     /**
      * Get the document reference
-     * @return DocumentReference|null
      */
     public function getDocumentReference(): ?DocumentReference
     {
@@ -154,11 +153,11 @@ class InvoiceLine implements XmlSerializable
 
     /**
      * Set the document reference
-     * @return self
      */
     public function setDocumentReference(?DocumentReference $documentReference): self
     {
         $this->documentReference = $documentReference;
+
         return $this;
     }
 
@@ -230,21 +229,21 @@ class InvoiceLine implements XmlSerializable
      * todo
      * Get the invoice period.
      */
-//    public function getInvoicePeriod(): ?InvoicePeriod
-//    {
-//        return $this->invoicePeriod;
-//    }
+    //    public function getInvoicePeriod(): ?InvoicePeriod
+    //    {
+    //        return $this->invoicePeriod;
+    //    }
 
     /**
      * todo
      * Set the invoice period.
      */
-//    public function setInvoicePeriod(?InvoicePeriod $invoicePeriod): self
-//    {
-//        $this->invoicePeriod = $invoicePeriod;
-//
-//        return $this;
-//    }
+    //    public function setInvoicePeriod(?InvoicePeriod $invoicePeriod): self
+    //    {
+    //        $this->invoicePeriod = $invoicePeriod;
+    //
+    //        return $this;
+    //    }
 
     /**
      * Get the item.
@@ -396,12 +395,12 @@ class InvoiceLine implements XmlSerializable
         }
 
         // Write InvoicePeriod element if available
-// todo
-//        if ($this->invoicePeriod !== null) {
-//            $writer->write([
-//                Schema::CAC.'InvoicePeriod' => $this->invoicePeriod,
-//            ]);
-//        }
+        // todo
+        //        if ($this->invoicePeriod !== null) {
+        //            $writer->write([
+        //                Schema::CAC.'InvoicePeriod' => $this->invoicePeriod,
+        //            ]);
+        //        }
 
         // Write TaxTotal element if available
         if ($this->taxTotal !== null) {

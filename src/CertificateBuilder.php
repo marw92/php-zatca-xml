@@ -158,9 +158,7 @@ EOL;
     /**
      * Set invoice type (0- to 4-digit number).
      *
-     * @param int $type
      *
-     * @return self
      * @throws CertificateBuilderException
      */
     public function setInvoiceType(int $type): self
