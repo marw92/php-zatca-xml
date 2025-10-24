@@ -20,4 +20,11 @@ final class InvoiceTypeCode
     public const STANDARD_INVOICE = '0100000';
 
     public const SIMPLIFIED_INVOICE = '0200000';
+
+    public const DOCUMENT_TYPE_CODES = [
+        self::INVOICE,
+        self::PREPAYMENT,
+        self::DEBIT_NOTE,
+        self::CREDIT_NOTE,
+    ];
 }

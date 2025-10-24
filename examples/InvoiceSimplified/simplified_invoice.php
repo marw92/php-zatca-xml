@@ -55,7 +55,7 @@ $invoiceData = [
         ],
     ],
     'customer' => [
-        'registrationName' => 'Naturo Uzumaki',
+        'registrationName' => 'Naruto Uzumaki',
         'taxId' => '333333333333333',
         'address' => [
             'street' => 'Al Urubah Road',
@@ -177,7 +177,7 @@ $invoiceData = [
 
 // Map the data to an Invoice object
 $invoiceMapper = new InvoiceMapper;
-$invoice = $invoiceMapper->mapToInvoice($invoiceData);
+$invoice = $invoiceMapper->mapToInvoice($invoiceData, true, true);
 
 // Generate the invoice XML
 $generatorInvoice = GeneratorInvoice::invoice($invoice);

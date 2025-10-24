@@ -3,6 +3,7 @@
 namespace Saleh7\Zatca\Mappers;
 
 use DateTime;
+use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
 use Saleh7\Zatca\AllowanceCharge;
@@ -12,6 +13,7 @@ use Saleh7\Zatca\ExtensionContent;
 use Saleh7\Zatca\Invoice;
 use Saleh7\Zatca\InvoiceType;
 use Saleh7\Zatca\LegalMonetaryTotal;
+use Saleh7\Zatca\Mappers\Validators\InvoiceAmountValidator;
 use Saleh7\Zatca\Mappers\Validators\InvoiceValidator;
 use Saleh7\Zatca\Signature;
 use Saleh7\Zatca\SignatureInformation;
@@ -87,25 +89,29 @@ class InvoiceMapper
      *
      * @throws InvalidArgumentException If invalid JSON data is provided.
      */
-    public function mapToInvoice(array|string $data): Invoice
+    public function mapToInvoice(array|string $data, bool $validateTotals = false, bool $validateLines = false): Invoice
     {
         // If data is a JSON string, convert it to an array.
         if (is_string($data)) {
-            $data = json_decode($data, true);
-
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new InvalidArgumentException('Invalid JSON data provided');
-            }
+            $data = $this->parseJsonData($data);
         }
 
         // Optionally, Validate the required invoice fields
         $validator = new InvoiceValidator;
         $validator->validate($data);
 
-        // // Optionally, validate the invoice amounts and lines.
-        // $validatorAmount = new InvoiceAmountValidator();
-        // $validatorAmount->validateMonetaryTotals($data);
-        // $validatorAmount->validateInvoiceLines($data['invoiceLines']);
+        // Optionally, validate the invoice amounts and lines.
+        if ($validateTotals || $validateLines) {
+            $validatorAmount = new InvoiceAmountValidator;
+
+            if ($validateTotals) {
+                $validatorAmount->validateMonetaryTotals($data);
+            }
+
+            if ($validateLines) {
+                $validatorAmount->validateInvoiceLines($data['invoiceLines']);
+            }
+        }
 
         $invoice = new Invoice;
 
@@ -150,6 +156,20 @@ class InvoiceMapper
         }
 
         return $invoice;
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function parseJsonData(string $data)
+    {
+        $data = json_decode($data, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new InvalidArgumentException('Invalid JSON data provided');
+        }
+
+        return $data;
     }
 
     /**
@@ -348,17 +368,26 @@ class InvoiceMapper
      *
      * @param  string|null  $dateTimeStr  The date string.
      * @return DateTime The resulting DateTime object.
+     *
+     * @throws Exception
      */
     private function mapDateTime(?string $dateTimeStr): DateTime
     {
+        // target timezone: UTC
+        $utc = new DateTimeZone('UTC');
+
         if (empty($dateTimeStr)) {
-            return new DateTime;
+            return new DateTime('now', $utc);
         }
 
         try {
-            return new DateTime($dateTimeStr);
+            $dt = new DateTime($dateTimeStr);
+            $dt->setTimezone($utc);
+
+            return $dt;
         } catch (Exception) {
-            return new DateTime;
+            // On error, return current UTC date/time
+            return new DateTime('now', $utc);
         }
     }
 }

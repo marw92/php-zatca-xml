@@ -576,8 +576,8 @@ class Invoice implements XmlSerializable
         }
 
         // IssueTime
-        if ($this->issueTime !== null) {
-            $writer->write([Schema::CBC.'IssueTime' => $this->issueTime->format('H:i:s')]);
+        if ($issueTime = $this->getIssueTimeAsString()) {
+            $writer->write([Schema::CBC.'IssueTime' => $issueTime]);
         }
 
         // InvoiceType
@@ -711,5 +711,20 @@ class Invoice implements XmlSerializable
                 ]);
             }
         }
+    }
+
+    protected function getIssueTimeAsString(): ?string
+    {
+        if ($this->issueTime === null) {
+            return null;
+        }
+
+        $time = $this->issueTime->format('H:i:s');
+
+        if ($this->issueTime->getTimezone()->getName() === 'UTC') {
+            $time .= 'Z';
+        }
+
+        return $time;
     }
 }
